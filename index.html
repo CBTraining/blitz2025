@@ -294,8 +294,8 @@
             font-weight: 500;
         }
          #mobile-menu .nav-link-mobile:last-of-type {
-             border-bottom: none; /* Remove border from last link */
-         }
+             border-bottom: none;
+        }
          #mobile-menu .nav-link-mobile:hover {
              background-color: #f1f3f4; /* Light hover background */
          }
@@ -438,6 +438,13 @@
             opacity: 1;
             transform: translateY(0);
         }
+        /* Add hover effect here for the blue outline */
+        .video-item:hover {
+            box-shadow: 0 0 0 3px #4285F4, 0 8px 10px -4px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px); /* Add a slight lift to the hover effect */
+        }
+        /* End hover effect */
+
 
         #loading-indicator { display: none; text-align: center; padding: 2rem; font-style: italic; color: #6b7280; font-size: 1rem; }
 

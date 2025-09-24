@@ -48,6 +48,7 @@
             width: 100%;
             z-index: 100; /* Ensure header stays on top */
             height: 64px; /* Standard header height */
+            display: none;
         }
         /* Mimics glue-header__inner or similar container */
         .header-inner-container {
@@ -451,8 +452,6 @@
             pointer-events: none; /* Prevent clicking items while loading */
         }
 
-
-        /* Thumbnail */
         .thumbnail-container { display: block; aspect-ratio: 16 / 9; background-color: #e5e7eb; overflow: hidden; position: relative; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem; transition: transform 0.3s ease-in-out; }
         .thumbnail-container img { width: 100%; height: 100%; object-fit: cover; }
         .overlay-title {
@@ -478,7 +477,6 @@
         }
         .video-item:hover .thumbnail-container { transform: scale(1.03); }
 
-        /* Filter/Search Bar */
         #filter-search-controls {
             display: flex; align-items: center; justify-content: space-between;
             padding: 1rem 2rem;
@@ -495,8 +493,8 @@
             border: none; background-color: transparent; color: #5f6368; border-radius: 9999px; cursor: pointer; font-weight: 500; transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, font-weight 0.2s ease-in-out; white-space: nowrap; text-align: center; flex-shrink: 0; font-family: 'Google Sans Custom', 'Roboto', 'Inter', sans-serif;
         }
         .filter-button.active { background-color: transparent; color: #3C4043; font-weight: 700; }
-        #filter-search-controls:not(.search-active) .filter-button:not(.active):hover { background-color: #f1f3f4; color: #3c4043; }
-        #search-container { display: flex; align-items: center; flex-shrink: 0; justify-content: flex-end; min-width: 44px; position: relative; z-index: 3; }
+        #filter-search-controls:not(.search-active) .filter-button:not(.active):hover {background-color: #f1f3f4; /* Light hover background */); color: #3c4043;
+}        #search-container { display: flex; align-items: center; flex-shrink: 0; justify-content: flex-end; min-width: 44px; position: relative; z-index: 3; }
         #search-icon-button { order: 2; background: none; border: none; padding: 0.6rem; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background-color 0.2s ease-in-out; z-index: 2; flex-shrink: 0; }
         #filter-search-controls:not(.search-active) #search-icon-button:hover { background-color: #f1f3f4; }
         #search-icon-button svg { width: 22px; height: 22px; fill: #5f6368; }
@@ -510,12 +508,10 @@
         #filter-search-controls.search-active #filter-buttons { opacity: 0.4; transition: opacity 0.15s ease-out; }
         #filter-search-controls.search-active #search-input { opacity: 1; width: 300px; background-color: #f1f3f4; transition: width 0.3s ease-in-out 0.05s, opacity 0.2s ease-in-out 0.1s, background-color 0.3s ease-in-out 0.05s; }
 
-        /* Messages */
         .hidden { display: none !important; }
         #no-results-message { display: none; text-align: center; padding: 2rem; font-style: italic; color: #6b7280; grid-column: 1 / -1; font-size: 1rem; }
         #end-of-content-message { font-size: 1rem; padding: 2rem; text-align: center; color: #6b7280; grid-column: 1 / -1; display: none; }
 
-        /* Modal */
         #video-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.9);
@@ -629,7 +625,22 @@
              body { padding-top: 64px; } /* Ensure body padding is consistent */
              header#page-content-header { padding-top: 1.5rem; } /* Reduce top padding slightly more on small mobile */
         }
+        
+        /* New CSS for the animated gradient text */
+        .animated-gradient-text {
+             background: linear-gradient(to right, #3185fe, #356cf2, #3185fe);
+             -webkit-background-clip: text;
+             -webkit-text-fill-color: transparent;
+             background-size: 200% auto;
+             animation: color-cycle 5s linear infinite;
+        }
 
+        @keyframes color-cycle {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
     </style>
 </head>
 <body>
@@ -693,16 +704,16 @@
         <div id="mobile-menu" class="hidden">
              <a href="https://www.google.com/chromebook/meet-chromebook/" class="nav-link-mobile">Meet Chromebook</a>
              <a href="https://www.google.com/chromebook/apps/" class="nav-link-mobile">Apps</a>
-             <a href="https://www.google.com/chromebook/accessibility/" class="nav-link-mobile">Accessibility</a>
-             <a href="https://www.google.com/chromebook/family-features/" class="nav-link-mobile">Family-friendly</a>
-             <a href="https://www.google.com/chromebook/discover/chromebookplus/" class="nav-link-mobile">Chromebook Plus</a>
-             <a href="https://www.google.com/chromebook/discover/gaming/" class="nav-link-mobile">Gaming Chromebook</a>
-             <a href="https://www.google.com/chromebook/workswithchromebook/" class="nav-link-mobile">Accessories</a>
+             <a href="https://www.google.com/chromebook/accessibility/">Accessibility</a>
+             <a href="https://www.google.com/chromebook/family-features/">Family-friendly</a>
+             <a href="https://www.google.com/chromebook/discover/chromebookplus/">Chromebook Plus</a>
+             <a href="https://www.google.com/chromebook/discover/gaming/">Gaming Chromebook</a>
+             <a href="https://www.google.com/chromebook/workswithchromebook/">Accessories</a>
              <a href="https://www.google.com/chromebook/switch/" class="nav-link-mobile">Make the switch</a>
              <a href="https://www.google.com/chromebook/howto/" class="nav-link-mobile">How-to Chromebook</a>
-             <a href="https://www.google.com/chromebook/whatsnew/" class="nav-link-mobile">New features</a>
-             <a href="https://www.google.com/chromebook/perks/" class="nav-link-mobile">Perks</a>
-             <a href="https://www.google.com/chromebook/switch-qa/" class="nav-link-mobile">FAQs</a>
+             <a href="https://www.google.com/chromebook/whatsnew/">New features</a>
+             <a href="https://www.google.com/chromebook/perks/">Perks</a>
+             <a href="https://www.google.com/chromebook/switch-qa/">FAQs</a>
              <a href="https://edu.google.com/intl/ALL_us/chromebooks/find-a-chromebook/" class="nav-link-mobile">For Education</a>
              <a href="https://chromeos.google/products/devices/" class="nav-link-mobile">For Business</a>
              <a href="https://gemini.google.com/u/1/app" class="gemini-button" target="_blank" rel="noopener noreferrer">Try Gemini</a>
@@ -711,8 +722,8 @@
     <div class="main-content-container px-4 sm:px-8 py-8">
         <header id="page-content-header" class="mb-10 md:mb-12 text-center">
              <div class="flex flex-col items-center">
-                 <h1 id="page-title" class="text-6xl md:text-7xl font-bold">Chromebook Certified</h1>
-                  <p id="page-subtitle" class="text-2xl md:text-3xl text-gray-600 mt-1">NotebookLM | Gemini Canvas</p>
+                 <h1 id="page-title" class="text-6xl md:text-7xl font-bold">Chromebook <span class="animated-gradient-text">Certified</span></h1>
+                  <p id="page-subtitle" class="text-2xl md:text-3xl text-gray-600 mt-1">NotebookLM | Gemini</p>
                  <img id="hero-image" src="CBHeroimage.webp" alt="Chromebooks" class="h-auto w-full mt-4 md:mt-6 rounded-lg max-w-4xl mx-auto" onerror="this.style.display='none'">
              </div>
         </header>
@@ -734,7 +745,7 @@
              <div id="filter-buttons">
                  <button class="filter-button active" data-filter="all">All Videos</button>
                  <button class="filter-button" data-filter="notebooklm">NotebookLM</button>
-                 <button class="filter-button" data-filter="canvas">Canvas</button>
+                 <button class="filter-button" data-filter="gemini">Gemini</button>
              </div>
              <div id="search-container">
                   <input type="search" id="search-input" placeholder="Search videos...">
@@ -871,8 +882,8 @@
                     let category = 'other';
                     if (titleLower.includes('notebooklm')) {
                         category = 'notebooklm';
-                    } else if (titleLower.includes('canvas')) {
-                        category = 'canvas';
+                    } else if (titleLower.includes('gemini')) {
+                        category = 'gemini';
                     }
                     // Construct the video object
                     return {

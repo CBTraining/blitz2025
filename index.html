@@ -10,8 +10,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* --- Custom Font Definition --- */
-    /* Ensure GoogleSans-*.ttf files are available or remove/replace these rules */
     @font-face {
       font-family: 'Google Sans', sans-serif;
       src: url('GoogleSans-Regular.ttf') format('truetype');
@@ -20,423 +18,61 @@
       font-display: swap;
     }
 
-    /* --- End Custom Font Definition --- */
-    body {
-      /* Use Google Sans Custom first if available, fallback to Roboto/Inter */
-      font-family: 'Google Sans', sans-serif;
-      background-color: #f3f4f6;
-      /* bg-gray-100 */
-      /* Add padding to prevent content overlap with fixed header */
-      /* Height matches #site-header height */
-      padding-top: 64px;
+    #content {
+      height: 200vh;
+      padding-top: 100vh;
+      background-color: #f0f0f0;
+      text-align: center;
     }
 
-    /* --- Site Header - Updated Structure & Styling --- */
-    #site-header {
-      font-family: 'Google Sans', sans-serif;
-      background-color: white;
-      box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-      /* Google-like shadow */
+    .header-container {
       position: fixed;
-      /* Make header sticky */
       top: 0;
       left: 0;
       width: 100%;
-      z-index: 100;
-      /* Ensure header stays on top */
-      height: 64px;
-      /* Standard header height */
-      display: none;
-    }
-
-    /* Mimics glue-header__inner or similar container */
-    .header-inner-container {
-      height: 100%;
-      max-width: 1280px;
-      /* Limit width, adjust as needed */
-      margin-left: auto;
-      margin-right: auto;
-      padding-left: 1rem;
-      /* px-4 */
-      padding-right: 1rem;
-      /* px-4 */
+      height: 50vh;
       display: flex;
+      justify-content: center;
       align-items: center;
+      overflow: hidden;
+      z-index: 10;
     }
 
-    @media (min-width: 640px) {
-
-      /* sm breakpoint */
-      .header-inner-container {
-        padding-left: 1.5rem;
-        /* px-6 */
-        padding-right: 1.5rem;
-        /* px-6 */
-      }
+    .header-logo {
+      z-index: -1;
+      transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+      will-change: opacity, transform;
     }
 
-    @media (min-width: 1024px) {
-
-      /* lg breakpoint */
-      .header-inner-container {
-        padding-left: 2rem;
-        /* lg:px-8 */
-        padding-right: 2rem;
-        /* lg:px-8 */
-      }
-    }
-
-    /* Logo Area */
-    .header-logo-area {
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-      /* Prevent shrinking */
-    }
-
-    .logo-link {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      /* gap-2 */
-      font-size: 1.125rem;
-      /* text-lg */
-      font-weight: 500;
-      /* medium */
-      color: #3c4043;
-      /* Slightly darker gray */
-      text-decoration: none;
-      margin-right: 1.5rem;
-      /* Space between logo and nav */
-    }
-
-    .logo-link img {
-      height: 24px;
-      /* Adjust as needed */
-      width: auto;
-      display: block;
-      /* Ensure image behaves like a block */
-    }
-
-    .logo-text {
-      display: none;
-      /* Hide text logo on smallest screens */
-    }
-
-    @media (min-width: 640px) {
-
-      /* Show text logo on sm+ */
-      .logo-text {
-        display: inline;
-      }
-    }
-
-    /* Navigation Area */
-    .header-nav-area {
-      display: none;
-      /* Hidden on mobile */
-      flex-grow: 1;
-      /* Allow nav to take available space */
-      margin-left: 1rem;
-      /* Space between logo and nav */
-      margin-right: 1rem;
-      /* Space between nav and button */
-    }
-
-    @media (min-width: 1024px) {
-
-      /* Show on lg+ */
-      .header-nav-area {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        /* Align links to the left */
-        gap: 1.75rem;
-        /* lg:gap-7 - Adjust spacing */
-      }
-    }
-
-    /* Container for dropdown trigger and panel */
-    .nav-item-container {
-      position: relative;
-      /* Needed for absolute positioning of dropdown */
-    }
-
-    .nav-link {
-      font-size: 0.875rem;
-      /* text-sm */
-      font-weight: 500;
-      /* medium */
-      color: #5f6368;
-      /* Google Gray */
-      text-decoration: none;
-      transition: color 0.2s ease-in-out;
-      padding: 0.5rem 0;
-      /* Add vertical padding for easier clicking */
-      white-space: nowrap;
-      /* Prevent wrapping */
-      position: relative;
-      /* For potential future underlines or indicators */
-      display: inline-flex;
-      /* Align icon properly */
-      align-items: center;
-      cursor: pointer;
-      /* Indicate clickable item */
-      background: none;
-      /* Ensure button-like elements have no default bg */
-      border: none;
-      /* Ensure button-like elements have no default border */
-    }
-
-    /* Hover effect for top-level links */
-    .nav-link:hover,
-    .nav-item-container:hover>.nav-link {
-      /* Target link when container is hovered */
-      color: #1a73e8;
-      /* Google Blue */
-    }
-
-    /* Simple dropdown indicator */
-    .dropdown-indicator::after {
-      content: ' ▼';
-      font-size: 0.6em;
-      display: inline-block;
-      margin-left: 3px;
-      /* Slightly reduced space */
-      vertical-align: middle;
-      opacity: 0.6;
-      transition: transform 0.2s ease-in-out;
-      /* Add transition for indicator */
-    }
-
-    /* Rotate indicator when dropdown is open */
-    .nav-item-container.open>.nav-link .dropdown-indicator::after {
-      transform: rotate(180deg);
-    }
-
-    /* Dropdown Panel Styling */
-    .dropdown-panel {
-      display: none;
-      /* Hidden by default */
+    .header-background {
       position: absolute;
-      top: 100%;
-      /* Position below the nav link */
-      left: 0;
-      background-color: #f8f9fa;
-      /* Light grey background */
-      min-width: 200px;
-      /* Minimum width */
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-      border-radius: 4px;
-      padding: 0.5rem 0;
-      /* py-2 */
-      margin-top: 4px;
-      /* Small gap between link and panel */
-      z-index: 110;
-      /* Ensure dropdown is above other content */
-      opacity: 0;
-      /* Start hidden for transition */
-      visibility: hidden;
-      transform: translateY(-10px);
-      /* Start slightly above for transition */
-      transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, transform 0.2s ease-in-out;
-      border: 1px solid #dadce0;
-      /* Add subtle border around panel */
-    }
-
-    /* Show dropdown when container has 'open' class */
-    .nav-item-container.open>.dropdown-panel {
-      display: block;
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    /* Links inside dropdown */
-    .dropdown-panel a {
-      display: block;
-      padding: 0.6rem 1rem;
-      /* Adjusted padding for better spacing with border */
-      font-size: 0.875rem;
-      /* text-sm */
-      color: #3c4043;
-      /* Darker text */
-      text-decoration: none;
-      white-space: nowrap;
-      transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-      /* Add border between items */
-      border-bottom: 1px solid #e0e0e0;
-      /* Light gray border */
-    }
-
-    /* Remove border from the last item */
-    .dropdown-panel a:last-child {
-      border-bottom: none;
-    }
-
-    /* Hover effect for dropdown links */
-    .dropdown-panel a:hover {
-      background-color: #e8eaed;
-      /* Slightly darker grey on hover */
-      color: #1a73e8;
-      /* Google Blue */
-    }
-
-    /* Action Button Area */
-    .header-action-area {
-      display: none;
-      /* Hidden on mobile */
-      flex-shrink: 0;
-      /* Prevent shrinking */
-    }
-
-    @media (min-width: 1024px) {
-
-      /* Show on lg+ */
-      .header-action-area {
-        display: block;
-      }
-    }
-
-    .gemini-button {
-      padding: 0.5rem 1rem;
-      /* py-2 px-4 */
-      font-size: 0.875rem;
-      /* text-sm */
-      font-weight: 500;
-      /* medium */
-      color: white;
-      border-radius: 9999px;
-      /* rounded-full */
-      text-decoration: none;
-      /* Approximate Gemini Gradient */
-      background: linear-gradient(90deg, #4285F4, #9B72CB, #D96570, #F2A600);
-      background-size: 200% 100%;
-      transition: background-position 0.3s ease, box-shadow 0.2s ease;
-      display: inline-block;
-      /* Ensure it behaves like a button */
-      border: none;
-      /* Remove default border */
-      cursor: pointer;
-      box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-    }
-
-    .gemini-button:hover {
-      background-position: 50% 0;
-      /* Adjust hover gradient position */
-      box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
-    }
-
-    /* Mobile Menu Button Area */
-    .header-mobile-menu-area {
-      display: flex;
-      /* Use flex to push button to the right */
-      flex-grow: 1;
-      /* Take remaining space on mobile */
-      justify-content: flex-end;
-      /* Align button to the right */
-    }
-
-    @media (min-width: 1024px) {
-
-      /* Hide area on lg+ */
-      .header-mobile-menu-area {
-        display: none;
-      }
-    }
-
-    #mobile-menu-button {
-      padding: 0.5rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #5f6368;
-      /* Match nav link color */
-    }
-
-    #mobile-menu-button:hover {
-      color: #202124;
-    }
-
-    #mobile-menu-button svg {
-      width: 24px;
-      height: 24px;
-      display: block;
-      /* Prevent extra space below icon */
-    }
-
-    /* Mobile Menu Panel */
-    #mobile-menu {
-      display: none;
-      /* Hidden by default */
-      position: absolute;
-      top: 64px;
-      /* Position below header */
+      top: 0;
       left: 0;
       width: 100%;
-      background-color: white;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 0.5rem 0 1.5rem 0;
-      /* Adjusted padding */
-      border-top: 1px solid #dadce0;
-      /* Google-like border color */
-      max-height: calc(100vh - 64px);
-      /* Limit height */
-      overflow-y: auto;
-      /* Allow scrolling if needed */
+      height: 100%;
+      object-fit: contain;
+      object-position: top;
+      z-index: -1;
     }
 
-    #mobile-menu.open {
-      display: block;
-      /* Show when open */
+    .header-logo {
+      position: relative;
+      max-width: 45%;
+      width: auto;
+      height: auto;
+      z-index: 11;
+      transform: translateY(50%);
     }
 
-    /* Style links within mobile menu */
-    #mobile-menu .nav-link-mobile {
-      /* Use a different class to avoid conflicts */
-      display: block;
-      padding: 0.75rem 1.5rem;
-      /* py-3 px-6 */
-      font-size: 0.95rem;
-      /* Slightly larger */
-      border-bottom: 1px solid #f1f3f4;
-      /* Lighter separator */
-      color: #3c4043;
-      /* Darker text */
-      text-decoration: none;
-      font-weight: 500;
+    body {
+      font-family: 'Google Sans', sans-serif;
+      background-color: #ffffff;
     }
 
-    #mobile-menu .nav-link-mobile:last-of-type {
-      border-bottom: none;
-    }
-
-    #mobile-menu .nav-link-mobile:hover {
-      background-color: #f1f3f4;
-      /* Light hover background */
-    }
-
-    /* Style button within mobile menu */
-    #mobile-menu .gemini-button {
-      margin: 1.5rem auto 0 auto;
-      /* mt-6, centered */
-      display: block;
-      /* Ensure it's block for centering */
-      width: fit-content;
-      /* Adjust width to content */
-      padding: 0.6rem 1.5rem;
-      /* Slightly larger padding */
-    }
-
-    /* --- End Site Header --- */
-    /* --- Page Header Adjustments --- */
     h1#page-title {
       font-weight: 700;
-      /* Bold */
       color: #202124;
-      /* Custom text color */
       font-size: 3.75rem;
-      /* ~text-6xl */
       line-height: 1;
     }
 
@@ -447,13 +83,10 @@
       }
     }
 
-    /* ~text-7xl */
     p#page-subtitle {
       font-weight: 400;
       color: #4a5568;
-      /* text-gray-600 */
       font-size: 1.5rem;
-      /* text-2xl */
       line-height: 2rem;
     }
 
@@ -464,29 +97,22 @@
       }
     }
 
-    /* text-3xl */
     #hero-image {
       max-width: 56rem;
-      /* ~max-w-4xl */
     }
 
     header#page-content-header {
       margin-bottom: 2.5rem;
-      /* mb-10 */
-      /* Removed padding-top, handled by body padding */
       padding-top: 2rem;
-      /* Add some space back below the fixed header */
     }
 
     @media (min-width: 768px) {
       header#page-content-header {
         margin-bottom: 3rem;
-        /* mb-12 */
         padding-top: 3rem;
       }
     }
 
-    /* --- Fade-in Up Animation (Hero) --- */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -514,112 +140,72 @@
       animation-delay: 0.2s;
     }
 
-    /* --- Info Section & Carousel --- */
     #info-section {
-      background-color: #f9fafb;
-      /* Light gray (bg-gray-50) */
+      background-color: #ffffff;
       border-radius: 1.25rem;
-      /* More rounded (like rounded-2xl) */
       padding: 2rem;
-      /* p-8 */
       margin-bottom: 2.5rem;
-      /* mb-10 */
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-      /* Adjusted shadow slightly for lighter bg */
       max-width: 1024px;
-      /* lg */
       margin-left: auto;
       margin-right: auto;
       display: flex;
       flex-direction: column;
-      /* Stack vertically on mobile */
       gap: 1.5rem;
-      /* gap-6 */
       opacity: 0;
-      /* Start hidden for animation */
       animation: fadeInUp 0.6s ease-out 0.3s forwards;
-      /* Add fade in animation */
     }
 
     @media (min-width: 768px) {
-
-      /* md breakpoint */
       #info-section {
         flex-direction: row;
-        /* Side-by-side on larger screens */
         align-items: center;
-        /* Vertically center items */
         padding: 2.5rem;
-        /* p-10 */
       }
     }
 
     #info-text-content {
       flex: 1 1 60%;
-      /* Allow text to take more space */
       color: #3C4043;
-      /* Slightly darker text */
     }
 
     #info-text-content h2 {
       font-size: 1.875rem;
-      /* text-3xl */
       font-weight: 600;
-      /* semibold */
       margin-bottom: 1.25rem;
-      /* mb-5 */
       line-height: 1.3;
     }
 
     #info-text-content p {
       font-size: 1.125rem;
-      /* text-lg */
       line-height: 1.6;
       margin-bottom: 1rem;
-      /* mb-4 */
     }
 
     #info-text-content p strong {
       font-weight: 700;
-      /* bold */
       font-size: 2.25rem;
-      /* text-4xl */
       color: #1a73e8;
-      /* Google Blue */
       display: inline-block;
-      /* Ensure proper spacing */
       margin-right: 0.35rem;
-      /* Adjusted margin slightly */
       line-height: 1;
-      /* Adjust line height for larger font */
       vertical-align: baseline;
-      /* Align with text */
     }
 
     #image-carousel-container {
       flex: 1 1 40%;
-      /* Allow image to take space */
       max-width: 300px;
-      /* Limit width */
       aspect-ratio: 1 / 1;
-      /* Make it square-ish */
       overflow: hidden;
-      /* Keeps corners rounded */
       position: relative;
       border-radius: 0.75rem;
-      /* Slightly more rounded (rounded-xl) */
       margin: auto;
-      /* Center on mobile when stacked */
     }
 
     @media (min-width: 768px) {
-
-      /* md breakpoint */
       #image-carousel-container {
         margin: 0;
-        /* Reset margin */
         max-width: 320px;
-        /* Slightly larger on desktop */
       }
     }
 
@@ -630,26 +216,19 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Cover the container, cropping if necessary */
       opacity: 0;
       transition: opacity 1s ease-in-out;
-      /* Fade transition */
       border-radius: 0.75rem;
-      /* Match container rounding */
     }
 
     .carousel-image.active {
       opacity: 1;
     }
 
-    /* --- End Info Section --- */
-    /* Grid Item */
     .video-item {
       transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
       opacity: 0;
-      /* Start hidden for fadeIn effect */
       transform: translateY(10px);
-      /* Start slightly lower */
       cursor: pointer;
       position: relative;
       overflow: hidden;
@@ -663,14 +242,11 @@
       transform: translateY(0);
     }
 
-    /* Add hover effect here for the blue outline */
     .video-item:hover {
       box-shadow: 0 0 0 6px #4285F4, 0 8px 10px -4px rgba(0, 0, 0, 0.15);
       transform: translateY(-2px);
-      /* Add a slight lift to the hover effect */
     }
 
-    /* End hover effect */
     #loading-indicator {
       display: none;
       text-align: center;
@@ -680,18 +256,15 @@
       font-size: 1rem;
     }
 
-    /* Grid */
     #video-grid {
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
-      /* gap-8 */
       transition: opacity 0.3s ease-in-out;
     }
 
     #video-grid.grid-loading {
       opacity: 0.3;
       pointer-events: none;
-      /* Prevent clicking items while loading */
     }
 
     .thumbnail-container {
@@ -720,7 +293,6 @@
       color: white;
       padding: 0.75rem 1rem;
       opacity: 1;
-      /* Always visible */
       transition: opacity 0.3s ease-in-out;
       pointer-events: none;
       font-size: 0.95rem;
@@ -747,11 +319,9 @@
       border-radius: 9999px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       margin-bottom: 2.5rem;
-      /* mb-10 */
       overflow: hidden;
       position: relative;
       max-width: 1024px;
-      /* lg */
       margin-left: auto;
       margin-right: auto;
     }
@@ -771,9 +341,7 @@
 
     .filter-button {
       padding: 0.875rem 1.5rem;
-      /* ~py-3.5 px-6 */
       font-size: 1.125rem;
-      /* text-lg */
       border: none;
       background-color: transparent;
       color: #5f6368;
@@ -795,7 +363,6 @@
 
     #filter-search-controls:not(.search-active) .filter-button:not(.active):hover {
       background-color: #f1f3f4;
-      /* Light hover background */
       );
       color: #3c4043;
     }
@@ -807,7 +374,7 @@
       justify-content: flex-end;
       min-width: 44px;
       position: relative;
-      z-index: 3;
+      z-index: -3;
     }
 
     #search-icon-button {
@@ -821,7 +388,7 @@
       justify-content: center;
       border-radius: 50%;
       transition: background-color 0.2s ease-in-out;
-      z-index: 2;
+      z-index: -2;
       flex-shrink: 0;
     }
 
@@ -837,9 +404,7 @@
 
     #search-input {
       font-size: 1.125rem;
-      /* text-lg */
       padding: 0.875rem 1.5rem;
-      /* ~py-3.5 px-6 */
       padding-right: 0.5rem;
       order: 1;
       border: none;
@@ -849,7 +414,7 @@
       width: 0;
       opacity: 0;
       transition: width 0.3s ease-in-out, opacity 0.2s ease-in-out, background-color 0.3s ease-in-out;
-      z-index: 1;
+      z-index: -3;
       font-weight: 400;
       color: #3C4043;
       min-width: 0;
@@ -999,28 +564,20 @@
       overflow: hidden;
     }
 
-    /* --- Mobile Scroll Down Button --- */
     #scroll-down-button {
       position: fixed;
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
       background-color: #1a73e8;
-      /* Google Blue */
       color: white;
       border: none;
       border-radius: 9999px;
-      /* Pill shape */
       padding: 0.5rem 1rem;
-      /* py-2 px-4 */
       font-size: 0.875rem;
-      /* text-sm */
       font-weight: 500;
-      /* font-medium */
       line-height: 1.25rem;
-      /* leading-5 */
       display: none;
-      /* Hidden by default */
       align-items: center;
       justify-content: center;
       cursor: pointer;
@@ -1030,7 +587,6 @@
       transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
       white-space: nowrap;
-      /* Prevent text wrapping */
     }
 
     #scroll-down-button.visible {
@@ -1041,15 +597,10 @@
     @media (max-width: 768px) {
       #scroll-down-button {
         display: flex;
-        /* Displayed only on mobile */
       }
     }
 
-    /* --- End Mobile Scroll Down Button --- */
-    /* Mobile */
     @media (max-width: 1023px) {
-
-      /* Adjusted breakpoint to lg for header changes */
       #video-modal {
         padding: 0.5rem;
       }
@@ -1058,7 +609,6 @@
         width: 100%;
       }
 
-      /* Full width on mobile */
       #modal-video-title {
         width: 100%;
         font-size: 1rem;
@@ -1097,12 +647,10 @@
         font-size: 2.25rem;
       }
 
-      /* text-4xl */
       p#page-subtitle {
         font-size: 1.125rem;
       }
 
-      /* text-lg */
       .overlay-title {
         font-size: 0.875rem;
         padding: 0.6rem;
@@ -1144,7 +692,6 @@
         max-width: 90%;
       }
 
-      /* Info Section Mobile */
       #info-section {
         padding: 1.5rem;
         margin-bottom: 2rem;
@@ -1155,38 +702,29 @@
         font-size: 1.5rem;
       }
 
-      /* text-2xl */
       #info-text-content p {
         font-size: 1rem;
       }
 
-      /* text-base */
       #info-text-content p strong {
         font-size: 1.875rem;
       }
 
-      /* text-3xl */
       #image-carousel-container {
         max-width: 250px;
       }
     }
 
     @media (max-width: 768px) {
-
-      /* Keep existing mobile adjustments if needed, or consolidate */
       body {
-        padding-top: 64px;
+        padding-top: 0px;
       }
 
-      /* Ensure body padding is consistent */
       header#page-content-header {
         padding-top: 1.5rem;
       }
-
-      /* Reduce top padding slightly more on small mobile */
     }
 
-    /* New CSS for the animated gradient text */
     .animated-gradient-text {
       background: linear-gradient(to right, #3185fe, #356cf2, #3185fe);
       -webkit-background-clip: text;
@@ -1232,139 +770,51 @@
         background: #ff0000;
       }
 
-      /* Red */
       12.5% {
         background: #ff8000;
       }
 
-      /* Orange */
       25% {
         background: #ffff00;
       }
 
-      /* Yellow */
       37.5% {
         background: #80ff00;
       }
 
-      /* Green-Yellow */
       50% {
         background: #00ff00;
       }
 
-      /* Green */
       62.5% {
         background: #00ff80;
       }
 
-      /* Green-Cyan */
       75% {
         background: #0080ff;
       }
 
-      /* Blue */
       87.5% {
         background: #8000ff;
       }
 
-      /* Purple */
       100% {
         background: #ff0000;
       }
+    }
 
-      /* Back to Red */
+    .pt-screen {
+      padding-top: 50vh;
     }
   </style>
 </head>
 
 <body>
-  <div class="light-container">
-    <div class="rainbow-light"></div>
+  <div class="header-container">
+    <img class="header-background" src="https://i.ibb.co/KxcxGk4j/image-2025-09-25-T133918-410.png" alt="Header Background">
+    <img class="header-logo" src="https://i.ibb.co/BV6r3Tzq/blitzlogo.png" alt="Blitz Logo">
   </div>
-
-  <nav id="site-header">
-    <div class="header-inner-container">
-      <div class="header-logo-area">
-        <a href="#" class="logo-link"> <img src="Chromebooklogo.png" alt="Chromebook Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-          <span class="logo-text">chromebook</span>
-        </a>
-      </div>
-
-      <div class="header-nav-area">
-        <div class="nav-item-container">
-          <button class="nav-link dropdown-indicator" aria-haspopup="true" aria-expanded="false">About Chromebook</button>
-          <div class="dropdown-panel">
-            <a href="https://www.google.com/chromebook/meet-chromebook/">Meet Chromebook</a>
-            <a href="https://www.google.com/chromebook/apps/">Apps</a>
-            <a href="https://www.google.com/chromebook/accessibility/">Accessibility</a>
-            <a href="https://www.google.com/chromebook/family-features/">Family-friendly</a>
-          </div>
-        </div>
-        <div class="nav-item-container">
-          <button class="nav-link dropdown-indicator" aria-haspopup="true" aria-expanded="false">Explore</button>
-          <div class="dropdown-panel">
-            <a href="https://www.google.com/chromebook/discover/chromebookplus/">Chromebook Plus</a>
-            <a href="https://www.google.com/chromebook/discover/gaming/">Gaming Chromebook</a>
-            <a href="https://www.google.com/chromebook/workswithchromebook/">Accessories</a>
-          </div>
-        </div>
-        <div class="nav-item-container">
-          <button class="nav-link dropdown-indicator" aria-haspopup="true" aria-expanded="false">Do more</button>
-          <div class="dropdown-panel">
-            <a href="https://www.google.com/chromebook/switch/">Make the switch</a>
-            <a href="https://www.google.com/chromebook/howto/">How-to Chromebook</a>
-            <a href="https://www.google.com/chromebook/whatsnew/">New features</a>
-            <a href="https://www.google.com/chromebook/perks/">Perks</a>
-            <a href="https://www.google.com/chromebook/switch-qa/">FAQs</a>
-          </div>
-        </div>
-        <a href="https://edu.google.com/intl/ALL_us/chromebooks/find-a-chromebook/" class="nav-link">For Education</a>
-        <a href="https://chromeos.google/products/devices/" class="nav-link">For Business</a>
-      </div>
-
-      <div class="header-action-area">
-        <a href="https://gemini.google.com/u/1/app" class="gemini-button" target="_blank" rel="noopener noreferrer">Try Gemini</a>
-      </div>
-
-      <div class="header-mobile-menu-area">
-        <button id="mobile-menu-button" aria-label="Toggle menu" aria-expanded="false">
-          <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-          <svg id="menu-icon-close" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div id="mobile-menu" class="hidden">
-      <a href="https://www.google.com/chromebook/meet-chromebook/" class="nav-link-mobile">Meet Chromebook</a>
-      <a href="https://www.google.com/chromebook/apps/" class="nav-link-mobile">Apps</a>
-      <a href="https://www.google.com/chromebook/accessibility/">Accessibility</a>
-      <a href="https://www.google.com/chromebook/family-features/">Family-friendly</a>
-      <a href="https://www.google.com/chromebook/discover/chromebookplus/">Chromebook Plus</a>
-      <a href="https://www.google.com/chromebook/discover/gaming/">Gaming Chromebook</a>
-      <a href="https://www.google.com/chromebook/workswithchromebook/">Accessories</a>
-      <a href="https://www.google.com/chromebook/switch/" class="nav-link-mobile">Make the switch</a>
-      <a href="https://www.google.com/chromebook/howto/" class="nav-link-mobile">How-to Chromebook</a>
-      <a href="https://www.google.com/chromebook/whatsnew/">New features</a>
-      <a href="https://www.google.com/chromebook/perks/">Perks</a>
-      <a href="https://www.google.com/chromebook/switch-qa/">FAQs</a>
-      <a href="https://edu.google.com/intl/ALL_us/chromebooks/find-a-chromebook/" class="nav-link-mobile">For Education</a>
-      <a href="https://chromeos.google/products/devices/" class="nav-link-mobile">For Business</a>
-      <a href="https://gemini.google.com/u/1/app" class="gemini-button" target="_blank" rel="noopener noreferrer">Try Gemini</a>
-    </div>
-  </nav>
-  <div class="main-content-container px-4 sm:px-8 py-8">
-    <header id="page-content-header" class="mb-10 md:mb-12 text-center">
-      <div class="flex flex-col items-center">
-        <h1 id="page-title" class="text-6xl md:text-7xl font-bold">Chromebook <span class="animated-gradient-text">Certified</span></h1>
-        <p id="page-subtitle" class="text-2xl md:text-3xl text-gray-600 mt-1">NotebookLM | Gemini</p>
-        <img id="hero-image" src="CBHeroimage.webp" alt="Chromebooks" class="h-auto w-full mt-4 md:mt-6 rounded-lg max-w-4xl mx-auto" onerror="this.style.display='none'">
-      </div>
-    </header>
-
+  <main class="pt-screen">
     <section id="info-section" aria-labelledby="info-heading">
       <div id="info-text-content">
         <h2 id="info-heading">CrOS ROPs Team: 4-Day Gemini and NotebookLM Training Blitz</h2>
@@ -1398,7 +848,7 @@
     <div id="loading-indicator">Loading more videos...</div>
     <div id="no-results-message" style="display: none;">No videos match your filter or search.</div>
     <div id="end-of-content-message" style="display: none;">No more videos to load.</div>
-  </div>
+  </main>
 
   <div id="video-modal" style="display: none;">
     <button id="close-modal" class="modal-button" title="Close">&times;</button>
@@ -1419,7 +869,6 @@
   </button>
 
   <script>
-    // --- Element References ---
     const videoGrid = document.getElementById('video-grid');
     const loadingIndicator = document.getElementById('loading-indicator');
     const endOfContentMessage = document.getElementById('end-of-content-message');
@@ -1439,12 +888,6 @@
     const carouselImages = carouselContainer ? carouselContainer.querySelectorAll('.carousel-image') : [];
     const modalVideoTitleElement = document.getElementById('modal-video-title');
     const scrollDownButton = document.getElementById('scroll-down-button');
-    const mobileMenuButton = document.getElementById('mobile-menu-button'); // Mobile menu button
-    const mobileMenu = document.getElementById('mobile-menu'); // Mobile menu panel
-    const menuIconOpen = document.getElementById('menu-icon-open'); // Hamburger icon
-    const menuIconClose = document.getElementById('menu-icon-close'); // Close icon
-    const dropdownContainers = document.querySelectorAll('.nav-item-container'); // Dropdown containers
-    // --- State Variables ---
     let currentPage = 1;
     let isLoading = false;
     const videosPerPage = 12;
@@ -1457,77 +900,60 @@
     let isSearchActive = false;
     let currentCarouselIndex = 0;
     let carouselInterval;
-    let activeDropdown = null; // Track the currently open dropdown
-    // --- Touch Swipe Variables ---
+    let activeDropdown = null;
     let touchStartX = 0,
       touchStartY = 0,
       touchEndX = 0,
       touchEndY = 0;
     const swipeThreshold = 50;
-    // --- Vimeo API Credentials (Placeholder - Replace with secure backend solution) ---
-    // IMPORTANT: Storing API keys directly in frontend code is insecure.
-    // This should be handled by a backend proxy or serverless function in production.
-    const VIMEO_ACCESS_TOKEN = "85f387f5940732ea08308ffef87753bf"; // Replace with your actual token if testing
-    const VIMEO_USER_ID = "238871639"; // Replace with your actual user ID if testing
-    /**
-     * Fetches video data directly from Vimeo API (INSECURE - Frontend Token Exposure).
-     * In a real application, this request should go through your backend.
-     */
+    const VIMEO_ACCESS_TOKEN = "85f387f5940732ea08308ffef87753bf";
+    const VIMEO_USER_ID = "238871639";
     async function fetchVideos(page, limit) {
       console.log(`FETCHING directly from Vimeo: page ${page}, limit ${limit}`);
-      // Basic check for placeholder values
       if (!VIMEO_ACCESS_TOKEN || VIMEO_ACCESS_TOKEN === "YOUR_VIMEO_API_TOKEN_HERE" || !VIMEO_USER_ID || VIMEO_USER_ID === "YOUR_VIMEO_USER_ID_HERE") {
         console.error("Vimeo API Token or User ID is missing or still set to placeholder value in the script.");
         loadingIndicator.textContent = 'Error: Vimeo credentials missing in script.';
         noResultsMessage.textContent = 'Vimeo credentials not configured in the HTML script for testing.';
         noResultsMessage.style.display = 'block';
-        allVideosLoaded = true; // Prevent further loading attempts
-        return []; // Return empty array on configuration error
+        allVideosLoaded = true;
+        return [];
       }
       const VIMEO_API_BASE_URL = 'https://api.vimeo.com';
-      // Construct the API URL with necessary fields and sorting
       let apiUrl = `${VIMEO_API_BASE_URL}/users/${VIMEO_USER_ID}/videos?page=${page}&per_page=${limit}&fields=uri,name,description,link,player_embed_url,pictures.base_link,tags&sort=date&direction=desc`;
       console.log("Calling Vimeo API URL:", apiUrl);
       try {
         const response = await fetch(apiUrl, {
           method: 'GET',
           headers: {
-            // Authorization header with Bearer token
             'Authorization': `Bearer ${VIMEO_ACCESS_TOKEN}`,
             'Content-Type': 'application/json',
-            'Accept': 'application/vnd.vimeo.*+json;version=3.4' // Specify API version
+            'Accept': 'application/vnd.vimeo.*+json;version=3.4'
           },
         });
         if (!response.ok) {
-          // Handle API errors more gracefully
           let errorMsg = `Vimeo API request failed: ${response.status}`;
           try {
-            // Try to parse error details from Vimeo response
             const errorData = await response.json();
             console.error('Vimeo API Error Response:', errorData);
             errorMsg += ` - ${errorData.error || errorData.developer_message || errorData.message || 'Unknown error'}`;
-          } catch (e) {
-            /* Ignore if response body is not JSON */ }
+          } catch (e) {}
           throw new Error(errorMsg);
         }
         const vimeoData = await response.json();
-        // Map Vimeo data to a simpler video object structure
         const videos = vimeoData.data.map(video => {
           const titleLower = (video.name || '').toLowerCase();
-          // Simple category detection based on title keywords
           let category = 'other';
           if (titleLower.includes('notebooklm')) {
             category = 'notebooklm';
           } else if (titleLower.includes('gemini')) {
             category = 'gemini';
           }
-          // Construct the video object
           return {
             title: video.name || 'Untitled Video',
-            embedUrl: video.player_embed_url || video.link, // Use player_embed_url if available
-            thumbnail: video.pictures?.base_link ? `${video.pictures.base_link}_640x360?r=pad` : null, // Construct thumbnail URL
+            embedUrl: video.player_embed_url || video.link,
+            thumbnail: video.pictures?.base_link ? `${video.pictures.base_link}_640x360?r=pad` : null,
             description: video.description,
-            tags: video.tags?.map(tag => tag.name) || [], // Extract tag names
+            tags: video.tags?.map(tag => tag.name) || [],
             category: category
           };
         });
@@ -1536,688 +962,456 @@
       } catch (error) {
         console.error("Error fetching videos directly from Vimeo:", error);
         loadingIndicator.textContent = 'Error loading videos.';
-        // Display a user-friendly error message
         noResultsMessage.textContent = `Failed to load videos: ${error.message}`;
         noResultsMessage.style.display = 'block';
-        allVideosLoaded = true; // Stop trying to load more on error
-        return []; // Return empty array on fetch error
+        allVideosLoaded = true;
+        return [];
       }
     }
-    /**
-     * Creates a video thumbnail element for the grid.
-     * @param {object} video - The video data object.
-     * @param {number} indexInDisplayed - The index of this video in the currently displayed list.
-     * @returns {HTMLElement} The created video item element.
-     */
     function createVideoElement(video, indexInDisplayed) {
       const div = document.createElement('div');
-      div.className = 'video-item'; // Base class for styling and identification
-      div.dataset.index = indexInDisplayed; // Store index for modal navigation
+      div.className = 'video-item';
+      div.dataset.index = indexInDisplayed;
       if (video.category) {
-        div.dataset.category = video.category; // Store category for filtering
+        div.dataset.category = video.category;
       }
-      // Placeholder image URL in case the thumbnail fails to load
       const placeholderErrorUrl = `https://placehold.co/640x360/cccccc/ffffff?text=Error+Loading`;
-      // Use video thumbnail if available, otherwise use the placeholder
       const thumbnailUrl = video.thumbnail || placeholderErrorUrl;
-      const title = video.title || 'Video Title'; // Default title
-      // Set the inner HTML for the video item
+      const title = video.title || 'Video Title';
       div.innerHTML = `
                 <div class="thumbnail-container">
                     <img src="${thumbnailUrl}" alt="${title}" onerror="this.onerror=null; this.src='${placeholderErrorUrl}';" loading="lazy">
                     <h3 class="overlay-title" title="${title}">${title}</h3>
                 </div>
             `;
-      // Add click listener to open the modal
       div.addEventListener('click', () => openModal(indexInDisplayed));
-      // Use requestAnimationFrame for smoother fade-in effect
       requestAnimationFrame(() => {
         div.classList.add('visible');
       });
       return div;
     }
-    /**
-     * Displays the 'End of Content' or 'No Results' message appropriately based on state.
-     * @param {boolean} isFilterOrSearch - Indicates if the current view is the result of filtering/searching.
-     */
     function showEndOfContent(isFilterOrSearch = false) {
-      loadingIndicator.style.display = 'none'; // Hide loading indicator first
+      loadingIndicator.style.display = 'none';
       const hasVisibleItems = displayedVideos.length > 0;
-      // Case 1: Filter/Search applied, and NO videos match
       if ((isFilterOrSearch || currentSearchTerm) && !hasVisibleItems) {
         noResultsMessage.style.display = 'block';
         noResultsMessage.textContent = 'No videos match your filter or search.';
         endOfContentMessage.style.display = 'none';
-        // Case 2: Videos are displayed, and ALL available videos from API have been loaded
       } else if (hasVisibleItems && allVideosLoaded) {
         noResultsMessage.style.display = 'none';
-        endOfContentMessage.style.display = 'block'; // Show "No more videos"
-        // Case 3: No videos displayed (initially or after filtering), and ALL available videos loaded
+        endOfContentMessage.style.display = 'block';
       } else if (!hasVisibleItems && allVideosLoaded) {
-        // Avoid overwriting specific error messages (like credential errors)
         if (!noResultsMessage.textContent.startsWith('Failed to load videos') && !noResultsMessage.textContent.startsWith('Vimeo credentials not configured')) {
           noResultsMessage.style.display = 'block';
           noResultsMessage.textContent = 'No videos available for the current filter/search.';
           endOfContentMessage.style.display = 'none';
         }
-        // Case 4: Default - hide both messages (e.g., while loading or if more videos might exist)
       } else {
         noResultsMessage.style.display = 'none';
         endOfContentMessage.style.display = 'none';
       }
     }
-    /**
-     * Checks if the currently loaded content fills the viewport height.
-     * If not, and more videos might be available, triggers loading more.
-     * This helps prevent the need to scroll on large screens initially.
-     */
     function checkAndLoadIfContentNotFillingViewport() {
-      // Debounce or delay the check slightly to allow layout to settle
       setTimeout(() => {
-        // Only run if not already loading, not all videos are loaded, and modal is closed
         if (!isLoading && !allVideosLoaded && videoModal.style.display === 'none') {
-          const contentHeight = document.body.offsetHeight; // Total height of the body
-          const viewportHeight = window.innerHeight; // Height of the browser window
-          // If content is shorter than viewport AND we haven't loaded many videos yet, load more
-          // (The check `displayedVideos.length < videosPerPage * 2` prevents excessive loading if API returns few items)
+          const contentHeight = document.body.offsetHeight;
+          const viewportHeight = window.innerHeight;
           if (contentHeight <= viewportHeight && displayedVideos.length < videosPerPage * 2) {
             console.log("Content doesn't fill viewport, loading more...");
             loadMoreVideos();
           }
         }
-      }, 300); // 300ms delay
+      }, 300);
     }
-    /**
-     * Filters an array of videos based on the current `currentFilter` and `currentSearchTerm`.
-     * @param {Array} videosToFilter - The array of video objects to filter.
-     * @returns {Array} The filtered array of video objects.
-     */
     function filterVideos(videosToFilter) {
-      const lowerSearchTerm = currentSearchTerm.toLowerCase(); // Optimize search by lowercasing once
+      const lowerSearchTerm = currentSearchTerm.toLowerCase();
       return videosToFilter.filter(video => {
-        // Check category match (true if filter is 'all' or video category matches)
         let categoryMatch = (currentFilter === 'all') || (video.category === currentFilter);
-        // If category doesn't match, exclude the video immediately
         if (!categoryMatch) return false;
-        // If category matches, check search term (true if no search term or title includes it)
         return !lowerSearchTerm || video.title.toLowerCase().includes(lowerSearchTerm);
       });
     }
-    /**
-     * Loads the next batch of videos from the API, filters them,
-     * and appends the matching ones to the grid. Handles loading states.
-     */
     async function loadMoreVideos() {
-      // Prevent concurrent loading or loading when all videos are fetched
       if (isLoading || allVideosLoaded) return;
       isLoading = true;
-      loadingIndicator.style.display = 'block'; // Show loading indicator
-      noResultsMessage.style.display = 'none'; // Hide messages
+      loadingIndicator.style.display = 'block';
+      noResultsMessage.style.display = 'none';
       endOfContentMessage.style.display = 'none';
-      loadingIndicator.textContent = 'Loading more videos...'; // Reset text
+      loadingIndicator.textContent = 'Loading more videos...';
       try {
-        // Fetch the next page of raw video data
         const rawNewVideos = await fetchVideos(currentPage, videosPerPage);
-        // Process only if videos were actually returned
         if (rawNewVideos && rawNewVideos.length > 0) {
-          // Add fetched videos to the master list
           loadedVideos.push(...rawNewVideos);
-          // Filter the *newly fetched* videos based on current criteria
           const filteredNewVideos = filterVideos(rawNewVideos);
-          // Append filtered videos to the grid
           if (filteredNewVideos.length > 0) {
             filteredNewVideos.forEach(video => {
-              displayedVideos.push(video); // Add to the list of *displayed* videos
-              const indexInDisplayed = displayedVideos.length - 1; // Get its index
+              displayedVideos.push(video);
+              const indexInDisplayed = displayedVideos.length - 1;
               const videoElement = createVideoElement(video, indexInDisplayed);
               videoGrid.appendChild(videoElement);
             });
           } else {
-            // Log if videos were fetched but none matched the filter/search
             console.log("Fetched videos, but none matched current filter/search.");
-            // If a full page was fetched but none matched, try loading the *next* page automatically
-            // to find matching content faster, unless we already know we're at the end.
             if (rawNewVideos.length === videosPerPage && !allVideosLoaded) {
               console.log("Trying next page automatically...");
-              currentPage++; // Increment page number
-              isLoading = false; // Temporarily allow next load
-              loadMoreVideos(); // Recursive call to load the *next* page
-              return; // Exit current execution to avoid double finally block
+              currentPage++;
+              isLoading = false;
+              loadMoreVideos();
+              return;
             }
           }
-          // Increment page number for the next fetch
           currentPage++;
-          // Check if the API returned fewer videos than requested, indicating the end
           if (rawNewVideos.length < videosPerPage) {
             console.log("Received fewer videos than requested from API, assuming end of API content.");
             allVideosLoaded = true;
-            // Show appropriate end message based on whether items are displayed
             showEndOfContent(currentFilter !== 'all' || currentSearchTerm !== '');
           } else {
-            // If a full page was returned, assume more *might* be available
             allVideosLoaded = false;
           }
         } else {
-          // No videos returned from the API call, assume end of content
           console.log("No more videos returned from API.");
           allVideosLoaded = true;
           showEndOfContent(currentFilter !== 'all' || currentSearchTerm !== '');
         }
       } catch (error) {
-        // Log errors during the loading process
         console.error("Error in loadMoreVideos flow:", error);
-        allVideosLoaded = true; // Stop loading on error
-        // Error message should have been set by fetchVideos, but ensure loading indicator is hidden
+        allVideosLoaded = true;
         loadingIndicator.style.display = 'none';
       } finally {
-        // Always set loading state to false after attempt (unless recursive call happened)
-        if (isLoading) { // Check isLoading flag again in case of recursive call exit
+        if (isLoading) {
           isLoading = false;
-          // Hide loading indicator if it was the generic "loading more" message and not an error
           if (!allVideosLoaded && loadingIndicator.textContent === 'Loading more videos...') {
             loadingIndicator.style.display = 'none';
           }
-          // If not all videos loaded, check if content fills viewport
           if (!allVideosLoaded) {
             checkAndLoadIfContentNotFillingViewport();
           }
         }
       }
     }
-    /**
-     * Resets the video grid, clears relevant state variables,
-     * and initiates loading the first page based on current filters/search.
-     * Includes a visual transition for the grid.
-     */
     function resetAndLoad() {
       console.log(`Resetting grid. Filter: ${currentFilter}, Search: ${currentSearchTerm}`);
-      videoGrid.classList.add('grid-loading'); // Add class for visual feedback (e.g., opacity)
-      // Reset state variables
-      loadedVideos = []; // Clear all fetched videos
-      displayedVideos = []; // Clear currently displayed videos
-      currentPage = 1; // Reset to first page
-      allVideosLoaded = false; // Assume more videos might be available
-      currentVideoIndex = -1; // Reset modal index
-      // Hide status messages and reset their default text
+      videoGrid.classList.add('grid-loading');
+      loadedVideos = [];
+      displayedVideos = [];
+      currentPage = 1;
+      allVideosLoaded = false;
+      currentVideoIndex = -1;
       noResultsMessage.style.display = 'none';
       endOfContentMessage.style.display = 'none';
       loadingIndicator.style.display = 'none';
       loadingIndicator.textContent = 'Loading more videos...';
       noResultsMessage.textContent = 'No videos match your filter or search.';
-      // Use setTimeout to allow the opacity transition to be visible before clearing content
       setTimeout(() => {
-        videoGrid.innerHTML = ''; // Clear the grid content
-        videoGrid.classList.remove('grid-loading'); // Remove loading class
-        loadMoreVideos(); // Start loading the first page with new criteria
-      }, 300); // Delay matches grid transition time
+        videoGrid.innerHTML = '';
+        videoGrid.classList.remove('grid-loading');
+        loadMoreVideos();
+      }, 300);
     }
-    /** Closes the search input UI visually without triggering a reload. */
     function closeSearchUI() {
-      if (!isSearchActive) return; // Do nothing if already closed
+      if (!isSearchActive) return;
       isSearchActive = false;
-      filterSearchControls.classList.remove('search-active'); // Toggle CSS class
-      // Ensure the correct filter button remains visually active
+      filterSearchControls.classList.remove('search-active');
       filterButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === currentFilter));
       console.log("Search UI closed visually.");
     }
-    /** Closes search UI AND resets search term/results if a search was active. */
     function closeSearchUIAndReset() {
-      const wasSearching = currentSearchTerm !== ''; // Check if a search was actually performed
-      closeSearchUI(); // Close the visual input first
-      // If a search term existed, clear it and reload the grid
+      const wasSearching = currentSearchTerm !== '';
+      closeSearchUI();
       if (wasSearching) {
         currentSearchTerm = '';
-        searchInput.value = ''; // Clear the input field
+        searchInput.value = '';
         console.log("Search term cleared, reloading grid.");
-        resetAndLoad(); // Reload content based on the active filter only
+        resetAndLoad();
       }
     }
-    // --- Event Listeners Setup ---
-    // Filter Button Clicks
     filterButtons.forEach(button => {
       button.addEventListener('click', () => {
         const newFilter = button.dataset.filter;
         let needsReload = false;
-        // If search is active when a filter is clicked, close search and clear term
         if (isSearchActive) {
-          closeSearchUI(); // Visually close search first
-          currentSearchTerm = ''; // Clear term
-          searchInput.value = ''; // Clear input field
-          needsReload = true; // Will need reload because search term changed
+          closeSearchUI();
+          currentSearchTerm = '';
+          searchInput.value = '';
+          needsReload = true;
         }
-        // If the clicked filter is different from the current one
         if (newFilter !== currentFilter) {
-          // Update active class on buttons
           filterButtons.forEach(btn => btn.classList.remove('active'));
           button.classList.add('active');
-          currentFilter = newFilter; // Update state
-          needsReload = true; // Needs reload because filter changed
+          currentFilter = newFilter;
+          needsReload = true;
           console.log(`Filter changed to: ${currentFilter}`);
         }
-        // If either filter or search term changed, reload the grid
         if (needsReload) {
           resetAndLoad();
         }
       });
     });
-    // Search Icon Button Click (Toggles search input visibility/state)
     searchIconButton.addEventListener('click', () => {
       if (isSearchActive) {
-        // If search is active, clicking the icon either:
-        // 1. Closes the UI if input is empty
-        // 2. Clears the search and reloads if input has text
         if (searchInput.value === '') {
           closeSearchUI();
         } else {
           closeSearchUIAndReset();
         }
       } else {
-        // If search is not active, open it
         isSearchActive = true;
         filterSearchControls.classList.add('search-active');
-        searchInput.focus(); // Focus the input field
+        searchInput.focus();
         console.log("Search UI opened.");
       }
     });
-    // Search Input (Typing) - Debounced
     let searchDebounceTimer;
     searchInput.addEventListener('input', () => {
-      clearTimeout(searchDebounceTimer); // Clear previous timer
-      // Set a new timer to trigger search after a short delay
+      clearTimeout(searchDebounceTimer);
       searchDebounceTimer = setTimeout(() => {
         const newSearchTerm = searchInput.value.trim();
-        // Only reload if the search term actually changed
         if (newSearchTerm !== currentSearchTerm) {
           console.log(`Search term changed to: "${newSearchTerm}"`);
-          currentSearchTerm = newSearchTerm; // Update state
-          // If user starts typing, ensure search UI is visually active
+          currentSearchTerm = newSearchTerm;
           if (!isSearchActive && newSearchTerm) {
             isSearchActive = true;
             filterSearchControls.classList.add('search-active');
           }
-          // If searching, visually deactivate specific category filters (implicitly 'all')
           if (currentFilter !== 'all') {
-            // This line might be redundant if filter click handles UI, but ensures consistency
             filterButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === 'all'));
           }
-          resetAndLoad(); // Reload grid with new search term
+          resetAndLoad();
         }
-      }, 300); // 300ms debounce delay
+      }, 300);
     });
-    // Search Input (Escape Key)
     searchInput.addEventListener('keydown', (event) => {
-      // If Escape key is pressed while search is active, close and reset search
       if (event.key === 'Escape' && isSearchActive) {
-        event.preventDefault(); // Prevent potential browser default actions
+        event.preventDefault();
         closeSearchUIAndReset();
       }
     });
-    // --- Modal Functions ---
-    /**
-     * Opens the video modal and displays the selected video.
-     * @param {number} indexInDisplayed - The index of the video in the `displayedVideos` array.
-     */
     function openModal(indexInDisplayed) {
-      // Validate the index
       if (typeof indexInDisplayed !== 'number' || indexInDisplayed < 0 || indexInDisplayed >= displayedVideos.length) {
         console.error("Invalid index for openModal:", indexInDisplayed);
         return;
       }
       const videoData = displayedVideos[indexInDisplayed];
-      // Ensure video data and embed URL exist
       if (!videoData || !videoData.embedUrl) {
         console.error("Missing video data or embedUrl for index:", indexInDisplayed);
         return;
       }
-      document.body.classList.add('modal-open'); // Prevent background scrolling
-      // Load the video into the iframe and update buttons/title
+      document.body.classList.add('modal-open');
       showVideoInModal(videoData.embedUrl, indexInDisplayed, videoData.title);
-      videoModal.style.display = 'flex'; // Show the modal
-      // Add event listeners for modal navigation (keyboard, touch)
+      videoModal.style.display = 'flex';
       window.addEventListener('keydown', handleKeyboardNav);
       videoModal.addEventListener('touchstart', handleTouchStart, {
         passive: true
-      }); // Use passive for scroll performance
+      });
       videoModal.addEventListener('touchmove', handleTouchMove, {
         passive: false
-      }); // Need false to preventDefault on horizontal swipe
+      });
       videoModal.addEventListener('touchend', handleTouchEnd);
     }
-    /** Closes the video modal and cleans up listeners. */
     function closeModal() {
-      document.body.classList.remove('modal-open'); // Re-enable background scrolling
-      videoModal.style.display = 'none'; // Hide the modal
-      videoPlayerIframe.src = ''; // IMPORTANT: Stop video playback by clearing src
+      document.body.classList.remove('modal-open');
+      videoModal.style.display = 'none';
+      videoPlayerIframe.src = '';
       if (modalVideoTitleElement) {
         modalVideoTitleElement.textContent = '';
-      } // Clear title
-      currentVideoIndex = -1; // Reset index
-      // Attempt to exit fullscreen if active
+      }
+      currentVideoIndex = -1;
       if (document.fullscreenElement) {
         document.exitFullscreen().catch(err => console.error("Error exiting fullscreen:", err));
       }
-      // Remove modal-specific event listeners
       window.removeEventListener('keydown', handleKeyboardNav);
       videoModal.removeEventListener('touchstart', handleTouchStart);
       videoModal.removeEventListener('touchmove', handleTouchMove);
       videoModal.removeEventListener('touchend', handleTouchEnd);
-      // Check if more content needs loading now that modal is closed
       checkAndLoadIfContentNotFillingViewport();
     }
-    /**
-     * Loads a specific video into the modal iframe and updates navigation buttons/title.
-     * @param {string} embedUrl - The Vimeo embed URL for the video.
-     * @param {number} indexInDisplayed - The index of the video in `displayedVideos`.
-     * @param {string} [title='Video'] - The title of the video.
-     */
     function showVideoInModal(embedUrl, indexInDisplayed, title = 'Video') {
-      // Basic validation
       if (typeof indexInDisplayed !== 'number' || indexInDisplayed < 0 || indexInDisplayed >= displayedVideos.length) return;
-      currentVideoIndex = indexInDisplayed; // Update current index state
-      // Update the modal title display
+      currentVideoIndex = indexInDisplayed;
       if (modalVideoTitleElement) {
         modalVideoTitleElement.textContent = title;
       }
-      // Attempt to add autoplay=1 parameter for convenience.
-      // Note: Autoplay with sound is often blocked by browsers and requires user interaction.
-      // Vimeo's embed might handle this, but adding the parameter is standard practice.
       let finalUrl = embedUrl;
       try {
-        // Use URL object for robust parameter handling
         const url = new URL(embedUrl);
         url.searchParams.set('autoplay', '1');
-        // Remove muted if present, attempt sound (might be overridden by browser)
         url.searchParams.delete('muted');
         finalUrl = url.toString();
       } catch (e) {
-        // Fallback for invalid URLs or if URL constructor fails
         console.warn("Could not parse embed URL, using basic string manipulation:", e);
         if (finalUrl.includes('?')) {
-          // Remove existing autoplay/muted first
           finalUrl = finalUrl.replace(/([?&])(autoplay|muted)=[^&]*&?/g, '$1');
           finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1';
         } else {
           finalUrl += '?autoplay=1';
         }
-        // Clean up potential trailing '&' or '?&'
         finalUrl = finalUrl.replace(/&$/, '').replace('?&', '?');
       }
       console.log("Setting iframe src (attempting autoplay):", finalUrl);
-      videoPlayerIframe.src = finalUrl; // Set the iframe source
-      updateModalNavButtons(); // Update prev/next button states
+      videoPlayerIframe.src = finalUrl;
+      updateModalNavButtons();
     }
-    /** Updates the enabled/disabled state of modal navigation buttons. */
     function updateModalNavButtons() {
-      // Handle edge case where displayedVideos might be empty
       if (displayedVideos.length === 0) {
         prevVideoButton.disabled = true;
         nextVideoButton.disabled = true;
         return;
       }
-      // Disable prev button if it's the first video
       prevVideoButton.disabled = currentVideoIndex <= 0;
-      // Disable next button if it's the last video
       nextVideoButton.disabled = currentVideoIndex >= displayedVideos.length - 1;
     }
-    /** Shows the next video in the modal if available. */
     function showNextVideo() {
-      // Check if button is enabled and index is valid
       if (!nextVideoButton.disabled && currentVideoIndex < displayedVideos.length - 1) {
         const nextIndex = currentVideoIndex + 1;
         const nextVideo = displayedVideos[nextIndex];
-        // Ensure the next video data is valid before showing
         if (nextVideo?.embedUrl) {
-          showVideoInModal(nextVideo.embedUrl, nextIndex, nextVideo.title); // Pass title
+          showVideoInModal(nextVideo.embedUrl, nextIndex, nextVideo.title);
         } else {
           console.error("Missing embedUrl for next video at index:", nextIndex);
         }
       }
     }
-    /** Shows the previous video in the modal if available. */
     function showPreviousVideo() {
-      // Check if button is enabled and index is valid
       if (!prevVideoButton.disabled && currentVideoIndex > 0) {
         const prevIndex = currentVideoIndex - 1;
         const prevVideo = displayedVideos[prevIndex];
-        // Ensure the previous video data is valid before showing
         if (prevVideo?.embedUrl) {
-          showVideoInModal(prevVideo.embedUrl, prevIndex, prevVideo.title); // Pass title
+          showVideoInModal(prevVideo.embedUrl, prevIndex, prevVideo.title);
         } else {
           console.error("Missing embedUrl for previous video at index:", prevIndex);
         }
       }
     }
-    /** Handles keyboard navigation (left/right arrows, Escape) within the modal. */
     function handleKeyboardNav(event) {
-      // Only act if modal is visible
       if (videoModal.style.display !== 'flex') return;
       if (event.key === 'ArrowRight') {
-        event.preventDefault(); // Prevent page scroll
+        event.preventDefault();
         showNextVideo();
       } else if (event.key === 'ArrowLeft') {
-        event.preventDefault(); // Prevent page scroll
+        event.preventDefault();
         showPreviousVideo();
       } else if (event.key === 'Escape') {
-        event.preventDefault(); // Prevent default escape behavior (like exiting fullscreen)
+        event.preventDefault();
         closeModal();
       }
     }
-    // --- Touch Event Handlers for Modal Swipe ---
     function handleTouchStart(event) {
       const firstTouch = event.touches[0];
       touchStartX = firstTouch.clientX;
       touchStartY = firstTouch.clientY;
-      // Reset end points to prevent misinterpretation on subsequent moves/ends
       touchEndX = touchStartX;
       touchEndY = touchStartY;
     }
-
     function handleTouchMove(event) {
-      // Only track if a single finger is used for swiping
       if (event.touches.length === 1) {
         const firstTouch = event.touches[0];
         touchEndX = firstTouch.clientX;
         touchEndY = firstTouch.clientY;
-        // Check if the swipe is predominantly horizontal to prevent vertical scroll blocking
-        if (touchStartX !== 0) { // Ensure start has been recorded
+        if (touchStartX !== 0) {
           let deltaX = Math.abs(touchEndX - touchStartX);
           let deltaY = Math.abs(touchEndY - touchStartY);
-          // If horizontal movement is significantly greater than vertical, prevent default scroll
-          if (deltaX > deltaY + 5) { // Add a small buffer
+          if (deltaX > deltaY + 5) {
             event.preventDefault();
           }
         }
       }
     }
-
     function handleTouchEnd(event) {
-      // Ensure touch start and end points are valid
       if (touchStartX === 0 || touchEndX === 0) return;
       let deltaX = touchEndX - touchStartX;
       let deltaY = touchEndY - touchStartY;
-      // Check if the swipe was primarily horizontal and exceeded the threshold
       if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
-        if (deltaX < 0) { // Swipe Left (Next video)
+        if (deltaX < 0) {
           if (!nextVideoButton.disabled) showNextVideo();
-        } else { // Swipe Right (Previous video)
+        } else {
           if (!prevVideoButton.disabled) showPreviousVideo();
         }
       }
-      // Reset touch coordinates for the next swipe
       touchStartX = 0;
       touchStartY = 0;
       touchEndX = 0;
       touchEndY = 0;
     }
-    // --- Scroll Handler for Infinite Loading ---
     function handleScroll() {
-      // Exit if modal is open, already loading, or all videos are loaded
       if (videoModal.style.display === 'flex' || isLoading || allVideosLoaded) return;
-      const scrollCheckHeight = document.documentElement.scrollHeight; // Total document height
-      const scrollBuffer = 250; // Pixels from bottom to trigger load
-      // Check if user is near the bottom of the page
+      const scrollCheckHeight = document.documentElement.scrollHeight;
+      const scrollBuffer = 250;
       if ((window.innerHeight + window.scrollY) >= scrollCheckHeight - scrollBuffer) {
         loadMoreVideos();
       }
     }
-    // --- Image Carousel Functions ---
     function startCarousel() {
-      if (!carouselContainer || carouselImages.length === 0) return; // Exit if no carousel or images
-      stopCarousel(); // Clear existing interval if any
+      if (!carouselContainer || carouselImages.length === 0) return;
+      stopCarousel();
       carouselInterval = setInterval(() => {
         carouselImages[currentCarouselIndex].classList.remove('active');
         currentCarouselIndex = (currentCarouselIndex + 1) % carouselImages.length;
         carouselImages[currentCarouselIndex].classList.add('active');
-      }, 4000); // Change image every 4 seconds
+      }, 4000);
       console.log("Carousel started.");
     }
-
     function stopCarousel() {
       clearInterval(carouselInterval);
-      // console.log("Carousel stopped."); // Optional: Less console noise
     }
-    // --- Scroll Down Button Logic ---
     function setupScrollButton() {
-      if (!scrollDownButton || !filterSearchControls) return; // Ensure elements exist
-      // Click listener to scroll smoothly to the filter controls
+      if (!scrollDownButton || !filterSearchControls) return;
       scrollDownButton.addEventListener('click', () => {
         filterSearchControls.scrollIntoView({
           behavior: 'smooth',
           block: 'start'
         });
       });
-      // Intersection Observer to show/hide the button based on filter controls visibility
       const observerOptions = {
-        root: null, // Observe relative to the viewport
+        root: null,
         rootMargin: '0px',
-        threshold: 0.1 // Trigger when 10% of the target is visible/hidden
+        threshold: 0.1
       };
       const observerCallback = (entries) => {
         entries.forEach(entry => {
-          // If filter controls are NOT visible in the viewport, show the button
           if (!entry.isIntersecting) {
             scrollDownButton.classList.add('visible');
           } else {
-            // If filter controls ARE visible, hide the button
             scrollDownButton.classList.remove('visible');
           }
         });
       };
       const observer = new IntersectionObserver(observerCallback, observerOptions);
-      observer.observe(filterSearchControls); // Start observing the target element
-      // Initial check on load (with delay for layout stability)
+      observer.observe(filterSearchControls);
       setTimeout(() => {
-        // Only run initial check if button is supposed to be displayed (mobile view)
-        if (window.innerWidth <= 768) { // Match the CSS media query
+        if (window.innerWidth <= 768) {
           const initialRect = filterSearchControls.getBoundingClientRect();
-          // Check if the top edge is above the viewport bottom AND bottom edge is below viewport top
           if (initialRect.top < window.innerHeight && initialRect.bottom >= 0) {
-            scrollDownButton.classList.remove('visible'); // Target is initially visible, hide button
+            scrollDownButton.classList.remove('visible');
           } else {
-            scrollDownButton.classList.add('visible'); // Target is initially off-screen, show button
+            scrollDownButton.classList.add('visible');
           }
         } else {
-          scrollDownButton.classList.remove('visible'); // Ensure hidden on desktop load regardless
+          scrollDownButton.classList.remove('visible');
         }
-      }, 100); // Small delay
+      }, 100);
     }
-    // --- Mobile Menu Toggle ---
-    function setupMobileMenu() {
-      // Ensure all required elements exist
-      if (!mobileMenuButton || !mobileMenu || !menuIconOpen || !menuIconClose) {
-        console.error("Mobile menu elements not found.");
-        return;
-      }
-      mobileMenuButton.addEventListener('click', () => {
-        // Toggle the 'open' class on the menu panel
-        const isOpen = mobileMenu.classList.toggle('open');
-        // Update aria-expanded attribute for accessibility
-        mobileMenuButton.setAttribute('aria-expanded', isOpen);
-        // Toggle visibility of the open/close icons
-        menuIconOpen.classList.toggle('hidden', isOpen);
-        menuIconClose.classList.toggle('hidden', !isOpen);
-      });
-    }
-    // --- Desktop Dropdown Hover Logic ---
-    function setupDesktopDropdowns() {
-      dropdownContainers.forEach(container => {
-        let leaveTimeout; // Timeout to delay closing on mouseleave
-        const link = container.querySelector('.nav-link'); // Get the trigger link/button
-        container.addEventListener('mouseenter', () => {
-          clearTimeout(leaveTimeout); // Clear any pending close timeout
-          // Close any other open dropdown immediately
-          if (activeDropdown && activeDropdown !== container) {
-            activeDropdown.classList.remove('open');
-            activeDropdown.querySelector('.nav-link').setAttribute('aria-expanded', 'false');
-          }
-          // Open this dropdown
-          container.classList.add('open');
-          link.setAttribute('aria-expanded', 'true'); // Update aria-expanded
-          activeDropdown = container;
-        });
-        container.addEventListener('mouseleave', () => {
-          // Set a short timeout before closing, allows moving mouse into panel
-          leaveTimeout = setTimeout(() => {
-            container.classList.remove('open');
-            link.setAttribute('aria-expanded', 'false'); // Update aria-expanded
-            if (activeDropdown === container) {
-              activeDropdown = null;
-            }
-          }, 150); // 150ms delay
-        });
-        // Keep dropdown open if mouse enters the panel itself
-        const panel = container.querySelector('.dropdown-panel');
-        if (panel) {
-          panel.addEventListener('mouseenter', () => {
-            clearTimeout(leaveTimeout); // Cancel closing if mouse enters panel
-          });
-          panel.addEventListener('mouseleave', () => {
-            // Set timeout again when leaving the panel
-            leaveTimeout = setTimeout(() => {
-              container.classList.remove('open');
-              link.setAttribute('aria-expanded', 'false'); // Update aria-expanded
-              if (activeDropdown === container) {
-                activeDropdown = null;
-              }
-            }, 150);
-          });
-        }
-      });
-      // Close dropdown if clicking outside
-      document.addEventListener('click', (event) => {
-        if (activeDropdown && !activeDropdown.contains(event.target)) {
-          activeDropdown.classList.remove('open');
-          activeDropdown.querySelector('.nav-link').setAttribute('aria-expanded', 'false'); // Update aria-expanded
-          activeDropdown = null;
-        }
-      });
-      // Close dropdown on Escape key
-      document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && activeDropdown) {
-          activeDropdown.classList.remove('open');
-          activeDropdown.querySelector('.nav-link').setAttribute('aria-expanded', 'false'); // Update aria-expanded
-          activeDropdown = null;
-        }
-      });
-    }
-    // --- Initial Setup ---
-    window.addEventListener('scroll', handleScroll); // Infinite scroll listener
-    closeModalButton.addEventListener('click', closeModal); // Modal close button
-    prevVideoButton.addEventListener('click', showPreviousVideo); // Modal prev button
-    nextVideoButton.addEventListener('click', showNextVideo); // Modal next button
-    // Close modal if clicking outside the content area (on the backdrop)
+    window.addEventListener('scroll', handleScroll);
+    closeModalButton.addEventListener('click', closeModal);
+    prevVideoButton.addEventListener('click', showPreviousVideo);
+    nextVideoButton.addEventListener('click', showNextVideo);
     videoModal.addEventListener('click', (event) => {
-      if (event.target === videoModal) { // Check if the click was directly on the modal backdrop
+      if (event.target === videoModal) {
         closeModal();
       }
     });
-    // Run initial setup functions after the DOM is fully loaded
     document.addEventListener('DOMContentLoaded', () => {
-      loadMoreVideos(); // Initial video load
-      startCarousel(); // Start the image carousel
-      setupScrollButton(); // Initialize scroll-to-content button logic
-      setupMobileMenu(); // Initialize mobile menu toggle
-      setupDesktopDropdowns(); // Initialize desktop dropdown hover logic
+      loadMoreVideos();
+      startCarousel();
+      setupScrollButton();
+    });
+    const headerContainer = document.querySelector('.header-container');
+    const headerLogo = document.querySelector('.header-logo');
+    window.addEventListener('scroll', () => {
+      const scrollPosition = window.scrollY;
+      const scrollPercentage = Math.min(scrollPosition / window.innerHeight, 1);
+      const opacity = 1 - scrollPercentage;
+      headerContainer.style.opacity = opacity;
+      const logoUpwardMove = scrollPosition * 0.3;
     });
   </script>
 

@@ -25,43 +25,41 @@
       text-align: center;
     }
 
-    .header-container {
+    /* New fixed container for all top elements */
+    #sticky-header {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 50vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      z-index: 10;
+      z-index: 900;
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      /* Add general page padding around the fixed content */
+      padding: 1rem 0 0 0;
     }
 
-    .header-logo {
-      z-index: -1;
-      transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-      will-change: opacity, transform;
-    }
-
-    .header-background {
+    .tiled-header-background {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      object-position: top;
       z-index: -1;
+      background-image: url('https://i.ibb.co/KxcxGk4j/image-2025-09-25-T133918-410.png');
+      background-repeat: repeat-x;
+      background-size: 400px auto;
+      background-position: top center;
+      opacity: 0.7;
     }
 
     .header-logo {
-      position: relative;
-      max-width: 45%;
-      width: auto;
-      height: auto;
+      display: block;
+      margin: 0 auto;
+      max-width: 400px;
+      padding-top: 3rem;
+      padding-bottom: 3rem;
       z-index: 11;
-      transform: translateY(50%);
+      transform: translateY(0);
     }
 
     body {
@@ -154,6 +152,9 @@
       gap: 1.5rem;
       opacity: 0;
       animation: fadeInUp 0.6s ease-out 0.3s forwards;
+      /* Add margin to prevent the carousel/info box from touching the edge of the screen */
+      margin: 0 1rem 2.5rem 1rem;
+      position: relative;
     }
 
     @media (min-width: 768px) {
@@ -161,6 +162,7 @@
         flex-direction: row;
         align-items: center;
         padding: 2.5rem;
+        margin: 0 auto 2.5rem auto;
       }
     }
 
@@ -182,10 +184,17 @@
       margin-bottom: 1rem;
     }
 
+    /* STATS GRADIENT: Targeted the strong tags within the info section for the animation */
     #info-text-content p strong {
       font-weight: 700;
       font-size: 2.25rem;
-      color: #1a73e8;
+      /* Gradient properties */
+      background: linear-gradient(to right, #3185FF, #366CF1, #3185FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: color-cycle 4s linear infinite;
+      
       display: inline-block;
       margin-right: 0.35rem;
       line-height: 1;
@@ -260,6 +269,19 @@
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
       transition: opacity 0.3s ease-in-out;
+      padding: 0 2rem;
+    }
+
+    #scrollable-content {
+      /* This padding is set by JavaScript to match the height of the fixed header */
+      padding: 0;
+      margin-top: 0;
+    }
+
+    @media (max-width: 768px) {
+      #video-grid {
+        padding: 0 1rem;
+      }
     }
 
     #video-grid.grid-loading {
@@ -318,12 +340,20 @@
       background-color: white;
       border-radius: 9999px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.5rem;
+      /* Reduced bottom margin */
       overflow: hidden;
       position: relative;
       max-width: 1024px;
       margin-left: auto;
       margin-right: auto;
+    }
+
+    @media (max-width: 768px) {
+      #filter-search-controls {
+        margin: 0 1rem 1.5rem 1rem;
+        /* Added margin for mobile */
+      }
     }
 
     #filter-buttons {
@@ -661,7 +691,7 @@
       #filter-search-controls {
         max-width: 95%;
         padding: 0.5rem 0.75rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
       }
 
       #filter-buttons {
@@ -723,14 +753,6 @@
       header#page-content-header {
         padding-top: 1.5rem;
       }
-    }
-
-    .animated-gradient-text {
-      background: linear-gradient(to right, #3185fe, #356cf2, #3185fe);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-size: 200% auto;
-      animation: color-cycle 5s linear infinite;
     }
 
     @keyframes color-cycle {
@@ -802,25 +824,21 @@
         background: #ff0000;
       }
     }
-
-    .pt-screen {
-      padding-top: 50vh;
-    }
   </style>
 </head>
 
-<body>
-  <div class="header-container">
-    <img class="header-background" src="https://i.ibb.co/KxcxGk4j/image-2025-09-25-T133918-410.png" alt="Header Background">
+<body onresize="calculateStickyHeaderOffset()" onload="calculateStickyHeaderOffset()">
+
+  <div id="sticky-header">
+    <div class="tiled-header-background"></div>
     <img class="header-logo" src="https://i.ibb.co/BV6r3Tzq/blitzlogo.png" alt="Blitz Logo">
-  </div>
-  <main class="pt-screen">
+
     <section id="info-section" aria-labelledby="info-heading">
       <div id="info-text-content">
         <h2 id="info-heading">CrOS ROPs Team: 4-Day Gemini and NotebookLM Training Blitz</h2>
-        <p><strong>56%</strong> of Best Buy Stores Visited Nationwide</p>
-        <p><strong>2k+</strong> Best Buy Blue Shirts Trained</p>
-        <p><strong>152%</strong> Increase in Recommendation Rate</p>
+        <p><strong class="animated-gradient-text">56%</strong> of Best Buy Stores Visited Nationwide</p>
+        <p><strong class="animated-gradient-text">2k+</strong> Best Buy Blue Shirts Trained</p>
+        <p><strong class="animated-gradient-text">152%</strong> Increase in Recommendation Rate</p>
       </div>
       <div id="image-carousel-container">
         <img src="gallery1.webp" alt="Gallery image 1" class="carousel-image active" onerror="this.style.display='none'; this.alt='Error loading gallery image 1';">
@@ -828,7 +846,8 @@
         <img src="gallery3.webp" alt="Gallery image 3" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 3';">
       </div>
     </section>
-    <div id="filter-search-controls" class="mb-10">
+
+    <div id="filter-search-controls">
       <div id="filter-buttons">
         <button class="filter-button active" data-filter="all">All Videos</button>
         <button class="filter-button" data-filter="notebooklm">NotebookLM</button>
@@ -843,7 +862,9 @@
         </button>
       </div>
     </div>
+  </div>
 
+  <main id="scrollable-content">
     <div id="video-grid" class="grid gap-8"></div>
     <div id="loading-indicator">Loading more videos...</div>
     <div id="no-results-message" style="display: none;">No videos match your filter or search.</div>
@@ -888,6 +909,9 @@
     const carouselImages = carouselContainer ? carouselContainer.querySelectorAll('.carousel-image') : [];
     const modalVideoTitleElement = document.getElementById('modal-video-title');
     const scrollDownButton = document.getElementById('scroll-down-button');
+    const stickyHeader = document.getElementById('sticky-header');
+    const scrollableContent = document.getElementById('scrollable-content');
+
     let currentPage = 1;
     let isLoading = false;
     const videosPerPage = 12;
@@ -908,6 +932,15 @@
     const swipeThreshold = 50;
     const VIMEO_ACCESS_TOKEN = "85f387f5940732ea08308ffef87753bf";
     const VIMEO_USER_ID = "238871639";
+
+    function calculateStickyHeaderOffset() {
+      if (!stickyHeader || !scrollableContent) return;
+      const headerHeight = stickyHeader.offsetHeight;
+      scrollableContent.style.paddingTop = `${headerHeight + 32}px`; /* Add a small buffer */
+    }
+
+    window.addEventListener('resize', calculateStickyHeaderOffset);
+
     async function fetchVideos(page, limit) {
       console.log(`FETCHING directly from Vimeo: page ${page}, limit ${limit}`);
       if (!VIMEO_ACCESS_TOKEN || VIMEO_ACCESS_TOKEN === "YOUR_VIMEO_API_TOKEN_HERE" || !VIMEO_USER_ID || VIMEO_USER_ID === "YOUR_VIMEO_USER_ID_HERE") {
@@ -1333,7 +1366,7 @@
       touchEndY = 0;
     }
     function handleScroll() {
-      if (videoModal.style.display === 'flex' || isLoading || allVideosLoaded) return;
+      if (videoModal.style.display !== 'none' || isLoading || allVideosLoaded) return;
       const scrollCheckHeight = document.documentElement.scrollHeight;
       const scrollBuffer = 250;
       if ((window.innerHeight + window.scrollY) >= scrollCheckHeight - scrollBuffer) {
@@ -1403,15 +1436,7 @@
       loadMoreVideos();
       startCarousel();
       setupScrollButton();
-    });
-    const headerContainer = document.querySelector('.header-container');
-    const headerLogo = document.querySelector('.header-logo');
-    window.addEventListener('scroll', () => {
-      const scrollPosition = window.scrollY;
-      const scrollPercentage = Math.min(scrollPosition / window.innerHeight, 1);
-      const opacity = 1 - scrollPercentage;
-      headerContainer.style.opacity = opacity;
-      const logoUpwardMove = scrollPosition * 0.3;
+      calculateStickyHeaderOffset();
     });
   </script>
 

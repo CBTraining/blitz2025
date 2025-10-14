@@ -348,18 +348,23 @@
       border-radius: 0;
       box-shadow: none;
       margin-bottom: 1.5rem;
-      overflow: hidden;
+      /* ALLOW WRAPPING ON MOBILE */
+      flex-wrap: wrap; 
       position: relative;
       max-width: 1024px;
       margin-left: auto;
       margin-right: auto;
+      /* Changed overflow: hidden to allow search bubble transition */
+      overflow: visible; 
     }
 
     @media (max-width: 768px) {
       #filter-search-controls {
         margin: 0 1rem 1.5rem 1rem;
-        /* Re-center buttons for mobile */
+        /* Force buttons to stack on top of search container */
+        flex-direction: column; 
         justify-content: center;
+        align-items: stretch;
       }
     }
 
@@ -367,13 +372,14 @@
       display: flex;
       /* Center alignment */
       justify-content: center;
-      flex-grow: 0; /* Changed from 1 */
-      flex-shrink: 0; /* Changed from 1 */
+      flex-grow: 1; /* Allow to fill width */
+      /* NEW: Allow filter buttons to wrap to next line on mobile */
+      flex-wrap: wrap; 
       transition: opacity 0.2s ease-in-out 0.1s;
       /* Added gap between buttons */
       gap: 0.5rem;
-      /* ADDED: Right padding to prevent overlap with search bubble */
-      padding-right: 1.5rem;
+      /* ADJUSTED: Reduced padding right to allow search icon closer for desktop space saving */
+      padding-right: 0.5rem; 
       margin-right: 0;
       min-width: 0;
       opacity: 1;
@@ -381,6 +387,23 @@
       /* Re-added z-index for filter buttons, but ensuring search is higher */
       z-index: 1; 
     }
+    
+    @media (min-width: 768px) {
+        #filter-buttons {
+            /* Add some spacing on desktop to visually separate the filter buttons from the search bar */
+            margin-right: 1.5rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+      #filter-buttons {
+        /* Force buttons to take full width and wrap */
+        width: 100%;
+        margin-bottom: 1rem;
+        padding-right: 0; /* No need for padding when search is below */
+      }
+    }
+
 
     .filter-button {
       /* New Blue Rectangle Styling */
@@ -396,7 +419,7 @@
       white-space: nowrap;
       text-align: center;
       flex-shrink: 1; /* Allow shrinking */
-      min-width: 90px;
+      /* REMOVED: min-width: 90px; */
       font-family: 'Google Sans', sans-serif;
     }
 
@@ -421,7 +444,28 @@
       position: relative;
       /* HIGHER Z-INDEX TO BE CLICKABLE */
       z-index: 5;
+      /* ADJUSTED margin: Removed default desktop margin to rely on filter-buttons margin-right */
+      margin-left: 0; 
     }
+    
+    @media (max-width: 768px) {
+        #search-container {
+            width: 100%;
+            /* Center the search icon/input */
+            justify-content: center;
+            /* Vertical spacing from filter buttons above on mobile */
+            margin-top: 1rem; 
+            /* Ensure horizontal margin is removed for full width center alignment */
+            margin-left: 0; 
+        }
+        
+        #filter-search-controls.search-active #search-input {
+            /* Adjust width for mobile when active */
+            width: 90vw !important;
+            max-width: 300px;
+        }
+    }
+
 
     #search-icon-button {
       order: 2;
@@ -451,7 +495,8 @@
 
     #search-input {
       font-size: 1.125rem;
-      padding: 0.875rem 1.5rem;
+      /* ADDED TOP PADDING FOR VISUAL SEPARATION WHEN EXPANDED */
+      padding: 1rem 1.5rem 1rem 1.5rem; 
       padding-right: 0.5rem;
       order: 1;
       border: none;
@@ -483,9 +528,18 @@
     #filter-search-controls.search-active #search-input {
       opacity: 1;
       width: 300px;
+      margin-top: 1rem; 
       background-color: #f1f3f4;
       transition: width 0.3s ease-in-out 0.05s, opacity 0.2s ease-in-out 0.1s, background-color 0.3s ease-in-out 0.05s;
     }
+    
+    @media (max-width: 768px) {
+        #filter-search-controls.search-active #search-input {
+            /* Reset desktop margin on mobile */
+            margin-top: 0;
+        }
+    }
+
 
     .hidden {
       display: none !important;
@@ -733,9 +787,8 @@
       
       /* Mobile filter buttons style (to ensure they shrink gracefully) */
       .filter-button {
-        padding: 0.5rem 0.75rem;
+        padding: 0.8rem 0.8rem;
         font-size: 0.85rem;
-        min-width: 70px;
       }
 
 

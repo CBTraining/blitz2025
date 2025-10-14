@@ -372,11 +372,14 @@
       transition: opacity 0.2s ease-in-out 0.1s;
       /* Added gap between buttons */
       gap: 0.5rem;
+      /* ADDED: Right padding to prevent overlap with search bubble */
+      padding-right: 1.5rem;
       margin-right: 0;
       min-width: 0;
       opacity: 1;
       position: relative;
-      z-index: 2;
+      /* Re-added z-index for filter buttons, but ensuring search is higher */
+      z-index: 1; 
     }
 
     .filter-button {
@@ -416,7 +419,8 @@
       justify-content: flex-end;
       min-width: 44px;
       position: relative;
-      z-index: -3;
+      /* HIGHER Z-INDEX TO BE CLICKABLE */
+      z-index: 5;
     }
 
     #search-icon-button {
@@ -430,7 +434,8 @@
       justify-content: center;
       border-radius: 50%;
       transition: background-color 0.2s ease-in-out;
-      z-index: -2;
+      /* Ensures icon is clickable */
+      z-index: 6; 
       flex-shrink: 0;
     }
 
@@ -456,7 +461,8 @@
       width: 0;
       opacity: 0;
       transition: width 0.3s ease-in-out, opacity 0.2s ease-in-out, background-color 0.3s ease-in-out;
-      z-index: -3;
+      /* Needs lower z-index than button, but high enough to show over other elements when active */
+      z-index: 4; 
       font-weight: 400;
       color: #3C4043;
       min-width: 0;
@@ -470,6 +476,7 @@
 
     #filter-search-controls.search-active #filter-buttons {
       opacity: 0.4;
+      pointer-events: none; /* Disable clicks on filter buttons when search is active */
       transition: opacity 0.15s ease-out;
     }
 
@@ -640,6 +647,18 @@
       #scroll-down-button {
         display: flex;
       }
+      
+      #info-text-content h2 {
+        text-align: center; /* Center align title on mobile */
+      }
+      
+      #info-text-content strong {
+        font-size: 2rem; /* Adjusted for mobile */
+      }
+      
+      .stat-label {
+        font-size: 0.85rem;
+      }
     }
 
     @media (max-width: 1023px) {
@@ -759,9 +778,7 @@
       #image-carousel-container {
         max-width: 250px;
       }
-    }
-
-    @media (max-width: 768px) {
+      
       body {
         padding-top: 0px;
       }
@@ -995,11 +1012,25 @@
         const videos = vimeoData.data.map(video => {
           const titleLower = (video.name || '').toLowerCase();
           let category = 'other';
-          if (titleLower.includes('notebooklm')) {
+          
+          /* --- START: UPDATED CATEGORY LOGIC --- */
+          let videoTitle = video.name ? video.name.toLowerCase() : '';
+          
+          if (videoTitle.includes('notebooklm')) {
             category = 'notebooklm';
-          } else if (titleLower.includes('gemini')) {
+          } else if (videoTitle.includes('basic gemini')) {
+            category = 'geminibasic';
+          } else if (videoTitle.includes('advanced gemini') || videoTitle.includes('adv gemini')) {
+            category = 'advgemini';
+          } else if (videoTitle.includes('nano banana')) {
+            category = 'nanobanana'; // Note: Filter button data-filter is 'gemini', so this needs addressing later if video logic should match button logic exactly.
+          } else if (videoTitle.includes('veo 3') || videoTitle.includes('veo3')) {
+            category = 'veo3';
+          } else if (videoTitle.includes('gemini')) {
             category = 'gemini';
           }
+          /* --- END: UPDATED CATEGORY LOGIC --- */
+
           return {
             title: video.name || 'Untitled Video',
             embedUrl: video.player_embed_url || video.link,
@@ -1462,5 +1493,3 @@
 </body>
 
 </html>
-
-

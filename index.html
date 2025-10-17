@@ -9,11 +9,35 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
   <style>
+    /* Define the custom keyframe animation for the fade, grow, and float effect */
+    @keyframes icon-animate {
+      0% {
+        opacity: 0;
+        /* Start small, no vertical offset yet */
+        transform: translate(-50%, -50%) scale(0.3) translateY(0);
+      }
+
+      30% {
+        opacity: 1;
+        /* Peak visibility, start the upward float */
+        transform: translate(-50%, -50%) scale(1.0) translateY(-20px);
+      }
+
+      100% {
+        opacity: 0;
+        /* Fade out, large size, final upward position (floating) */
+        transform: translate(-50%, -50%) scale(2.0) translateY(-100px);
+      }
+    }
+
+    .animated-icon {
+      position: absolute;
+      animation: icon-animate 4s ease-in-out forwards; 
+      pointer-events: none;
+      z-index: 15;
+    }
+
     @font-face {
       font-family: 'Google Sans', sans-serif;
       src: url('GoogleSans-Regular.ttf') format('truetype');
@@ -39,12 +63,12 @@
     }
 
     .header-video-background {
-      position: static;
+      position: absolute;
       top: -30px;
       left: 0;
-      width: 100%;
-      height: 60%;
-      z-index: -2;
+      width: 100vw;
+      height: 30vw;
+      z-index: -10;
       object-fit: cover;
       opacity: 0.8;
       display: block;
@@ -53,11 +77,12 @@
     .header-logo {
       display: block;
       margin: 0 auto;
-      max-width: 500px;
-      padding-top: 0rem;
-      padding-bottom: 1.5rem;
-      z-index: 901;
+      max-width: 600px;
+      padding-top: 7rem;
+      padding-bottom: 7rem;
+      z-index: 920;
       transform: translateY(0);
+      position: relative; 
     }
 
     body {
@@ -141,8 +166,7 @@
       border-radius: 1.25rem;
       padding-top: 1rem;
       margin-bottom: 1.5rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-      max-width: 1024px;
+      max-width: 80%;
       margin-left: auto;
       margin-right: auto;
       display: flex;
@@ -153,7 +177,6 @@
       margin: 0 1rem 1.5rem 1rem;
       position: relative;
       z-index: 901;
-      /* Ensure this is also above the GIF */
     }
 
     @media (min-width: 768px) {
@@ -195,6 +218,7 @@
       -webkit-text-fill-color: transparent;
       background-size: 200% auto;
       animation: color-cycle 4s linear infinite;
+
       display: inline-block;
       margin-right: 0.35rem;
       line-height: 1;
@@ -393,16 +417,13 @@
       max-width: 1024px;
       margin-left: auto;
       margin-right: auto;
-      /* Changed overflow: hidden to allow search bubble transition */
       overflow: visible;
       z-index: 901;
     }
 
     @media (max-width: 768px) {
       #filter-search-controls {
-        /* INCREASED GAP BELOW FILTER BUTTONS */
         margin: 0 1rem 2.5rem 1rem;
-        /* Force buttons to stack on top of search container */
         flex-direction: column;
         justify-content: center;
         align-items: stretch;
@@ -411,22 +432,16 @@
 
     #filter-buttons {
       display: flex;
-      /* Center alignment */
       justify-content: center;
       flex-grow: 1;
-      /* Allow to fill width */
-      /* NEW: Allow filter buttons to wrap to next line on mobile */
       flex-wrap: wrap;
       transition: opacity 0.2s ease-in-out 0.1s;
-      /* Added gap between buttons */
       gap: 0.5rem;
-      /* ADJUSTED: Reduced padding right to allow search icon closer for desktop space saving */
       padding-right: 0.5rem;
       margin-right: 0;
       min-width: 0;
       opacity: 1;
       position: relative;
-      /* Re-added z-index for filter buttons, but ensuring search is higher */
       z-index: 1;
     }
 
@@ -443,6 +458,7 @@
         padding-right: 0;
       }
     }
+
 
     .filter-button {
       padding: 0.6rem 1.25rem;
@@ -500,6 +516,7 @@
         padding: 1rem 1.5rem 1rem 1.5rem;
       }
     }
+
 
     #search-icon-button {
       order: 2;
@@ -571,6 +588,7 @@
         margin-bottom: 1rem;
       }
     }
+
 
     .hidden {
       display: none !important;
@@ -828,6 +846,7 @@
         font-size: 0.85rem;
       }
 
+
       #search-icon-button svg {
         width: 20px;
         height: 20px;
@@ -890,7 +909,12 @@
         background-position: 0% 50%;
       }
     }
-
+  #icon-container {
+  position: absolute; 
+  top: 0;
+  left: 0;
+  z-index: 10; 
+  }
     .light-container {
       position: fixed;
       top: -50px;
@@ -949,43 +973,48 @@
   </style>
 </head>
 
-<body <div id="sticky-header">
-  <video class="header-video-background" autoplay loop muted playsinline src="colorgif1c.mp4" onerror="this.style.display='none';"></video>
+<body 
 
-  <img class="header-logo" src="logo2.png" alt="Blitz Logo">
+  <div id="sticky-header">
+//   /* <img class="header-logo" src="https://cbtraining.github.io/blitz2025/logo2.png" alt="Blitz Logo"> */
+<img class="header-logo" src="logo2.png" alt="Blitz Logo">
+<video class="header-video-background" autoplay loop muted playsinline src="colorgif1c.mp4" onerror="this.style.display='none';"></video>
+//    <video class="header-video-background" autoplay loop muted playsinline src="https://cbtraining.github.io/blitz2025/colorgif1c.mp4" onerror="this.style.display='none';"></video>
+    <div id="icon-container" class="relative w-screen h-[400px] overflow-hidden"> </div>
+    
 
-  <section id="info-section" aria-labelledby="info-heading">
-    <div id="info-text-content">
-      <h2 id="info-heading"></h2>
-      <p><strong class="animated-gradient-text">56%</strong> of Best Buy Stores Visited Nationwide</p>
-      <p><strong class="animated-gradient-text">2k+</strong> Best Buy Blue Shirts Trained</p>
-      <p><strong class="animated-gradient-text">152%</strong> Increase in Recommendation Rate</p>
-    </div>
-    <div id="image-carousel-container">
-      <img src="gallery1.webp" alt="Gallery image 1" class="carousel-image active" onerror="this.style.display='none'; this.alt='Error loading gallery image 1';">
-      <img src="gallery2.webp" alt="Gallery image 2" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 2';">
-      <img src="gallery3.webp" alt="Gallery image 3" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 3';">
-    </div>
-  </section>
+    <section id="info-section" aria-labelledby="info-heading">
+      <div id="info-text-content">
+        <h2 id="info-heading"></h2>
+        <p><strong class="animated-gradient-text">56%</strong> of Best Buy Stores Visited Nationwide</p>
+        <p><strong class="animated-gradient-text">2k+</strong> Best Buy Blue Shirts Trained</p>
+        <p><strong class="animated-gradient-text">152%</strong> Increase in Recommendation Rate</p>
+      </div>
+      <div id="image-carousel-container">
+        <img src="gallery1.webp" alt="Gallery image 1" class="carousel-image active" onerror="this.style.display='none'; this.alt='Error loading gallery image 1';">
+        <img src="gallery2.webp" alt="Gallery image 2" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 2';">
+        <img src="gallery3.webp" alt="Gallery image 3" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 3';">
+      </div>
+    </section>
 
-  <div id="filter-search-controls">
-    <div id="filter-buttons">
-      <button class="filter-button active" data-filter="all">All Videos</button>
-      <button class="filter-button" data-filter="geminibasic">Basic Gemini</button>
-      <button class="filter-button" data-filter="advgemini">Advanced Gemini</button>
-      <button class="filter-button" data-filter="gemini">Nano Banana</button>
-      <button class="filter-button" data-filter="notebooklm">NotebookLM</button>
-      <button class="filter-button" data-filter="veo3">Veo 3</button>
+    <div id="filter-search-controls">
+      <div id="filter-buttons">
+        <button class="filter-button active" data-filter="all">All Videos</button>
+        <button class="filter-button" data-filter="geminibasic">Basic Gemini</button>
+        <button class="filter-button" data-filter="advgemini">Advanced Gemini</button>
+        <button class="filter-button" data-filter="gemini">Nano Banana</button>
+        <button class="filter-button" data-filter="notebooklm">NotebookLM</button>
+        <button class="filter-button" data-filter="veo3">Veo 3</button>
+      </div>
+      <div id="search-container">
+        <input type="search" id="search-input" placeholder="Search videos...">
+        <button id="search-icon-button" title="Search">
+          <svg viewBox="0 0 24 24">
+            <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+          </svg>
+        </button>
+      </div>
     </div>
-    <div id="search-container">
-      <input type="search" id="search-input" placeholder="Search videos...">
-      <button id="search-icon-button" title="Search">
-        <svg viewBox="0 0 24 24">
-          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-        </svg>
-      </button>
-    </div>
-  </div>
   </div>
 
   <main id="scrollable-content">
@@ -1035,6 +1064,7 @@
     const scrollDownButton = document.getElementById('scroll-down-button');
     const stickyHeader = document.getElementById('sticky-header');
     const scrollableContent = document.getElementById('scrollable-content');
+
     let currentPage = 1;
     let isLoading = false;
     const videosPerPage = 12;
@@ -1075,6 +1105,7 @@
         finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1&muted=1&loop=1&background=1';
         finalUrl = finalUrl.replace(/&$/, '').replace('?&', '?');
       }
+
       const iframe = document.createElement('iframe');
       iframe.setAttribute('src', finalUrl);
       iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
@@ -1087,41 +1118,48 @@
       iframe.style.height = '100%';
       iframe.style.opacity = '0'; // Start invisible
       iframe.style.transition = 'opacity 0.3s ease-in-out';
+
       // Fade in after a small delay to avoid flicker
       setTimeout(() => {
         iframe.style.opacity = '1';
       }, 50);
+
       return iframe;
     }
 
     function isTouchDevice() {
-      return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+        return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
     }
+    
     // RE-ENABLED HOVER LOGIC FOR ALL DEVICES (since user wants the preview)
     function handleVideoItemHover(event) {
-      const videoItem = event.currentTarget;
-      const indexInDisplayed = parseInt(videoItem.dataset.index);
-      const videoData = displayedVideos[indexInDisplayed];
-      const thumbnailContainer = videoItem.querySelector('.thumbnail-container');
-      if (!videoData || !thumbnailContainer || !videoData.embedUrl) return;
-      if (event.type === 'mouseenter') {
-        videoItem.classList.add('hovered');
-        thumbnailContainer.querySelector('iframe')?.remove();
-        const iframe = createVimeoThumbnailEmbed(videoData.embedUrl);
-        if (iframe) {
-          thumbnailContainer.appendChild(iframe);
+        const videoItem = event.currentTarget;
+        const indexInDisplayed = parseInt(videoItem.dataset.index);
+        const videoData = displayedVideos[indexInDisplayed];
+        const thumbnailContainer = videoItem.querySelector('.thumbnail-container');
+
+        if (!videoData || !thumbnailContainer || !videoData.embedUrl) return;
+
+        if (event.type === 'mouseenter') {
+            videoItem.classList.add('hovered');
+            thumbnailContainer.querySelector('iframe')?.remove();
+
+            const iframe = createVimeoThumbnailEmbed(videoData.embedUrl);
+            if (iframe) {
+                thumbnailContainer.appendChild(iframe);
+            }
+        } else if (event.type === 'mouseleave') {
+            videoItem.classList.remove('hovered');
+            const iframe = thumbnailContainer.querySelector('iframe');
+            if (iframe) {
+                iframe.style.opacity = '0';
+                setTimeout(() => {
+                    iframe.remove();
+                }, 300);
+            }
         }
-      } else if (event.type === 'mouseleave') {
-        videoItem.classList.remove('hovered');
-        const iframe = thumbnailContainer.querySelector('iframe');
-        if (iframe) {
-          iframe.style.opacity = '0';
-          setTimeout(() => {
-            iframe.remove();
-          }, 300);
-        }
-      }
     }
+
     async function fetchVideos(page, limit) {
       console.log(`FETCHING directly from Vimeo: page ${page}, limit ${limit}`);
       if (!VIMEO_ACCESS_TOKEN || VIMEO_ACCESS_TOKEN === "YOUR_VIMEO_API_TOKEN_HERE" || !VIMEO_USER_ID || VIMEO_USER_ID === "YOUR_VIMEO_USER_ID_HERE") {
@@ -1155,15 +1193,18 @@
           throw new Error(errorMsg);
         }
         const vimeoData = await response.json();
+
         // Filter out videos that cannot be embedded
         const embeddableVideos = vimeoData.data.filter(video => {
           const embedPrivacy = video.privacy?.embed;
           // We only want 'public' (globally embeddable) or 'embed' (custom embedding rules, which we assume are permissive for this purpose).
           return embedPrivacy === 'public' || embedPrivacy === 'embed';
         });
+
         const videos = embeddableVideos.map(video => {
           let videoTitle = video.name ? video.name.toLowerCase() : '';
           let category = 'other';
+
           /* --- START: UPDATED CATEGORY LOGIC --- */
           if (videoTitle.includes('notebooklm')) {
             category = 'notebooklm';
@@ -1179,6 +1220,7 @@
             category = 'gemini';
           }
           /* --- END: UPDATED CATEGORY LOGIC --- */
+
           return {
             title: video.name || 'Untitled Video',
             embedUrl: video.player_embed_url || video.link,
@@ -1200,7 +1242,6 @@
         return [];
       }
     }
-
     function createVideoElement(video, indexInDisplayed) {
       const div = document.createElement('div');
       div.className = 'video-item';
@@ -1211,6 +1252,7 @@
       const placeholderErrorUrl = `https://placehold.co/640x360/cccccc/ffffff?text=Error+Loading`;
       const thumbnailUrl = video.thumbnail || placeholderErrorUrl;
       const title = video.title || 'Video Title';
+
       div.innerHTML = `
                 <div class="thumbnail-container">
                     <div class="video-placeholder">
@@ -1219,26 +1261,28 @@
                     <h3 class="overlay-title" title="${title}">${title}</h3>
                 </div>
             `;
+
       // Simplified: Click listener attached directly to the video-item
       div.addEventListener('click', () => {
-        // 1. Force cleanup of the hover state iframe if it exists (resolves desktop click conflict)
-        const iframe = div.querySelector('iframe');
-        if (iframe) {
-          iframe.remove();
-          div.classList.remove('hovered');
-        }
-        // 2. Open the modal
-        openModal(indexInDisplayed);
+          // 1. Force cleanup of the hover state iframe if it exists (resolves desktop click conflict)
+          const iframe = div.querySelector('iframe');
+          if (iframe) {
+              iframe.remove();
+              div.classList.remove('hovered');
+          }
+          // 2. Open the modal
+          openModal(indexInDisplayed);
       });
+
       // RE-ATTACH HOVER LISTENERS FOR PREVIEW
       div.addEventListener('mouseenter', handleVideoItemHover);
       div.addEventListener('mouseleave', handleVideoItemHover);
+
       requestAnimationFrame(() => {
         div.classList.add('visible');
       });
       return div;
     }
-
     function showEndOfContent(isFilterOrSearch = false) {
       loadingIndicator.style.display = 'none';
       const hasVisibleItems = displayedVideos.length > 0;
@@ -1260,7 +1304,6 @@
         endOfContentMessage.style.display = 'none';
       }
     }
-
     function checkAndLoadIfContentNotFillingViewport() {
       setTimeout(() => {
         if (!isLoading && !allVideosLoaded && videoModal.classList.contains('modal-visible') === false) {
@@ -1273,7 +1316,6 @@
         }
       }, 300);
     }
-
     function filterVideos(videosToFilter) {
       const lowerSearchTerm = currentSearchTerm.toLowerCase();
       return videosToFilter.filter(video => {
@@ -1340,7 +1382,6 @@
         }
       }
     }
-
     function resetAndLoad() {
       console.log(`Resetting grid. Filter: ${currentFilter}, Search: ${currentSearchTerm}`);
       videoGrid.classList.add('grid-loading');
@@ -1360,7 +1401,6 @@
         loadMoreVideos();
       }, 300);
     }
-
     function closeSearchUI() {
       if (!isSearchActive) return;
       isSearchActive = false;
@@ -1368,7 +1408,6 @@
       filterButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === currentFilter));
       console.log("Search UI closed visually.");
     }
-
     function closeSearchUIAndReset() {
       const wasSearching = currentSearchTerm !== '';
       closeSearchUI();
@@ -1440,7 +1479,6 @@
         closeSearchUIAndReset();
       }
     });
-
     function openModal(indexInDisplayed) {
       if (typeof indexInDisplayed !== 'number' || indexInDisplayed < 0 || indexInDisplayed >= displayedVideos.length) {
         console.error("Invalid index for openModal:", indexInDisplayed);
@@ -1467,11 +1505,11 @@
       });
       videoModal.addEventListener('touchend', handleTouchEnd);
     }
-
     function closeModal() {
       // Start fade out transition
       videoModal.classList.remove('modal-visible');
       document.body.classList.remove('modal-open');
+
       // Wait for the transition to finish before hiding
       setTimeout(() => {
         videoModal.style.display = 'none';
@@ -1480,6 +1518,7 @@
           modalVideoTitleElement.textContent = '';
         }
       }, 300); // Must match CSS transition duration
+
       currentVideoIndex = -1;
       if (document.fullscreenElement) {
         document.exitFullscreen().catch(err => console.error("Error exiting fullscreen:", err));
@@ -1490,7 +1529,6 @@
       videoModal.removeEventListener('touchend', handleTouchEnd);
       checkAndLoadIfContentNotFillingViewport();
     }
-
     function showVideoInModal(embedUrl, indexInDisplayed, title = 'Video') {
       if (typeof indexInDisplayed !== 'number' || indexInDisplayed < 0 || indexInDisplayed >= displayedVideos.length) return;
       currentVideoIndex = indexInDisplayed;
@@ -1517,7 +1555,6 @@
       videoPlayerIframe.src = finalUrl;
       updateModalNavButtons();
     }
-
     function updateModalNavButtons() {
       if (displayedVideos.length === 0) {
         prevVideoButton.disabled = true;
@@ -1527,7 +1564,6 @@
       prevVideoButton.disabled = currentVideoIndex <= 0;
       nextVideoButton.disabled = currentVideoIndex >= displayedVideos.length - 1;
     }
-
     function showNextVideo() {
       if (!nextVideoButton.disabled && currentVideoIndex < displayedVideos.length - 1) {
         const nextIndex = currentVideoIndex + 1;
@@ -1539,7 +1575,6 @@
         }
       }
     }
-
     function showPreviousVideo() {
       if (!prevVideoButton.disabled && currentVideoIndex > 0) {
         const prevIndex = currentVideoIndex - 1;
@@ -1551,7 +1586,6 @@
         }
       }
     }
-
     function handleKeyboardNav(event) {
       if (videoModal.classList.contains('modal-visible') === false) return;
       if (event.key === 'ArrowRight') {
@@ -1565,7 +1599,6 @@
         closeModal();
       }
     }
-
     function handleTouchStart(event) {
       const firstTouch = event.touches[0];
       touchStartX = firstTouch.clientX;
@@ -1573,7 +1606,6 @@
       touchEndX = touchStartX;
       touchEndY = touchStartY;
     }
-
     function handleTouchMove(event) {
       if (event.touches.length === 1) {
         const firstTouch = event.touches[0];
@@ -1588,7 +1620,6 @@
         }
       }
     }
-
     function handleTouchEnd(event) {
       if (touchStartX === 0 || touchEndX === 0) return;
       let deltaX = touchEndX - touchStartX;
@@ -1605,7 +1636,6 @@
       touchEndX = 0;
       touchEndY = 0;
     }
-
     function handleScroll() {
       if (videoModal.classList.contains('modal-visible') || isLoading || allVideosLoaded) return;
       const scrollCheckHeight = document.documentElement.scrollHeight;
@@ -1614,7 +1644,6 @@
         loadMoreVideos();
       }
     }
-
     function startCarousel() {
       if (!carouselContainer || carouselImages.length === 0) return;
       stopCarousel();
@@ -1625,11 +1654,9 @@
       }, 4000);
       console.log("Carousel started.");
     }
-
     function stopCarousel() {
       clearInterval(carouselInterval);
     }
-
     function setupScrollButton() {
       if (!scrollDownButton || !filterSearchControls) return;
       scrollDownButton.addEventListener('click', () => {
@@ -1681,7 +1708,60 @@
       startCarousel();
       setupScrollButton();
     });
+
+    const container = document.getElementById('icon-container');
+    const spawnInterval = 800;
+    const animationDuration = 3000;
+    const svgs = [
+      // NotebookLM
+      '<path fill="currentColor" d="M11.999 3.14C5.372 3.14 0 8.588 0 15.312v5.828h2.212v-.58c0-2.728 2.178-4.938 4.866-4.938 2.688 0 4.866 2.21 4.866 4.937v.581h2.212v-.58c0-3.967-3.17-7.18-7.078-7.18a6.966 6.966 0 00-4.086 1.318C4.2 12.262 6.687 10.59 9.56 10.59c4.057 0 7.347 3.338 7.347 7.453v3.097h2.212v-3.097c0-5.355-4.28-9.698-9.56-9.698a9.438 9.438 0 00-6.217 2.332C4.984 7.528 8.244 5.383 12 5.383c5.406 0 9.788 4.446 9.788 9.93v5.827H24v-5.828C23.999 8.588 18.627 3.14 11.999 3.14z"></path>',
+      // Gemini
+      '<path fill="currentColor" d="M20.616,10.835C18.955,10.128 17.444,9.109 16.166,7.834C14.386,6.05 13.116,3.822 12.488,1.382C12.432,1.16 12.23,1.003 12,1.003C11.771,1.003 11.569,1.16 11.513,1.382C10.884,3.822 9.613,6.05 7.834,7.834C6.556,9.109 5.045,10.128 3.384,10.835C2.734,11.115 2.066,11.34 1.382,11.513C1.158,11.568 1,11.77 1,12.001C1,12.231 1.158,12.433 1.382,12.488C2.066,12.66 2.732,12.885 3.384,13.165C5.045,13.872 6.556,14.891 7.834,16.166C9.614,17.95 10.885,20.178 11.513,22.619C11.568,22.843 11.77,23.001 12.001,23.001C12.231,23.001 12.433,22.843 12.488,22.619C12.66,21.934 12.885,21.268 13.165,20.616C13.872,18.955 14.891,17.444 16.166,16.166C17.95,14.386 20.178,13.116 22.619,12.488C22.841,12.432 22.998,12.23 22.998,12C22.998,11.771 22.841,11.569 22.619,11.513C21.934,11.341 21.265,11.114 20.616,10.835Z"/>',
+      // Video
+      '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="m489-460 91-55 91 55-24-104 80-69-105-9-42-98-42 98-105 9 80 69-24 104Zm19 260h224q-7 26-24 42t-44 20L228-85q-33 5-59.5-15.5T138-154L85-591q-4-33 16-59t53-30l46-6v80l-36 5 54 437 290-36Zm-148-80q-33 0-56.5-23.5T280-360v-440q0-33 23.5-56.5T360-880h440q33 0 56.5 23.5T880-800v440q0 33-23.5 56.5T800-280H360Zm0-80h440v-440H360v440Zm220-220ZM218-164Z"/></svg>',
+      // Other
+      '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h480q33 0 56.5 23.5T720-720v180l126-126q10-10 22-5t12 19v344q0 14-12 19t-22-5L720-420v180q0 33-23.5 56.5T640-160H160Z"/></svg>'
+    ];
+    const bgColors = [
+      'bg-[#34A853]', // Green
+      'bg-[#FBBC04]', // Yellow
+      'bg-[#EA4335]', // Red
+      'bg-[#4285F4]' // Blue
+    ];
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    function createAnimatedIcon() {
+      const size = getRandomInt(40, 60);
+      const iconSize = Math.round(size * 0.5);
+      const iconElement = document.createElement('div');
+      iconElement.className = `animated-icon w-[${size}px] h-[${size}px] text-white`;
+      const containerRect = container.getBoundingClientRect();
+      const randomX = getRandomInt(0, 100);
+      const randomY = getRandomInt(0, 95);
+      iconElement.style.left = `${randomX}%`;
+      iconElement.style.top = `${randomY}%`;
+      const randomSvgPath = svgs[getRandomInt(0, svgs.length - 1)];
+      const randomBgColor = bgColors[getRandomInt(0, bgColors.length - 1)];
+      iconElement.innerHTML = `
+                <div class="w-full h-full rounded-xl flex items-center justify-center shadow-lg ${randomBgColor}">
+                    <svg class="w-[${iconSize}px] h-[${iconSize}px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        ${randomSvgPath}
+                    </svg>
+                </div>
+            `;
+      return iconElement;
+    }
+    function spawnIcon() {
+      const newIcon = createAnimatedIcon();
+      container.appendChild(newIcon);
+      setTimeout(() => {
+        newIcon.remove();
+      }, animationDuration);
+    }
+    let spawner = setInterval(spawnIcon, spawnInterval);
   </script>
 </body>
-
 </html>

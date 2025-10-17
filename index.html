@@ -1077,16 +1077,6 @@
     const VIMEO_ACCESS_TOKEN = "85f387f5940732ea08308ffef87753bf";
     const VIMEO_USER_ID = "238871639";
 
-    function calculateStickyHeaderOffset() {
-      if (!stickyHeader || !scrollableContent) return;
-      setTimeout(() => {
-        const headerHeight = 0;
-        // CORRECTED: Calculate based on stickyHeader height to push scrollable content below the fixed header
-        scrollableContent.style.paddingTop = `${headerHeight + 8}px`;
-        console.log(`Calculated Header Height: ${headerHeight}px. Applied Padding: ${headerHeight + 8}px`);
-      }, 50);
-    }
-
     function createVimeoThumbnailEmbed(embedUrl) {
       if (!embedUrl) return null;
       let finalUrl = embedUrl;
@@ -1160,9 +1150,6 @@
             }
         }
     }
-
-
-    window.addEventListener('resize', calculateStickyHeaderOffset);
 
     async function fetchVideos(page, limit) {
       console.log(`FETCHING directly from Vimeo: page ${page}, limit ${limit}`);
@@ -1711,7 +1698,6 @@
     document.addEventListener('DOMContentLoaded', () => {
       loadMoreVideos();
       startCarousel();
-      calculateStickyHeaderOffset();
       setupScrollButton();
     });
   </script>
@@ -1719,6 +1705,7 @@
 </body>
 
 </html>
+
 
 
 

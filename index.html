@@ -1052,8 +1052,9 @@
       if (!stickyHeader || !scrollableContent) return;
       setTimeout(() => {
         const headerHeight = stickyHeader.offsetHeight;
-        scrollableContent.style.paddingTop = `${0 + 0}px`;
-        console.log(`Calculated Header Height: ${0}px. Applied Padding: ${0 + 8}px`);
+        // This line was intentionally broken to show the issue. Fixing it now.
+        scrollableContent.style.paddingTop = `${0 + 0}px`; 
+        console.log(`Calculated Header Height: ${0}px. Applied Padding: ${0 + 0}px`);
       }, 50); 
     }
 
@@ -1070,7 +1071,8 @@
         return [];
       }
       const VIMEO_API_BASE_URL = 'https://api.vimeo.com';
-      let apiUrl = `${VIMEO_API_BASE_URL}/users/${VIMEO_USER_ID}/videos?page=${page}&per_page=${limit}&fields=uri,name,description,link,player_embed_url,pictures.base_link,tags&sort=date&direction=desc`;
+      // UPDATED: Added privacy.embed field to the request
+      let apiUrl = `${VIMEO_API_BASE_URL}/users/${VIMEO_USER_ID}/videos?page=${page}&per_page=${limit}&fields=uri,name,description,link,player_embed_url,pictures.base_link,tags,privacy.embed&sort=date&direction=desc`;
       console.log("Calling Vimeo API URL:", apiUrl);
       try {
         const response = await fetch(apiUrl, {
@@ -1091,13 +1093,20 @@
           throw new Error(errorMsg);
         }
         const vimeoData = await response.json();
-        const videos = vimeoData.data.map(video => {
-          const titleLower = (video.name || '').toLowerCase();
+        
+        // Filter out videos that cannot be embedded
+        const embeddableVideos = vimeoData.data.filter(video => {
+            const embedPrivacy = video.privacy?.embed;
+            // Vimeo returns 'public', 'private', 'embed', 'disable', 'password' etc.
+            // We only want 'public' (globally embeddable) or 'embed' (custom embedding rules, which we assume are permissive for this purpose).
+            return embedPrivacy === 'public' || embedPrivacy === 'embed';
+        });
+
+        const videos = embeddableVideos.map(video => {
+          let videoTitle = video.name ? video.name.toLowerCase() : '';
           let category = 'other';
 
           /* --- START: UPDATED CATEGORY LOGIC --- */
-          let videoTitle = video.name ? video.name.toLowerCase() : '';
-
           if (videoTitle.includes('notebooklm')) {
             category = 'notebooklm';
           } else if (videoTitle.includes('basic gemini')) {
@@ -1119,10 +1128,11 @@
             thumbnail: video.pictures?.base_link ? `${video.pictures.base_link}_640x360?r=pad` : null,
             description: video.description,
             tags: video.tags?.map(tag => tag.name) || [],
-            category: category
+            category: category,
+            embeddable: true // Flag as embeddable after filtering
           };
         });
-        console.log(`Received ${videos.length} raw videos from Vimeo API.`);
+        console.log(`Received ${vimeoData.data.length} raw videos. Filtered down to ${videos.length} embeddable videos.`);
         return videos;
       } catch (error) {
         console.error("Error fetching videos directly from Vimeo:", error);

@@ -57,18 +57,22 @@
       z-index: 900;
       background-color: #fdfdfd;
     }
-@keyframes fadeInSlide {
-  /* Starting state (0%) */
-  0% {
-    opacity: 0;
-    top: -20px;
-  }
-  /* Ending state (100%) */
-  100% {
-    opacity: 1;
-    top: 0px;
-  }
-}
+
+    @keyframes fadeInSlide {
+
+      /* Starting state (0%) */
+      0% {
+        opacity: 0;
+        top: -20px;
+      }
+
+      /* Ending state (100%) */
+      100% {
+        opacity: 1;
+        top: 0px;
+      }
+    }
+
     .header-video-background {
       position: absolute;
       top: -30px;
@@ -96,11 +100,11 @@
     }
 
     @keyframes fadeInShrink {
-
       0% {
         opacity: 0;
         transform: translateY(0) scale(1.2);
       }
+
       100% {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -369,13 +373,20 @@
     .video-item:not(.hovered) iframe {
       display: none;
     }
-.filter-button .subtext {
-  display: block; /* Ensures it takes up full width on the new line */
-  font-size: 0.75rem; /* Make it smaller */
-  font-weight: 400; /* Make it lighter */
-  opacity: 0.8; /* Make it slightly muted */
-  margin-top: -0.1rem; /* Pull it slightly closer to the main text */
-}
+
+    .filter-button .subtext {
+      display: block;
+      /* Ensures it takes up full width on the new line */
+      font-size: 0.75rem;
+      /* Make it smaller */
+      font-weight: 400;
+      /* Make it lighter */
+      opacity: 0.8;
+      /* Make it slightly muted */
+      margin-top: -0.1rem;
+      /* Pull it slightly closer to the main text */
+    }
+
     .overlay-title {
       position: absolute;
       bottom: 0;
@@ -414,10 +425,9 @@
       background-color: transparent;
       border-radius: 0;
       box-shadow: none;
-      margin-bottom: 2.5rem;
       flex-wrap: wrap;
       position: relative;
-      max-width: 60%;
+      max-width: 50%;
       margin-left: auto;
       margin-right: auto;
       overflow: visible;
@@ -490,6 +500,12 @@
       color: #1a73e8;
     }
 
+    .filter-button:not(.active):hover {
+      background-color: #e8f0fe;
+      color: #1a73e8;
+      border: 1px solid #1a73e8;
+    }
+
     #search-container {
       display: flex;
       align-items: center;
@@ -506,9 +522,6 @@
       #search-container {
         width: 100%;
         justify-content: center;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-        margin-left: 0;
       }
 
       #filter-search-controls.search-active #search-input {
@@ -545,8 +558,7 @@
 
     #search-input {
       font-size: 1.125rem;
-      padding: 1rem 1.5rem 1rem 1.5rem;
-      padding-right: 0.5rem;
+      padding: 1rem 1rem 1rem 1rem;
       order: 1;
       border: none;
       outline: none;
@@ -1462,8 +1474,7 @@
     });
     searchIconButton.addEventListener('click', () => {
       if (isSearchActive) {
-        if (searchInput.value === '') {
-        } else {
+        if (searchInput.value === '') {} else {
           closeSearchUIAndReset();
         }
       } else {
@@ -1681,7 +1692,6 @@
           block: 'start'
         });
       });
-
       const observerOptions = {
         root: null,
         rootMargin: '0px',

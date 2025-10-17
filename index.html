@@ -567,9 +567,6 @@
     }
 
     #filter-search-controls.search-active #filter-buttons {
-      opacity: 0.4;
-      pointer-events: none;
-      /* Disable clicks on filter buttons when search is active */
       transition: opacity 0.15s ease-out;
     }
 
@@ -854,10 +851,47 @@
         /* Added gap to filter buttons for better mobile spacing */
       }
 
+      .filter-button::after {
+        content: attr(data-description);
+        /* Pulls text from the HTML attribute */
+        position: absolute;
+        bottom: 100%;
+        /* Position above the button */
+        left: 50%;
+        transform: translateX(-50%);
+        /* Center the tooltip */
+        z-index: 100;
+        /* Ensure it's on top of everything */
+        /* Styling for the bubble */
+        min-width: 150px;
+        max-width: 250px;
+        padding: 8px 12px;
+        margin-bottom: 10px;
+        /* Space between button and tooltip */
+        background-color: #333;
+        color: white;
+        text-align: center;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        line-height: 1.3;
+        z-index: 800;
+        /* Initially hide the tooltip */
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s, visibility 0.3s;
+      }
+
+      /* Show the tooltip on hover */
+      .filter-button:hover::after {
+        visibility: visible;
+        opacity: 1;
+      }
+
       /* Mobile filter buttons style (to ensure they shrink gracefully) */
       .filter-button {
         padding: 0.8rem 0.8rem;
         font-size: 0.85rem;
+        position: relative;
       }
 
       #search-icon-button svg {
@@ -871,7 +905,7 @@
       }
 
       #filter-search-controls.search-active #search-input {
-        width: calc(100% - 44px);
+        width: 300px;
       }
 
       #hero-image {
@@ -1005,14 +1039,15 @@
     </div>
   </section>
 
-  <div id="filter-search-controls">
+  <div id="filter-search-controls" class="search-active">
     <div id="filter-buttons">
-      <button class="filter-button active" data-filter="all">All Videos</button>
-      <button class="filter-button" data-filter="geminibasic">Basic Gemini</button>
-      <button class="filter-button" data-filter="advgemini">Advanced Gemini</button>
-      <button class="filter-button" data-filter="gemini">Nano Banana</button>
+      <button class="filter-button active" data-filter="all" data-description="View all available video content across all categories.">All Videos</button>
+      <button class="filter-button" data-filter="basic gemini" data-description="See all videos related to basic Gemini features and tutorials.">Basic Gemini</button>
+      <button class="filter-button" data-filter="advanced gemini">Advanced Gemini</button>
+      <button class="filter-button" data-filter="nano banana">Nano Banana</button>
       <button class="filter-button" data-filter="notebooklm">NotebookLM</button>
-      <button class="filter-button" data-filter="veo3">Veo 3</button>
+      <button class="filter-button" data-filter="veo 3">Veo 3</button>
+      <button class="filter-button" data-filter="css">CSS</button>
     </div>
     <div id="search-container">
       <input type="search" id="search-input" placeholder="Search videos...">
@@ -1201,15 +1236,17 @@
           if (videoTitle.includes('notebooklm')) {
             category = 'notebooklm';
           } else if (videoTitle.includes('basic gemini')) {
-            category = 'geminibasic';
+            category = 'basic gemini';
           } else if (videoTitle.includes('advanced gemini') || videoTitle.includes('adv gemini')) {
-            category = 'advgemini';
+            category = 'advanced gemini';
           } else if (videoTitle.includes('nano banana')) {
-            category = 'gemini'; // Set to 'gemini' to match the filter button 'Nano Banana' data-filter
+            category = 'nano banana'; 
           } else if (videoTitle.includes('veo 3') || videoTitle.includes('veo3')) {
-            category = 'veo3';
+            category = 'veo 3';
           } else if (videoTitle.includes('gemini')) {
             category = 'gemini';
+          } else if (videoTitle.includes('css')) {
+            category = 'css';
           }
           /* --- END: UPDATED CATEGORY LOGIC --- */
           return {

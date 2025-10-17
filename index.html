@@ -975,12 +975,29 @@
 
 <body 
 
-  <div id="sticky-header">
-//   /* <img class="header-logo" src="https://cbtraining.github.io/blitz2025/logo2.png" alt="Blitz Logo"> */
-<img class="header-logo" src="logo2.png" alt="Blitz Logo">
-<video class="header-video-background" autoplay loop muted playsinline src="colorgif1c.mp4" onerror="this.style.display='none';"></video>
-//    <video class="header-video-background" autoplay loop muted playsinline src="https://cbtraining.github.io/blitz2025/colorgif1c.mp4" onerror="this.style.display='none';"></video>
-    <div id="icon-container" class="relative w-screen h-[400px] overflow-hidden"> </div>
+<div id="sticky-header">
+  <img
+    class="header-logo"
+    src="https://cbtraining.github.io/blitz2025/logo2.png"
+    alt="Blitz Logo"
+    onerror="this.onerror=null; this.src='logo2.png';"
+  >
+
+  <video
+    class="header-video-background"
+    autoplay
+    loop
+    muted
+    playsinline
+    onerror="this.style.display='none';"
+  >
+    <source src="colorgif1c.mp4" type="video/mp4">
+    <source src="https://cbtraining.github.io/blitz2025/colorgif1c.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div id="icon-container" class="relative w-screen h-[400px] overflow-hidden"> </div>
+</div>
     
 
     <section id="info-section" aria-labelledby="info-heading">
@@ -1765,3 +1782,4 @@
   </script>
 </body>
 </html>
+

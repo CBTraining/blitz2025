@@ -57,22 +57,18 @@
       z-index: 900;
       background-color: #fdfdfd;
     }
-
-    @keyframes fadeInSlide {
-
-      /* Starting state (0%) */
-      0% {
-        opacity: 0;
-        top: -20px;
-      }
-
-      /* Ending state (100%) */
-      100% {
-        opacity: 1;
-        top: 0px;
-      }
-    }
-
+@keyframes fadeInSlide {
+  /* Starting state (0%) */
+  0% {
+    opacity: 0;
+    top: -20px;
+  }
+  /* Ending state (100%) */
+  100% {
+    opacity: 1;
+    top: 0px;
+  }
+}
     .header-video-background {
       position: absolute;
       top: -30px;
@@ -100,11 +96,11 @@
     }
 
     @keyframes fadeInShrink {
+
       0% {
         opacity: 0;
         transform: translateY(0) scale(1.2);
       }
-
       100% {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -371,20 +367,13 @@
     .video-item:not(.hovered) iframe {
       display: none;
     }
-
-    .filter-button .subtext {
-      display: block;
-      /* Ensures it takes up full width on the new line */
-      font-size: 0.75rem;
-      /* Make it smaller */
-      font-weight: 400;
-      /* Make it lighter */
-      opacity: 0.8;
-      /* Make it slightly muted */
-      margin-top: -0.1rem;
-      /* Pull it slightly closer to the main text */
-    }
-
+.filter-button .subtext {
+  display: block; /* Ensures it takes up full width on the new line */
+  font-size: 0.75rem; /* Make it smaller */
+  font-weight: 400; /* Make it lighter */
+  opacity: 0.8; /* Make it slightly muted */
+  margin-top: -0.1rem; /* Pull it slightly closer to the main text */
+}
     .overlay-title {
       position: absolute;
       bottom: 0;
@@ -508,6 +497,7 @@
       position: relative;
       z-index: 5;
       margin-left: 0;
+      text-align: center;
     }
 
     @media (max-width: 768px) {
@@ -1035,9 +1025,9 @@
   <section id="info-section" aria-labelledby="info-heading">
     <div id="info-text-content">
       <h2 id="info-heading">Our team was tasked with showing the power of <span class="highlight-gradient">Google Gemini</span> <br>on Android tablets. Let's see all of the wins our team had out on the field!</h2>
-      <p><strong class="animated-gradient-text">56%</strong> of Best Buy Stores Visited Nationwide</p>
-      <p><strong class="animated-gradient-text">2k+</strong> Best Buy Blue Shirts Trained</p>
-      <p><strong class="animated-gradient-text">152%</strong> Increase in Recommendation Rate</p>
+      <p><strong class="animated-gradient-text"></strong></p>
+      <p><strong class="animated-gradient-text"></strong></p>
+      <p><strong class="animated-gradient-text"></strong></p>
     </div>
   </section>
 
@@ -1052,7 +1042,7 @@
       <button class="filter-button" data-filter="css">CSS<br><span class="subtext">Certifications</span></button></button>
     </div>
     <div id="search-container">
-      <input type="search" id="search-input" placeholder="Search videos...">
+      <input type="search" id="search-input" placeholder="🔍︎  Find a video here!">
       <button id="search-icon-button" title="">
         <svg viewBox="0 0 0 0">
           <path d=""></path>

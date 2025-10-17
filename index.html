@@ -9,7 +9,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
   <style>
     @font-face {
       font-family: 'Google Sans', sans-serif;
@@ -192,7 +195,6 @@
       -webkit-text-fill-color: transparent;
       background-size: 200% auto;
       animation: color-cycle 4s linear infinite;
-
       display: inline-block;
       margin-right: 0.35rem;
       line-height: 1;
@@ -442,7 +444,6 @@
       }
     }
 
-
     .filter-button {
       padding: 0.6rem 1.25rem;
       font-size: 1rem;
@@ -499,7 +500,6 @@
         padding: 1rem 1.5rem 1rem 1.5rem;
       }
     }
-
 
     #search-icon-button {
       order: 2;
@@ -571,7 +571,6 @@
         margin-bottom: 1rem;
       }
     }
-
 
     .hidden {
       display: none !important;
@@ -829,7 +828,6 @@
         font-size: 0.85rem;
       }
 
-
       #search-icon-button svg {
         width: 20px;
         height: 20px;
@@ -951,45 +949,43 @@
   </style>
 </head>
 
-<body 
+<body <div id="sticky-header">
+  <video class="header-video-background" autoplay loop muted playsinline src="colorgif1c.mp4" onerror="this.style.display='none';"></video>
 
-  <div id="sticky-header">
-    <video class="header-video-background" autoplay loop muted playsinline src="colorgif1c.mp4" onerror="this.style.display='none';"></video>
-    
-    <img class="header-logo" src="logo2.png" alt="Blitz Logo">
+  <img class="header-logo" src="logo2.png" alt="Blitz Logo">
 
-    <section id="info-section" aria-labelledby="info-heading">
-      <div id="info-text-content">
-        <h2 id="info-heading"></h2>
-        <p><strong class="animated-gradient-text">56%</strong> of Best Buy Stores Visited Nationwide</p>
-        <p><strong class="animated-gradient-text">2k+</strong> Best Buy Blue Shirts Trained</p>
-        <p><strong class="animated-gradient-text">152%</strong> Increase in Recommendation Rate</p>
-      </div>
-      <div id="image-carousel-container">
-        <img src="gallery1.webp" alt="Gallery image 1" class="carousel-image active" onerror="this.style.display='none'; this.alt='Error loading gallery image 1';">
-        <img src="gallery2.webp" alt="Gallery image 2" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 2';">
-        <img src="gallery3.webp" alt="Gallery image 3" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 3';">
-      </div>
-    </section>
-
-    <div id="filter-search-controls">
-      <div id="filter-buttons">
-        <button class="filter-button active" data-filter="all">All Videos</button>
-        <button class="filter-button" data-filter="geminibasic">Basic Gemini</button>
-        <button class="filter-button" data-filter="advgemini">Advanced Gemini</button>
-        <button class="filter-button" data-filter="gemini">Nano Banana</button>
-        <button class="filter-button" data-filter="notebooklm">NotebookLM</button>
-        <button class="filter-button" data-filter="veo3">Veo 3</button>
-      </div>
-      <div id="search-container">
-        <input type="search" id="search-input" placeholder="Search videos...">
-        <button id="search-icon-button" title="Search">
-          <svg viewBox="0 0 24 24">
-            <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-          </svg>
-        </button>
-      </div>
+  <section id="info-section" aria-labelledby="info-heading">
+    <div id="info-text-content">
+      <h2 id="info-heading"></h2>
+      <p><strong class="animated-gradient-text">56%</strong> of Best Buy Stores Visited Nationwide</p>
+      <p><strong class="animated-gradient-text">2k+</strong> Best Buy Blue Shirts Trained</p>
+      <p><strong class="animated-gradient-text">152%</strong> Increase in Recommendation Rate</p>
     </div>
+    <div id="image-carousel-container">
+      <img src="gallery1.webp" alt="Gallery image 1" class="carousel-image active" onerror="this.style.display='none'; this.alt='Error loading gallery image 1';">
+      <img src="gallery2.webp" alt="Gallery image 2" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 2';">
+      <img src="gallery3.webp" alt="Gallery image 3" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 3';">
+    </div>
+  </section>
+
+  <div id="filter-search-controls">
+    <div id="filter-buttons">
+      <button class="filter-button active" data-filter="all">All Videos</button>
+      <button class="filter-button" data-filter="geminibasic">Basic Gemini</button>
+      <button class="filter-button" data-filter="advgemini">Advanced Gemini</button>
+      <button class="filter-button" data-filter="gemini">Nano Banana</button>
+      <button class="filter-button" data-filter="notebooklm">NotebookLM</button>
+      <button class="filter-button" data-filter="veo3">Veo 3</button>
+    </div>
+    <div id="search-container">
+      <input type="search" id="search-input" placeholder="Search videos...">
+      <button id="search-icon-button" title="Search">
+        <svg viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
   </div>
 
   <main id="scrollable-content">
@@ -1039,7 +1035,6 @@
     const scrollDownButton = document.getElementById('scroll-down-button');
     const stickyHeader = document.getElementById('sticky-header');
     const scrollableContent = document.getElementById('scrollable-content');
-
     let currentPage = 1;
     let isLoading = false;
     const videosPerPage = 12;
@@ -1080,7 +1075,6 @@
         finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1&muted=1&loop=1&background=1';
         finalUrl = finalUrl.replace(/&$/, '').replace('?&', '?');
       }
-
       const iframe = document.createElement('iframe');
       iframe.setAttribute('src', finalUrl);
       iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
@@ -1093,48 +1087,41 @@
       iframe.style.height = '100%';
       iframe.style.opacity = '0'; // Start invisible
       iframe.style.transition = 'opacity 0.3s ease-in-out';
-
       // Fade in after a small delay to avoid flicker
       setTimeout(() => {
         iframe.style.opacity = '1';
       }, 50);
-
       return iframe;
     }
 
     function isTouchDevice() {
-        return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+      return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
     }
-    
     // RE-ENABLED HOVER LOGIC FOR ALL DEVICES (since user wants the preview)
     function handleVideoItemHover(event) {
-        const videoItem = event.currentTarget;
-        const indexInDisplayed = parseInt(videoItem.dataset.index);
-        const videoData = displayedVideos[indexInDisplayed];
-        const thumbnailContainer = videoItem.querySelector('.thumbnail-container');
-
-        if (!videoData || !thumbnailContainer || !videoData.embedUrl) return;
-
-        if (event.type === 'mouseenter') {
-            videoItem.classList.add('hovered');
-            thumbnailContainer.querySelector('iframe')?.remove();
-
-            const iframe = createVimeoThumbnailEmbed(videoData.embedUrl);
-            if (iframe) {
-                thumbnailContainer.appendChild(iframe);
-            }
-        } else if (event.type === 'mouseleave') {
-            videoItem.classList.remove('hovered');
-            const iframe = thumbnailContainer.querySelector('iframe');
-            if (iframe) {
-                iframe.style.opacity = '0';
-                setTimeout(() => {
-                    iframe.remove();
-                }, 300);
-            }
+      const videoItem = event.currentTarget;
+      const indexInDisplayed = parseInt(videoItem.dataset.index);
+      const videoData = displayedVideos[indexInDisplayed];
+      const thumbnailContainer = videoItem.querySelector('.thumbnail-container');
+      if (!videoData || !thumbnailContainer || !videoData.embedUrl) return;
+      if (event.type === 'mouseenter') {
+        videoItem.classList.add('hovered');
+        thumbnailContainer.querySelector('iframe')?.remove();
+        const iframe = createVimeoThumbnailEmbed(videoData.embedUrl);
+        if (iframe) {
+          thumbnailContainer.appendChild(iframe);
         }
+      } else if (event.type === 'mouseleave') {
+        videoItem.classList.remove('hovered');
+        const iframe = thumbnailContainer.querySelector('iframe');
+        if (iframe) {
+          iframe.style.opacity = '0';
+          setTimeout(() => {
+            iframe.remove();
+          }, 300);
+        }
+      }
     }
-
     async function fetchVideos(page, limit) {
       console.log(`FETCHING directly from Vimeo: page ${page}, limit ${limit}`);
       if (!VIMEO_ACCESS_TOKEN || VIMEO_ACCESS_TOKEN === "YOUR_VIMEO_API_TOKEN_HERE" || !VIMEO_USER_ID || VIMEO_USER_ID === "YOUR_VIMEO_USER_ID_HERE") {
@@ -1168,18 +1155,15 @@
           throw new Error(errorMsg);
         }
         const vimeoData = await response.json();
-
         // Filter out videos that cannot be embedded
         const embeddableVideos = vimeoData.data.filter(video => {
           const embedPrivacy = video.privacy?.embed;
           // We only want 'public' (globally embeddable) or 'embed' (custom embedding rules, which we assume are permissive for this purpose).
           return embedPrivacy === 'public' || embedPrivacy === 'embed';
         });
-
         const videos = embeddableVideos.map(video => {
           let videoTitle = video.name ? video.name.toLowerCase() : '';
           let category = 'other';
-
           /* --- START: UPDATED CATEGORY LOGIC --- */
           if (videoTitle.includes('notebooklm')) {
             category = 'notebooklm';
@@ -1195,7 +1179,6 @@
             category = 'gemini';
           }
           /* --- END: UPDATED CATEGORY LOGIC --- */
-
           return {
             title: video.name || 'Untitled Video',
             embedUrl: video.player_embed_url || video.link,
@@ -1217,6 +1200,7 @@
         return [];
       }
     }
+
     function createVideoElement(video, indexInDisplayed) {
       const div = document.createElement('div');
       div.className = 'video-item';
@@ -1227,7 +1211,6 @@
       const placeholderErrorUrl = `https://placehold.co/640x360/cccccc/ffffff?text=Error+Loading`;
       const thumbnailUrl = video.thumbnail || placeholderErrorUrl;
       const title = video.title || 'Video Title';
-
       div.innerHTML = `
                 <div class="thumbnail-container">
                     <div class="video-placeholder">
@@ -1236,28 +1219,26 @@
                     <h3 class="overlay-title" title="${title}">${title}</h3>
                 </div>
             `;
-
       // Simplified: Click listener attached directly to the video-item
       div.addEventListener('click', () => {
-          // 1. Force cleanup of the hover state iframe if it exists (resolves desktop click conflict)
-          const iframe = div.querySelector('iframe');
-          if (iframe) {
-              iframe.remove();
-              div.classList.remove('hovered');
-          }
-          // 2. Open the modal
-          openModal(indexInDisplayed);
+        // 1. Force cleanup of the hover state iframe if it exists (resolves desktop click conflict)
+        const iframe = div.querySelector('iframe');
+        if (iframe) {
+          iframe.remove();
+          div.classList.remove('hovered');
+        }
+        // 2. Open the modal
+        openModal(indexInDisplayed);
       });
-
       // RE-ATTACH HOVER LISTENERS FOR PREVIEW
       div.addEventListener('mouseenter', handleVideoItemHover);
       div.addEventListener('mouseleave', handleVideoItemHover);
-
       requestAnimationFrame(() => {
         div.classList.add('visible');
       });
       return div;
     }
+
     function showEndOfContent(isFilterOrSearch = false) {
       loadingIndicator.style.display = 'none';
       const hasVisibleItems = displayedVideos.length > 0;
@@ -1279,6 +1260,7 @@
         endOfContentMessage.style.display = 'none';
       }
     }
+
     function checkAndLoadIfContentNotFillingViewport() {
       setTimeout(() => {
         if (!isLoading && !allVideosLoaded && videoModal.classList.contains('modal-visible') === false) {
@@ -1291,6 +1273,7 @@
         }
       }, 300);
     }
+
     function filterVideos(videosToFilter) {
       const lowerSearchTerm = currentSearchTerm.toLowerCase();
       return videosToFilter.filter(video => {
@@ -1357,6 +1340,7 @@
         }
       }
     }
+
     function resetAndLoad() {
       console.log(`Resetting grid. Filter: ${currentFilter}, Search: ${currentSearchTerm}`);
       videoGrid.classList.add('grid-loading');
@@ -1376,6 +1360,7 @@
         loadMoreVideos();
       }, 300);
     }
+
     function closeSearchUI() {
       if (!isSearchActive) return;
       isSearchActive = false;
@@ -1383,6 +1368,7 @@
       filterButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === currentFilter));
       console.log("Search UI closed visually.");
     }
+
     function closeSearchUIAndReset() {
       const wasSearching = currentSearchTerm !== '';
       closeSearchUI();
@@ -1454,6 +1440,7 @@
         closeSearchUIAndReset();
       }
     });
+
     function openModal(indexInDisplayed) {
       if (typeof indexInDisplayed !== 'number' || indexInDisplayed < 0 || indexInDisplayed >= displayedVideos.length) {
         console.error("Invalid index for openModal:", indexInDisplayed);
@@ -1480,11 +1467,11 @@
       });
       videoModal.addEventListener('touchend', handleTouchEnd);
     }
+
     function closeModal() {
       // Start fade out transition
       videoModal.classList.remove('modal-visible');
       document.body.classList.remove('modal-open');
-
       // Wait for the transition to finish before hiding
       setTimeout(() => {
         videoModal.style.display = 'none';
@@ -1493,7 +1480,6 @@
           modalVideoTitleElement.textContent = '';
         }
       }, 300); // Must match CSS transition duration
-
       currentVideoIndex = -1;
       if (document.fullscreenElement) {
         document.exitFullscreen().catch(err => console.error("Error exiting fullscreen:", err));
@@ -1504,6 +1490,7 @@
       videoModal.removeEventListener('touchend', handleTouchEnd);
       checkAndLoadIfContentNotFillingViewport();
     }
+
     function showVideoInModal(embedUrl, indexInDisplayed, title = 'Video') {
       if (typeof indexInDisplayed !== 'number' || indexInDisplayed < 0 || indexInDisplayed >= displayedVideos.length) return;
       currentVideoIndex = indexInDisplayed;
@@ -1530,6 +1517,7 @@
       videoPlayerIframe.src = finalUrl;
       updateModalNavButtons();
     }
+
     function updateModalNavButtons() {
       if (displayedVideos.length === 0) {
         prevVideoButton.disabled = true;
@@ -1539,6 +1527,7 @@
       prevVideoButton.disabled = currentVideoIndex <= 0;
       nextVideoButton.disabled = currentVideoIndex >= displayedVideos.length - 1;
     }
+
     function showNextVideo() {
       if (!nextVideoButton.disabled && currentVideoIndex < displayedVideos.length - 1) {
         const nextIndex = currentVideoIndex + 1;
@@ -1550,6 +1539,7 @@
         }
       }
     }
+
     function showPreviousVideo() {
       if (!prevVideoButton.disabled && currentVideoIndex > 0) {
         const prevIndex = currentVideoIndex - 1;
@@ -1561,6 +1551,7 @@
         }
       }
     }
+
     function handleKeyboardNav(event) {
       if (videoModal.classList.contains('modal-visible') === false) return;
       if (event.key === 'ArrowRight') {
@@ -1574,6 +1565,7 @@
         closeModal();
       }
     }
+
     function handleTouchStart(event) {
       const firstTouch = event.touches[0];
       touchStartX = firstTouch.clientX;
@@ -1581,6 +1573,7 @@
       touchEndX = touchStartX;
       touchEndY = touchStartY;
     }
+
     function handleTouchMove(event) {
       if (event.touches.length === 1) {
         const firstTouch = event.touches[0];
@@ -1595,6 +1588,7 @@
         }
       }
     }
+
     function handleTouchEnd(event) {
       if (touchStartX === 0 || touchEndX === 0) return;
       let deltaX = touchEndX - touchStartX;
@@ -1611,6 +1605,7 @@
       touchEndX = 0;
       touchEndY = 0;
     }
+
     function handleScroll() {
       if (videoModal.classList.contains('modal-visible') || isLoading || allVideosLoaded) return;
       const scrollCheckHeight = document.documentElement.scrollHeight;
@@ -1619,6 +1614,7 @@
         loadMoreVideos();
       }
     }
+
     function startCarousel() {
       if (!carouselContainer || carouselImages.length === 0) return;
       stopCarousel();
@@ -1629,9 +1625,11 @@
       }, 4000);
       console.log("Carousel started.");
     }
+
     function stopCarousel() {
       clearInterval(carouselInterval);
     }
+
     function setupScrollButton() {
       if (!scrollDownButton || !filterSearchControls) return;
       scrollDownButton.addEventListener('click', () => {
@@ -1685,5 +1683,5 @@
     });
   </script>
 </body>
-</html>
 
+</html>

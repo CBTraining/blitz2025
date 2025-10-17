@@ -265,7 +265,7 @@
       transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
       opacity: 0;
       transform: translateY(10px);
-      max-width: 80vw;
+      max-width: 40vw;
       cursor: pointer;
       position: relative;
       overflow: hidden;
@@ -294,14 +294,16 @@
     }
 
     #video-grid {
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 320px));
       gap: 2rem;
       transition: opacity 0.3s ease-in-out;
       padding: 2rem;
+      align-items: center;
+      display: grid;
+      align-items: center;
     }
 
     #scrollable-content {
-      /* This padding is set by JavaScript to match the height of the fixed header */
       padding: 0;
       margin-top: 0;
     }

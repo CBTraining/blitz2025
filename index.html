@@ -27,11 +27,13 @@
 
     /* New FIXED container for all top elements */
     #sticky-header {
-      position: fixed; /* CORRECTED: Setting back to fixed to ensure it stays on top of the viewport */
+      position: fixed;
+      /* CORRECTED: Setting back to fixed to ensure it stays on top of the viewport */
       top: 0;
       left: 0;
       width: 100%;
-      z-index: 900; /* High Z-index to be on top of scrollable content */
+      z-index: 900;
+      /* High Z-index to be on top of scrollable content */
       background-color: #ffffff;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       /* Add general page padding around the fixed content */
@@ -45,13 +47,17 @@
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -2; /* Ensure it's behind all other header content */
+      z-index: -2;
+      /* Ensure it's behind all other header content */
       /* --- GIF BACKGROUND --- */
-      background-image: url('colorgif1a.gif'); /* Your GIF file */
+      background-image: url('colorgif1a.gif');
+      /* Your GIF file */
       background-repeat: no-repeat;
-      background-size: cover; /* Cover the entire header area */
+      background-size: cover;
+      /* Cover the entire header area */
       background-position: center center;
-      opacity: 0.9; /* Slightly transparent to allow content to show */
+      opacity: 0.9;
+      /* Slightly transparent to allow content to show */
     }
 
     .header-logo {
@@ -61,7 +67,8 @@
       /* REDUCED VERTICAL SPACE */
       padding-top: 1.8rem;
       padding-bottom: 1.5rem;
-      z-index: 901; /* Ensure logo is on top of the GIF and white background */
+      z-index: 901;
+      /* Ensure logo is on top of the GIF and white background */
       transform: translateY(0);
     }
 
@@ -157,7 +164,8 @@
       animation: fadeInUp 0.6s ease-out 0.3s forwards;
       margin: 0 1rem 1.5rem 1rem;
       position: relative;
-      z-index: 901; /* Ensure this is also above the GIF */
+      z-index: 901;
+      /* Ensure this is also above the GIF */
     }
 
     @media (min-width: 768px) {
@@ -300,7 +308,7 @@
     .thumbnail-container {
       display: block;
       aspect-ratio: 14 / 10;
-      background-color: #000000;
+      background-color: #e5e7eb;
       overflow: hidden;
       position: relative;
       border-top-left-radius: 0.5rem;
@@ -340,6 +348,8 @@
       display: block;
       /* Ensure the iframe is visible and on top of the fading placeholder */
       z-index: 2;
+      /* ADDED: Allow mouse events to pass through the iframe to the parent div */
+      pointer-events: none;
     }
 
     .video-item:not(.hovered) iframe {
@@ -641,10 +651,10 @@
       visibility: hidden;
       transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
     }
-    
+
     #video-modal.modal-visible {
-        opacity: 1;
-        visibility: visible;
+      opacity: 1;
+      visibility: visible;
     }
 
     #modal-content {
@@ -1092,9 +1102,9 @@
       setTimeout(() => {
         const headerHeight = stickyHeader.offsetHeight;
         // CORRECTED: Calculate based on stickyHeader height to push scrollable content below the fixed header
-        scrollableContent.style.paddingTop = `${headerHeight + 8}px`; 
+        scrollableContent.style.paddingTop = `${headerHeight + 8}px`;
         console.log(`Calculated Header Height: ${headerHeight}px. Applied Padding: ${headerHeight + 8}px`);
-      }, 50); 
+      }, 50);
     }
 
     function createVimeoThumbnailEmbed(embedUrl) {
@@ -1116,7 +1126,7 @@
         finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1&muted=1&loop=1&background=1';
         finalUrl = finalUrl.replace(/&$/, '').replace('?&', '?');
       }
-      
+
       const iframe = document.createElement('iframe');
       iframe.setAttribute('src', finalUrl);
       iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
@@ -1129,46 +1139,44 @@
       iframe.style.height = '100%';
       iframe.style.opacity = '0'; // Start invisible
       iframe.style.transition = 'opacity 0.3s ease-in-out';
-      
+
       // Fade in after a small delay to avoid flicker
       setTimeout(() => {
-          iframe.style.opacity = '1';
+        iframe.style.opacity = '1';
       }, 50);
 
       return iframe;
     }
 
+    function isTouchDevice() {
+        return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+    }
+    
+    // RE-ENABLED HOVER LOGIC FOR ALL DEVICES (since user wants the preview)
     function handleVideoItemHover(event) {
         const videoItem = event.currentTarget;
         const indexInDisplayed = parseInt(videoItem.dataset.index);
         const videoData = displayedVideos[indexInDisplayed];
         const thumbnailContainer = videoItem.querySelector('.thumbnail-container');
-        const videoPlaceholder = thumbnailContainer.querySelector('.video-placeholder');
-        
-        // Note: The previous logic attempted to use videoPlaceholder, but the new structure requires the iframe 
-        // to be a direct child of thumbnailContainer for correct z-indexing and covering the full area.
 
         if (!videoData || !thumbnailContainer || !videoData.embedUrl) return;
 
         if (event.type === 'mouseenter') {
             videoItem.classList.add('hovered');
-            // Remove any existing iframe just in case (shouldn't happen, but safe practice)
             thumbnailContainer.querySelector('iframe')?.remove();
-            
+
             const iframe = createVimeoThumbnailEmbed(videoData.embedUrl);
             if (iframe) {
-                // Correctly append the iframe as a direct child of the thumbnailContainer, resolving the NotFoundError.
                 thumbnailContainer.appendChild(iframe);
             }
         } else if (event.type === 'mouseleave') {
-            // Remove the iframe and hide the hovered class
             videoItem.classList.remove('hovered');
             const iframe = thumbnailContainer.querySelector('iframe');
             if (iframe) {
                 iframe.style.opacity = '0';
                 setTimeout(() => {
                     iframe.remove();
-                }, 300); // Match CSS transition
+                }, 300);
             }
         }
     }
@@ -1209,12 +1217,12 @@
           throw new Error(errorMsg);
         }
         const vimeoData = await response.json();
-        
+
         // Filter out videos that cannot be embedded
         const embeddableVideos = vimeoData.data.filter(video => {
-            const embedPrivacy = video.privacy?.embed;
-            // We only want 'public' (globally embeddable) or 'embed' (custom embedding rules, which we assume are permissive for this purpose).
-            return embedPrivacy === 'public' || embedPrivacy === 'embed';
+          const embedPrivacy = video.privacy?.embed;
+          // We only want 'public' (globally embeddable) or 'embed' (custom embedding rules, which we assume are permissive for this purpose).
+          return embedPrivacy === 'public' || embedPrivacy === 'embed';
         });
 
         const videos = embeddableVideos.map(video => {
@@ -1268,7 +1276,7 @@
       const placeholderErrorUrl = `https://placehold.co/640x360/cccccc/ffffff?text=Error+Loading`;
       const thumbnailUrl = video.thumbnail || placeholderErrorUrl;
       const title = video.title || 'Video Title';
-      
+
       // UPDATED HTML STRUCTURE FOR HOVER AUTOPLAY
       div.innerHTML = `
                 <div class="thumbnail-container">
@@ -1278,9 +1286,20 @@
                     <h3 class="overlay-title" title="${title}">${title}</h3>
                 </div>
             `;
-      div.addEventListener('click', () => openModal(indexInDisplayed));
-      
-      // ADD HOVER LISTENERS
+
+      // Simplified: Click listener attached directly to the video-item
+      div.addEventListener('click', () => {
+          // 1. Force cleanup of the hover state iframe if it exists (resolves desktop click conflict)
+          const iframe = div.querySelector('iframe');
+          if (iframe) {
+              iframe.remove();
+              div.classList.remove('hovered');
+          }
+          // 2. Open the modal
+          openModal(indexInDisplayed);
+      });
+
+      // RE-ATTACH HOVER LISTENERS FOR PREVIEW
       div.addEventListener('mouseenter', handleVideoItemHover);
       div.addEventListener('mouseleave', handleVideoItemHover);
 

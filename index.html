@@ -1080,7 +1080,7 @@
     function calculateStickyHeaderOffset() {
       if (!stickyHeader || !scrollableContent) return;
       setTimeout(() => {
-        const headerHeight = stickyHeader.offsetHeight;
+        const headerHeight = 0;
         // CORRECTED: Calculate based on stickyHeader height to push scrollable content below the fixed header
         scrollableContent.style.paddingTop = `${headerHeight + 8}px`;
         console.log(`Calculated Header Height: ${headerHeight}px. Applied Padding: ${headerHeight + 8}px`);
@@ -1719,6 +1719,7 @@
 </body>
 
 </html>
+
 
 
 

@@ -211,15 +211,16 @@
     }
 
     #info-text-content {
-      flex: 1 1 60%;
+      flex: 1 1 80%;
       color: #3C4043;
+      text-align: center;
     }
 
     #info-text-content h2 {
       font-size: 1.875rem;
       font-weight: 600;
       margin-bottom: 1.25rem;
-      line-height: 1.3;
+      line-height: 1.2;
     }
 
     #info-text-content p {
@@ -227,6 +228,22 @@
       font-size: 1rem;
       line-height: 1.5;
       margin-bottom: 0.5rem;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    #info-text-content p:nth-child(2) {
+      animation-delay: 0.8s;
+    }
+
+    /* Second stat (2k+) starts 0.3s after the first */
+    #info-text-content p:nth-child(3) {
+      animation-delay: 1.1s;
+    }
+
+    /* Third stat (152%) starts 0.3s after the second */
+    #info-text-content p:nth-child(4) {
+      animation-delay: 1.4s;
     }
 
     /* STATS GRADIENT: Targeted the strong tags within the info section for the animation */
@@ -631,6 +648,22 @@
       display: none;
     }
 
+    .highlight-gradient {
+      /* Set the initial background gradient using your colors */
+      background: linear-gradient(to right, #327efb, #356df2, #327efb);
+      /* Clip the gradient to the text boundaries */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      /* Double the size of the background gradient for smooth movement */
+      background-size: 200% auto;
+      /* Apply the looping keyframe animation */
+      animation: color-cycle 4s linear infinite;
+      /* Ensure the element behaves correctly with inline text */
+      display: inline;
+      font-weight: 700;
+      /* Optional: Make the text bold */
+    }
+
     #video-modal {
       position: fixed;
       top: 0;
@@ -1006,17 +1039,18 @@
 
   <section id="info-section" aria-labelledby="info-heading">
     <div id="info-text-content">
-      <h2 id="info-heading"></h2>
+      <h2 id="info-heading">Our team was tasked with showing the power of <span class="highlight-gradient">Google Gemini</span> on Android tablets. Let's see all of the wins our team had out on the field!</h2>
       <p><strong class="animated-gradient-text">56%</strong> of Best Buy Stores Visited Nationwide</p>
       <p><strong class="animated-gradient-text">2k+</strong> Best Buy Blue Shirts Trained</p>
       <p><strong class="animated-gradient-text">152%</strong> Increase in Recommendation Rate</p>
     </div>
-    <div id="image-carousel-container">
-      <img src="gallery1.webp" alt="Gallery image 1" class="carousel-image active" onerror="this.style.display='none'; this.alt='Error loading gallery image 1';">
-      <img src="gallery2.webp" alt="Gallery image 2" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 2';">
-      <img src="gallery3.webp" alt="Gallery image 3" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 3';">
-    </div>
   </section>
+
+  <div id="image-carousel-container">
+    <img src="gallery1.webp" alt="Gallery image 1" class="carousel-image active" onerror="this.style.display='none'; this.alt='Error loading gallery image 1';">
+    <img src="gallery2.webp" alt="Gallery image 2" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 2';">
+    <img src="gallery3.webp" alt="Gallery image 3" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 3';">
+  </div>
 
   <div id="filter-search-controls">
     <div id="filter-buttons">

@@ -25,33 +25,26 @@
       text-align: center;
     }
 
-    /* New FIXED container for all top elements */
     #sticky-header {
       position: fixed;
-      /* CORRECTED: Setting back to fixed to ensure it stays on top of the viewport */
       top: 0;
       left: 0;
       width: 100%;
       z-index: 900;
-      /* High Z-index to be on top of scrollable content */
       background-color: #fdfdfd;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      /* Add general page padding around the fixed content */
       padding: 1rem 0 0 0;
     }
 
-    /* New CSS for Video Background */
     .header-video-background {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
+      width: 90%;
       height: 60%;
       z-index: -2;
-      /* Ensure it's behind all other header content */
       object-fit: cover;
       opacity: 0.8;
-      /* Slightly transparent to allow content to show */
       display: block;
     }
 
@@ -144,7 +137,7 @@
     }
 
     #info-section {
-      background-color: #ffffff;
+      background-color: #fdfdfd;
       border-radius: 1.25rem;
       padding: 1rem;
       margin-bottom: 1.5rem;
@@ -1736,6 +1729,7 @@
 </body>
 
 </html>
+
 
 
 

@@ -27,7 +27,7 @@
 
     /* New FIXED container for all top elements */
     #sticky-header {
-      position: static; /* Set back to fixed */
+      position: fixed; /* CORRECTED: Setting back to fixed to ensure it stays on top of the viewport */
       top: 0;
       left: 0;
       width: 100%;
@@ -300,7 +300,7 @@
     .thumbnail-container {
       display: block;
       aspect-ratio: 14 / 10;
-      background-color: #e5e7eb;
+      background-color: #000000;
       overflow: hidden;
       position: relative;
       border-top-left-radius: 0.5rem;
@@ -1090,7 +1090,7 @@
     function calculateStickyHeaderOffset() {
       if (!stickyHeader || !scrollableContent) return;
       setTimeout(() => {
-        const headerHeight = 0;
+        const headerHeight = stickyHeader.offsetHeight;
         // CORRECTED: Calculate based on stickyHeader height to push scrollable content below the fixed header
         scrollableContent.style.paddingTop = `${headerHeight + 8}px`; 
         console.log(`Calculated Header Height: ${headerHeight}px. Applied Padding: ${headerHeight + 8}px`);

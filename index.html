@@ -193,8 +193,7 @@
       margin-right: auto;
       display: flex;
       flex-direction: column;
-      flex-basis: 50%
-      gap: 1.5rem;
+      flex-basis: 50% gap: 1.5rem;
       opacity: 0;
       animation: fadeInUp 0.6s ease-out 0.3s forwards;
       margin: 0 1rem 1.5rem 1rem;
@@ -205,8 +204,7 @@
     @media (min-width: 768px) {
       #info-section {
         flex-direction: row;
-        flex-basis: 50%
-        align-items: center;
+        flex-basis: 50% align-items: center;
         padding: 1.5rem;
         margin: 0 auto 1.5rem auto;
       }
@@ -260,42 +258,6 @@
       margin-right: 0.35rem;
       line-height: 1;
       vertical-align: baseline;
-    }
-
-    #image-carousel-container {
-      flex: 1 1 40%;
-      max-width: 300px;
-      aspect-ratio: 1 / 1;
-      overflow: hidden;
-      position: relative;
-      border-radius: 0.75rem;
-      margin: auto;
-      z-index: 901;
-      visibility: hidden;
-    }
-
-    @media (min-width: 768px) {
-      #image-carousel-container {
-        margin: 0;
-        max-width: 320px;
-        visibility: hidden;
-      }
-    }
-
-    .carousel-image {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-      border-radius: 0.75rem;
-    }
-
-    .carousel-image.active {
-      opacity: 1;
     }
 
     .video-item {
@@ -934,10 +896,6 @@
         font-size: 1.875rem;
       }
 
-      #image-carousel-container {
-        max-width: 250px;
-      }
-
       body {
         padding-top: 0px;
       }
@@ -1047,12 +1005,6 @@
     </div>
   </section>
 
-  <div id="image-carousel-container">
-    <img src="gallery1.webp" alt="Gallery image 1" class="carousel-image active" onerror="this.style.display='none'; this.alt='Error loading gallery image 1';">
-    <img src="gallery2.webp" alt="Gallery image 2" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 2';">
-    <img src="gallery3.webp" alt="Gallery image 3" class="carousel-image" onerror="this.style.display='none'; this.alt='Error loading gallery image 3';">
-  </div>
-
   <div id="filter-search-controls">
     <div id="filter-buttons">
       <button class="filter-button active" data-filter="all">All Videos</button>
@@ -1114,8 +1066,6 @@
     const searchContainer = document.getElementById('search-container');
     const searchIconButton = document.getElementById('search-icon-button');
     const searchInput = document.getElementById('search-input');
-    const carouselContainer = document.getElementById('image-carousel-container');
-    const carouselImages = carouselContainer ? carouselContainer.querySelectorAll('.carousel-image') : [];
     const modalVideoTitleElement = document.getElementById('modal-video-title');
     const scrollDownButton = document.getElementById('scroll-down-button');
     const stickyHeader = document.getElementById('sticky-header');
@@ -1130,8 +1080,6 @@
     let currentFilter = 'all';
     let currentSearchTerm = '';
     let isSearchActive = false;
-    let currentCarouselIndex = 0;
-    let carouselInterval;
     let activeDropdown = null;
     let touchStartX = 0,
       touchStartY = 0,
@@ -1700,21 +1648,6 @@
       }
     }
 
-    function startCarousel() {
-      if (!carouselContainer || carouselImages.length === 0) return;
-      stopCarousel();
-      carouselInterval = setInterval(() => {
-        carouselImages[currentCarouselIndex].classList.remove('active');
-        currentCarouselIndex = (currentCarouselIndex + 1) % carouselImages.length;
-        carouselImages[currentCarouselIndex].classList.add('active');
-      }, 4000);
-      console.log("Carousel started.");
-    }
-
-    function stopCarousel() {
-      clearInterval(carouselInterval);
-    }
-
     function setupScrollButton() {
       if (!scrollDownButton || !filterSearchControls) return;
       scrollDownButton.addEventListener('click', () => {
@@ -1763,7 +1696,6 @@
     });
     document.addEventListener('DOMContentLoaded', () => {
       loadMoreVideos();
-      startCarousel();
       setupScrollButton();
     });
     const container = document.getElementById('icon-container');

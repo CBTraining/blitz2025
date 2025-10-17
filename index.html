@@ -57,18 +57,22 @@
       z-index: 900;
       background-color: #fdfdfd;
     }
-@keyframes fadeInSlide {
-  /* Starting state (0%) */
-  0% {
-    opacity: 0;
-    top: -20px;
-  }
-  /* Ending state (100%) */
-  100% {
-    opacity: 1;
-    top: 0px;
-  }
-}
+
+    @keyframes fadeInSlide {
+
+      /* Starting state (0%) */
+      0% {
+        opacity: 0;
+        top: -20px;
+      }
+
+      /* Ending state (100%) */
+      100% {
+        opacity: 1;
+        top: 0px;
+      }
+    }
+
     .header-video-background {
       position: absolute;
       top: -30px;
@@ -96,11 +100,11 @@
     }
 
     @keyframes fadeInShrink {
-
       0% {
         opacity: 0;
         transform: translateY(0) scale(1.2);
       }
+
       100% {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -367,13 +371,20 @@
     .video-item:not(.hovered) iframe {
       display: none;
     }
-.filter-button .subtext {
-  display: block; /* Ensures it takes up full width on the new line */
-  font-size: 0.75rem; /* Make it smaller */
-  font-weight: 400; /* Make it lighter */
-  opacity: 0.8; /* Make it slightly muted */
-  margin-top: -0.1rem; /* Pull it slightly closer to the main text */
-}
+
+    .filter-button .subtext {
+      display: block;
+      /* Ensures it takes up full width on the new line */
+      font-size: 0.75rem;
+      /* Make it smaller */
+      font-weight: 400;
+      /* Make it lighter */
+      opacity: 0.8;
+      /* Make it slightly muted */
+      margin-top: -0.1rem;
+      /* Pull it slightly closer to the main text */
+    }
+
     .overlay-title {
       position: absolute;
       bottom: 0;

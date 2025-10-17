@@ -234,6 +234,7 @@
 
     .video-item {
       transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+      transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
       opacity: 0;
       transform: translateY(10px);
       max-width: 80vw;
@@ -252,7 +253,7 @@
 
     .video-item:hover {
       box-shadow: 0 0 0 6px #4285F4, 0 8px 10px -4px rgba(0, 0, 0, 0.15);
-      transform: translateY(-2px);
+      transform: translateY(-4px);
     }
 
     #loading-indicator {
@@ -290,7 +291,7 @@
 
     .thumbnail-container {
       display: block;
-      aspect-ratio: 14 / 10;
+      aspect-ratio: 14 / 12;
       background-color: #000000;
       overflow: hidden;
       position: relative;
@@ -351,7 +352,7 @@
       opacity: 1;
       transition: opacity 0.3s ease-in-out;
       pointer-events: none;
-      font-size: 0.95rem;
+      font-size: 1rem;
       line-height: 1.35;
       font-weight: 400;
       white-space: normal;
@@ -428,57 +429,44 @@
 
     @media (min-width: 768px) {
       #filter-buttons {
-        /* Add some spacing on desktop to visually separate the filter buttons from the search bar */
         margin-right: 1.5rem;
       }
     }
 
     @media (max-width: 768px) {
       #filter-buttons {
-        /* Force buttons to take full width and wrap */
         width: 80%;
         margin-bottom: 1rem;
         padding-right: 0;
-        /* No need for padding when search is below */
       }
     }
 
 
     .filter-button {
-      /* New Blue Rectangle Styling */
       padding: 0.6rem 1.25rem;
       font-size: 1rem;
       border: 1px solid #1a73e8;
-      /* Blue border */
       background-color: transparent;
       color: #1a73e8;
-      /* Blue text */
       border-radius: 0.5rem;
-      /* Rounded rectangle */
       cursor: pointer;
       font-weight: 500;
       transition: all 0.3s ease-in-out;
-      /* General transition for smooth effect */
       white-space: nowrap;
       text-align: center;
       flex-shrink: 1;
-      /* Allow shrinking */
-      /* REMOVED: min-width: 90px; */
       font-family: 'Google Sans', sans-serif;
     }
 
     .filter-button.active {
       background-color: #1a73e8;
-      /* Solid blue background when active */
       color: white;
-      /* White text when active */
       font-weight: 600;
       box-shadow: 0 2px 4px rgba(26, 115, 232, 0.4);
     }
 
     #filter-search-controls:not(.search-active) .filter-button:not(.active):hover {
       background-color: #e8f0fe;
-      /* Light blue background on hover */
       color: #1a73e8;
     }
 
@@ -503,7 +491,6 @@
       }
 
       #filter-search-controls.search-active #search-input {
-        /* Adjust width for mobile when active */
         width: 90vw !important;
         max-width: 300px;
         margin-top: 1rem;
@@ -524,7 +511,6 @@
       justify-content: center;
       border-radius: 50%;
       transition: background-color 0.2s ease-in-out;
-      /* Ensures icon is clickable */
       z-index: 6;
       flex-shrink: 0;
     }
@@ -541,7 +527,6 @@
 
     #search-input {
       font-size: 1.125rem;
-      /* ADDED TOP PADDING FOR VISUAL SEPARATION WHEN EXPANDED */
       padding: 1rem 1.5rem 1rem 1.5rem;
       padding-right: 0.5rem;
       order: 1;
@@ -552,7 +537,6 @@
       width: 0;
       opacity: 0;
       transition: width 0.3s ease-in-out, opacity 0.2s ease-in-out, background-color 0.3s ease-in-out;
-      /* Needs lower z-index than button, but high enough to show over other elements when active */
       z-index: 4;
       font-weight: 400;
       color: #3C4043;
@@ -1243,7 +1227,6 @@
       const thumbnailUrl = video.thumbnail || placeholderErrorUrl;
       const title = video.title || 'Video Title';
 
-      // UPDATED HTML STRUCTURE FOR HOVER AUTOPLAY
       div.innerHTML = `
                 <div class="thumbnail-container">
                     <div class="video-placeholder">
@@ -1700,29 +1683,5 @@
       setupScrollButton();
     });
   </script>
-
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

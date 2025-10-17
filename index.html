@@ -25,31 +25,33 @@
       text-align: center;
     }
 
-    /* New fixed container for all top elements */
+    /* New FIXED container for all top elements */
     #sticky-header {
-      position: static;
+      position: fixed; /* Set back to fixed */
       top: 0;
       left: 0;
       width: 100%;
-      z-index: 900;
+      z-index: 900; /* High Z-index to be on top of scrollable content */
       background-color: #ffffff;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       /* Add general page padding around the fixed content */
       padding: 1rem 0 0 0;
     }
 
+    /* Updated to use GIF and be positioned absolutely inside the fixed header */
     .tiled-header-background {
-      position: static;
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;
-      background-image: url('https://i.ibb.co/KxcxGk4j/image-2025-09-25-T133918-410.png');
-      background-repeat: repeat-x;
-      background-size: 400px auto;
-      background-position: top center;
-      opacity: 0.7;
+      z-index: -2; /* Ensure it's behind all other header content */
+      /* --- GIF BACKGROUND --- */
+      background-image: url('colorgif1a.gif'); /* Your GIF file */
+      background-repeat: no-repeat;
+      background-size: cover; /* Cover the entire header area */
+      background-position: center center;
+      opacity: 0.9; /* Slightly transparent to allow content to show */
     }
 
     .header-logo {
@@ -59,7 +61,7 @@
       /* REDUCED VERTICAL SPACE */
       padding-top: 1.8rem;
       padding-bottom: 1.5rem;
-      z-index: 11;
+      z-index: 901; /* Ensure logo is on top of the GIF and white background */
       transform: translateY(0);
     }
 
@@ -155,6 +157,7 @@
       animation: fadeInUp 0.6s ease-out 0.3s forwards;
       margin: 0 1rem 1.5rem 1rem;
       position: relative;
+      z-index: 901; /* Ensure this is also above the GIF */
     }
 
     @media (min-width: 768px) {
@@ -212,6 +215,7 @@
       position: relative;
       border-radius: 0.75rem;
       margin: auto;
+      z-index: 901;
     }
 
     @media (min-width: 768px) {
@@ -304,10 +308,42 @@
       transition: transform 0.3s ease-in-out;
     }
 
-    .thumbnail-container img {
+    .video-placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /* Transition for image fade out */
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .video-placeholder img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
+    }
+
+    .video-item.hovered .video-placeholder {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .video-item iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      /* Ensure the iframe is visible and on top of the fading placeholder */
+      z-index: 2;
+    }
+
+    .video-item:not(.hovered) iframe {
+      display: none;
     }
 
     .overlay-title {
@@ -334,6 +370,8 @@
       padding: 0.6rem;
       line-height: 1.25;
       max-height: 75%;
+      /* Ensure title is on top of the iframe or placeholder */
+      z-index: 3;
     }
 
     .video-item:hover .thumbnail-container {
@@ -351,7 +389,7 @@
       border-radius: 0;
       box-shadow: none;
       /* INCREASED GAP BELOW FILTER BUTTONS */
-      margin-bottom: 2.5rem; 
+      margin-bottom: 2.5rem;
       /* ALLOW WRAPPING ON MOBILE */
       flex-wrap: wrap;
       position: relative;
@@ -360,6 +398,7 @@
       margin-right: auto;
       /* Changed overflow: hidden to allow search bubble transition */
       overflow: visible;
+      z-index: 901;
     }
 
     @media (max-width: 768px) {
@@ -1052,11 +1091,88 @@
       if (!stickyHeader || !scrollableContent) return;
       setTimeout(() => {
         const headerHeight = stickyHeader.offsetHeight;
-        // This line was intentionally broken to show the issue. Fixing it now.
-        scrollableContent.style.paddingTop = `${0 + 0}px`; 
-        console.log(`Calculated Header Height: ${0}px. Applied Padding: ${0 + 0}px`);
+        // CORRECTED: Calculate based on stickyHeader height to push scrollable content below the fixed header
+        scrollableContent.style.paddingTop = `${headerHeight + 8}px`; 
+        console.log(`Calculated Header Height: ${headerHeight}px. Applied Padding: ${headerHeight + 8}px`);
       }, 50); 
     }
+
+    function createVimeoThumbnailEmbed(embedUrl) {
+      if (!embedUrl) return null;
+      let finalUrl = embedUrl;
+      try {
+        const url = new URL(embedUrl);
+        // Essential parameters for silent autoplay preview
+        url.searchParams.set('autoplay', '1');
+        url.searchParams.set('muted', '1');
+        url.searchParams.set('loop', '1');
+        url.searchParams.set('background', '1');
+        url.searchParams.set('player_id', '0'); // Needed for some players to work
+        finalUrl = url.toString();
+      } catch (e) {
+        console.warn("Could not parse embed URL for thumbnail, using basic string manipulation:", e);
+        // Fallback for non-URL strings
+        finalUrl = finalUrl.replace(/([?&])(autoplay|muted|loop|background)=[^&]*&?/g, '$1');
+        finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1&muted=1&loop=1&background=1';
+        finalUrl = finalUrl.replace(/&$/, '').replace('?&', '?');
+      }
+      
+      const iframe = document.createElement('iframe');
+      iframe.setAttribute('src', finalUrl);
+      iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('frameborder', '0');
+      iframe.style.position = 'absolute';
+      iframe.style.top = '0';
+      iframe.style.left = '0';
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.opacity = '0'; // Start invisible
+      iframe.style.transition = 'opacity 0.3s ease-in-out';
+      
+      // Fade in after a small delay to avoid flicker
+      setTimeout(() => {
+          iframe.style.opacity = '1';
+      }, 50);
+
+      return iframe;
+    }
+
+    function handleVideoItemHover(event) {
+        const videoItem = event.currentTarget;
+        const indexInDisplayed = parseInt(videoItem.dataset.index);
+        const videoData = displayedVideos[indexInDisplayed];
+        const thumbnailContainer = videoItem.querySelector('.thumbnail-container');
+        const videoPlaceholder = thumbnailContainer.querySelector('.video-placeholder');
+        
+        // Note: The previous logic attempted to use videoPlaceholder, but the new structure requires the iframe 
+        // to be a direct child of thumbnailContainer for correct z-indexing and covering the full area.
+
+        if (!videoData || !thumbnailContainer || !videoData.embedUrl) return;
+
+        if (event.type === 'mouseenter') {
+            videoItem.classList.add('hovered');
+            // Remove any existing iframe just in case (shouldn't happen, but safe practice)
+            thumbnailContainer.querySelector('iframe')?.remove();
+            
+            const iframe = createVimeoThumbnailEmbed(videoData.embedUrl);
+            if (iframe) {
+                // Correctly append the iframe as a direct child of the thumbnailContainer, resolving the NotFoundError.
+                thumbnailContainer.appendChild(iframe);
+            }
+        } else if (event.type === 'mouseleave') {
+            // Remove the iframe and hide the hovered class
+            videoItem.classList.remove('hovered');
+            const iframe = thumbnailContainer.querySelector('iframe');
+            if (iframe) {
+                iframe.style.opacity = '0';
+                setTimeout(() => {
+                    iframe.remove();
+                }, 300); // Match CSS transition
+            }
+        }
+    }
+
 
     window.addEventListener('resize', calculateStickyHeaderOffset);
 
@@ -1097,7 +1213,6 @@
         // Filter out videos that cannot be embedded
         const embeddableVideos = vimeoData.data.filter(video => {
             const embedPrivacy = video.privacy?.embed;
-            // Vimeo returns 'public', 'private', 'embed', 'disable', 'password' etc.
             // We only want 'public' (globally embeddable) or 'embed' (custom embedding rules, which we assume are permissive for this purpose).
             return embedPrivacy === 'public' || embedPrivacy === 'embed';
         });
@@ -1153,13 +1268,22 @@
       const placeholderErrorUrl = `https://placehold.co/640x360/cccccc/ffffff?text=Error+Loading`;
       const thumbnailUrl = video.thumbnail || placeholderErrorUrl;
       const title = video.title || 'Video Title';
+      
+      // UPDATED HTML STRUCTURE FOR HOVER AUTOPLAY
       div.innerHTML = `
                 <div class="thumbnail-container">
-                    <img src="${thumbnailUrl}" alt="${title}" onerror="this.onerror=null; this.src='${placeholderErrorUrl}';" loading="lazy">
+                    <div class="video-placeholder">
+                        <img src="${thumbnailUrl}" alt="${title}" onerror="this.onerror=null; this.src='${placeholderErrorUrl}';" loading="lazy">
+                    </div>
                     <h3 class="overlay-title" title="${title}">${title}</h3>
                 </div>
             `;
       div.addEventListener('click', () => openModal(indexInDisplayed));
+      
+      // ADD HOVER LISTENERS
+      div.addEventListener('mouseenter', handleVideoItemHover);
+      div.addEventListener('mouseleave', handleVideoItemHover);
+
       requestAnimationFrame(() => {
         div.classList.add('visible');
       });

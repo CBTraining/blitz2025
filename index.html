@@ -376,15 +376,10 @@
 
     .filter-button .subtext {
       display: block;
-      /* Ensures it takes up full width on the new line */
       font-size: 0.75rem;
-      /* Make it smaller */
       font-weight: 400;
-      /* Make it lighter */
       opacity: 0.8;
-      /* Make it slightly muted */
       margin-top: -0.1rem;
-      /* Pull it slightly closer to the main text */
     }
 
     .overlay-title {
@@ -622,19 +617,13 @@
     }
 
     .highlight-gradient {
-      /* Set the initial background gradient using your colors */
       background: linear-gradient(to right, #327efb, #356df2, #327efb);
-      /* Clip the gradient to the text boundaries */
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      /* Double the size of the background gradient for smooth movement */
       background-size: 200% auto;
-      /* Apply the looping keyframe animation */
       animation: color-cycle 4s linear infinite;
-      /* Ensure the element behaves correctly with inline text */
       display: inline;
       font-weight: 700;
-      /* Optional: Make the text bold */
     }
 
     #video-modal {
@@ -786,7 +775,6 @@
 
       #info-text-content h2 {
         text-align: center;
-        /* Center align title on mobile */
       }
 
       #info-text-content strong {
@@ -1133,16 +1121,14 @@
       let finalUrl = embedUrl;
       try {
         const url = new URL(embedUrl);
-        // Essential parameters for silent autoplay preview
         url.searchParams.set('autoplay', '1');
         url.searchParams.set('muted', '1');
         url.searchParams.set('loop', '1');
         url.searchParams.set('background', '1');
-        url.searchParams.set('player_id', '0'); // Needed for some players to work
+        url.searchParams.set('player_id', '0');
         finalUrl = url.toString();
       } catch (e) {
         console.warn("Could not parse embed URL for thumbnail, using basic string manipulation:", e);
-        // Fallback for non-URL strings
         finalUrl = finalUrl.replace(/([?&])(autoplay|muted|loop|background)=[^&]*&?/g, '$1');
         finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1&muted=1&loop=1&background=1';
         finalUrl = finalUrl.replace(/&$/, '').replace('?&', '?');
@@ -1159,7 +1145,6 @@
       iframe.style.height = '100%';
       iframe.style.opacity = '0'; // Start invisible
       iframe.style.transition = 'opacity 0.3s ease-in-out';
-      // Fade in after a small delay to avoid flicker
       setTimeout(() => {
         iframe.style.opacity = '1';
       }, 50);

@@ -387,12 +387,14 @@
 
         #video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 320px));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
             padding: 2rem;
             margin: 0 auto;
             transition: opacity 0.3s ease-in-out;
             align-items: center;
+            justify-content: center;
+            width: 80%;
         }
 
         #scrollable-content {
@@ -403,6 +405,8 @@
         @media (max-width: 768px) {
             #video-grid {
                 padding: 0 1rem;
+                grid-template-columns: 1fr;
+                width: 80%;
             }
         }
 
@@ -418,11 +422,9 @@
             overflow: hidden;
             position: relative;
             top: 0px;
-            //border-top-left-radius: 0.5rem;
             border-radius: 0.5rem;
-            //border-top-right-radius: 0.5rem;
             transition: transform 0.3s ease-in-out;
-            // max-width: 300px;
+            width: 100%;
         }
 
         .video-placeholder {
@@ -1308,23 +1310,24 @@
                     // We only want 'public' (globally embeddable) or 'embed' (custom embedding rules, which we assume are permissive for this purpose).
                     return embedPrivacy === 'public' || embedPrivacy === 'embed';
                 });
+
                 const videos = embeddableVideos.map(video => {
                     let videoTitle = video.name ? video.name.toLowerCase() : '';
                     let category = 'other';
                     /* --- START: UPDATED CATEGORY LOGIC --- */
-                    if (videoTitle.includes('notebooklm')) {
+                    if (videoTitle.includes('notebooklm') && !videoTitle.includes('certification')) {
                         category = 'notebooklm';
-                    } else if (videoTitle.includes('basic gemini')) {
+                    } else if (videoTitle.includes('basic gemini') && !videoTitle.includes('certification')) {
                         category = 'basic gemini';
-                    } else if (videoTitle.includes('advanced gemini') || videoTitle.includes('adv gemini')) {
+                    } else if (videoTitle.includes('advanced gemini') || videoTitle.includes('adv gemini') && !videoTitle.includes('certification')) {
                         category = 'advanced gemini';
-                    } else if (videoTitle.includes('nano banana')) {
+                    } else if (videoTitle.includes('nano banana') && !videoTitle.includes('certification')) {
                         category = 'nano banana';
-                    } else if (videoTitle.includes('veo 3') || videoTitle.includes('veo3')) {
+                    } else if (videoTitle.includes('veo 3') || videoTitle.includes('veo3') && !videoTitle.includes('certification')) {
                         category = 'veo 3';
-                    } else if (videoTitle.includes('gemini')) {
+                    } else if (videoTitle.includes('gemini') && !videoTitle.includes('certification')) {
                         category = 'gemini';
-                    } else if (videoTitle.includes('css')) {
+                    } else if (videoTitle.includes('css') || videoTitle.includes('certification')) {
                         category = 'css';
                     }
                     /* --- END: UPDATED CATEGORY LOGIC --- */

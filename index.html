@@ -1315,7 +1315,7 @@
                     let videoTitle = video.name ? video.name.toLowerCase() : '';
                     let category = 'other';
                     /* --- START: UPDATED CATEGORY LOGIC --- */
-                    if (videoTitle.includes('notebooklm') || videoTitle.includes('notebook lm') && !videoTitle.includes('certification')) {
+                    if (videoTitle.includes('notebooklm') || videoTitle.includes('notebook lm') || videoTitle.includes('nlm') && !videoTitle.includes('certification')) {
                         category = 'notebooklm';
                     } else if (videoTitle.includes('basic gemini') && !videoTitle.includes('certification')) {
                         category = 'basic gemini';
@@ -1873,4 +1873,5 @@
 </body>
 
 </html>
+
 

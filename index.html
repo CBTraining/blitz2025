@@ -1317,7 +1317,7 @@
                     /* --- START: UPDATED CATEGORY LOGIC --- */
                     if (videoTitle.includes('notebooklm') || videoTitle.includes('notebook lm') || videoTitle.includes('nlm') && !videoTitle.includes('certification')) {
                         category = 'notebooklm';
-                    } else if (videoTitle.includes('basic gemini') && !videoTitle.includes('certification')) {
+                    } else if (videoTitle.includes('basic gemini') || videoTitle.includes('canvas')  && !videoTitle.includes('certification')) {
                         category = 'basic gemini';
                     } else if (videoTitle.includes('advanced gemini') || videoTitle.includes('gemini') && !videoTitle.includes('certification')) {
                         category = 'advanced gemini';
@@ -1873,5 +1873,6 @@
 </body>
 
 </html>
+
 
 

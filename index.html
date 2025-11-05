@@ -1315,11 +1315,11 @@
                     let videoTitle = video.name ? video.name.toLowerCase() : '';
                     let category = 'other';
                     /* --- START: UPDATED CATEGORY LOGIC --- */
-                    if (videoTitle.includes('notebooklm') && !videoTitle.includes('certification')) {
+                    if (videoTitle.includes('notebooklm') || videoTitle.includes('notebook lm') && !videoTitle.includes('certification')) {
                         category = 'notebooklm';
                     } else if (videoTitle.includes('basic gemini') && !videoTitle.includes('certification')) {
                         category = 'basic gemini';
-                    } else if (videoTitle.includes('advanced gemini') || videoTitle.includes('adv gemini') && !videoTitle.includes('certification')) {
+                    } else if (videoTitle.includes('advanced gemini') || videoTitle.includes('gemini') && !videoTitle.includes('certification')) {
                         category = 'advanced gemini';
                     } else if (videoTitle.includes('nano banana') && !videoTitle.includes('certification')) {
                         category = 'nano banana';
@@ -1873,3 +1873,4 @@
 </body>
 
 </html>
+

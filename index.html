@@ -1428,12 +1428,30 @@
 
         function filterVideos(videosToFilter) {
             const lowerSearchTerm = currentSearchTerm.toLowerCase();
+            
             return videosToFilter.filter(video => {
-                let categoryMatch = (currentFilter === 'all') || (video.category === currentFilter);
-                if (!categoryMatch) return false;
-                return !lowerSearchTerm || video.title.toLowerCase().includes(lowerSearchTerm);
+                const videoTitleLower = video.title.toLowerCase();
+
+                // 1. Check for search term match first
+                const searchMatch = !lowerSearchTerm || videoTitleLower.includes(lowerSearchTerm);
+                if (!searchMatch) {
+                    return false; // Doesn't match search, definitely out
+                }
+
+                // 2. Check for category match with the new rule
+                if (currentFilter === 'all') {
+                    // If filter is "all", we want everything *except* certifications
+                    return !videoTitleLower.includes('certification');
+                } else {
+                    // If filter is anything else (e.g., "css", "notebooklm"),
+                    // we just check for that specific category.
+                    // This works because "css" will correctly find certification videos.
+                    return (video.category === currentFilter);
+                }
             });
         }
+
+        // --- START: REFACTORED loadMoreVideos ---
         async function loadMoreVideos() {
             if (isLoading || allVideosLoaded) return;
             isLoading = true;
@@ -1441,57 +1459,71 @@
             noResultsMessage.style.display = 'none';
             endOfContentMessage.style.display = 'none';
             loadingIndicator.textContent = 'Loading more videos...';
+
+            let foundMatchingVideos = false;
+
             try {
-                const rawNewVideos = await fetchVideos(currentPage, videosPerPage);
-                if (rawNewVideos && rawNewVideos.length > 0) {
-                    loadedVideos.push(...rawNewVideos);
-                    const filteredNewVideos = filterVideos(rawNewVideos);
-                    if (filteredNewVideos.length > 0) {
-                        filteredNewVideos.forEach(video => {
-                            displayedVideos.push(video);
-                            const indexInDisplayed = displayedVideos.length - 1;
-                            const videoElement = createVideoElement(video, indexInDisplayed);
-                            videoGrid.appendChild(videoElement);
-                        });
-                    } else {
-                        console.log("Fetched videos, but none matched current filter/search.");
-                        if (rawNewVideos.length === videosPerPage && !allVideosLoaded) {
-                            console.log("Trying next page automatically...");
-                            currentPage++;
-                            isLoading = false;
-                            loadMoreVideos();
-                            return;
+                // This loop will keep fetching pages as long as we find no matches
+                // and the API still has more videos to give us.
+                while (!foundMatchingVideos && !allVideosLoaded) {
+                    
+                    const rawNewVideos = await fetchVideos(currentPage, videosPerPage);
+
+                    if (rawNewVideos && rawNewVideos.length > 0) {
+                        loadedVideos.push(...rawNewVideos);
+                        const filteredNewVideos = filterVideos(rawNewVideos);
+
+                        if (filteredNewVideos.length > 0) {
+                            foundMatchingVideos = true; // We found videos, break the loop
+                            filteredNewVideos.forEach(video => {
+                                displayedVideos.push(video);
+                                const indexInDisplayed = displayedVideos.length - 1;
+                                const videoElement = createVideoElement(video, indexInDisplayed);
+                                videoGrid.appendChild(videoElement);
+                            });
+                        } else {
+                            console.log(`Page ${currentPage}: Fetched videos, but none matched current filter/search.`);
+                            // No matches, loop will continue if there are more pages.
                         }
-                    }
-                    currentPage++;
-                    if (rawNewVideos.length < videosPerPage) {
-                        console.log("Received fewer videos than requested from API, assuming end of API content.");
-                        allVideosLoaded = true;
-                        showEndOfContent(currentFilter !== 'all' || currentSearchTerm !== '');
+
+                        // We increment the page for the *next* loop iteration or *next* scroll
+                        currentPage++;
+
+                        if (rawNewVideos.length < videosPerPage) {
+                            allVideosLoaded = true; // This was the last page
+                        }
                     } else {
-                        allVideosLoaded = false;
+                        // API returned no videos, we are done
+                        allVideosLoaded = true;
                     }
-                } else {
-                    console.log("No more videos returned from API.");
-                    allVideosLoaded = true;
-                    showEndOfContent(currentFilter !== 'all' || currentSearchTerm !== '');
-                }
+
+                    // After the first page, if we have no matches and we're at the end, show message
+                    if (allVideosLoaded && !foundMatchingVideos) {
+                         showEndOfContent(currentFilter !== 'all' || currentSearchTerm !== '');
+                    }
+                } // End while loop
+            
             } catch (error) {
                 console.error("Error in loadMoreVideos flow:", error);
-                allVideosLoaded = true;
-                loadingIndicator.style.display = 'none';
+                allVideosLoaded = true; // Stop trying on error
+                // The error message is already set by fetchVideos
             } finally {
-                if (isLoading) {
-                    isLoading = false;
-                    if (!allVideosLoaded && loadingIndicator.textContent === 'Loading more videos...') {
-                        loadingIndicator.style.display = 'none';
-                    }
-                    if (!allVideosLoaded) {
-                        checkAndLoadIfContentNotFillingViewport();
-                    }
+                isLoading = false;
+                loadingIndicator.style.display = 'none'; // Always hide indicator after we're done
+                
+                // If we finished loading everything, show the appropriate end message
+                if (allVideosLoaded) {
+                     showEndOfContent(currentFilter !== 'all' || currentSearchTerm !== '');
+                }
+
+                // After the loop (or if it never ran), check if we need to load more
+                // This handles the case where the first page of results doesn't fill the viewport
+                if (!allVideosLoaded && foundMatchingVideos) {
+                    checkAndLoadIfContentNotFillingViewport();
                 }
             }
         }
+        // --- END: REFACTORED loadMoreVideos ---
 
         function resetAndLoad() {
             console.log(`Resetting grid. Filter: ${currentFilter}, Search: ${currentSearchTerm}`);
@@ -1575,9 +1607,15 @@
                         isSearchActive = true;
                         filterSearchControls.classList.add('search-active');
                     }
+                    
+                    // --- FIX: Ensure search always applies to "all" categories ---
                     if (currentFilter !== 'all') {
-                        filterButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === 'all'));
+                        currentFilter = 'all'; // Set the filter variable
+                        // Visually update the buttons
+                        filterButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === 'all')); 
                     }
+                    // --- END FIX ---
+
                     resetAndLoad();
                 }
             }, 300);
@@ -1649,19 +1687,19 @@
             try {
                 const url = new URL(embedUrl);
                 url.searchParams.set('autoplay', '1');
-                url.searchParams.delete('muted');
+                url.searchParams.set('muted', '0'); // Explicitly set to unmuted
                 finalUrl = url.toString();
             } catch (e) {
                 console.warn("Could not parse embed URL, using basic string manipulation:", e);
                 if (finalUrl.includes('?')) {
                     finalUrl = finalUrl.replace(/([?&])(autoplay|muted)=[^&]*&?/g, '$1');
-                    finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+                    finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1&muted=0'; // Also add it here
                 } else {
-                    finalUrl += '?autoplay=1';
+                    finalUrl += '?autoplay=1&muted=0'; // And here
                 }
                 finalUrl = finalUrl.replace(/&$/, '').replace('?&', '?');
             }
-            console.log("Setting iframe src (attempting autoplay):", finalUrl);
+            console.log("Setting iframe src (attempting autoplay and unmute):", finalUrl);
             videoPlayerIframe.src = finalUrl;
             updateModalNavButtons();
         }
@@ -1873,7 +1911,3 @@
 </body>
 
 </html>
-
-
-
-

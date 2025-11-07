@@ -1128,8 +1128,7 @@
     <div id="filter-search-controls" class="search-active">
         <div id="filter-buttons">
             <button class="filter-button active" data-filter="all">All Videos</button>
-            <button class="filter-button" data-filter="basic gemini">Basic Gemini<br><span class="subtext">Basic Canvas and Gems</span></button>
-            <button class="filter-button" data-filter="advanced gemini">Advanced Gemini<br><span class="subtext">Gemini Live and Canvas</span></button></button>
+            <button class="filter-button" data-filter="gemini">Gemini<br><span class="subtext">Gemini Live, Canvas and more</span></button>
             <button class="filter-button" data-filter="nano banana">Nano Banana<br><span class="subtext">All Nano Banana</span></button></button>
             <button class="filter-button" data-filter="notebooklm">NotebookLM<br><span class="subtext">All NotebookLM</span></button></button>
             <button class="filter-button" data-filter="veo 3">Veo 3<br><span class="subtext">All Veo 3</span></button></button>
@@ -1317,10 +1316,15 @@
                     /* --- START: UPDATED CATEGORY LOGIC --- */
                     if (videoTitle.includes('notebooklm') || videoTitle.includes('notebook lm') || videoTitle.includes('nlm') && !videoTitle.includes('certification')) {
                         category = 'notebooklm';
-                    } else if (videoTitle.includes('basic gemini') || videoTitle.includes('canvas')  && !videoTitle.includes('certification')) {
-                        category = 'basic gemini';
-                    } else if (videoTitle.includes('advanced gemini') || videoTitle.includes('gemini') || videoTitle.includes('live')  && !videoTitle.includes('certification')) {
-                        category = 'advanced gemini';
+                    } else if (
+                        (videoTitle.includes('gemini') ||
+                            videoTitle.includes('live') ||
+                            videoTitle.includes('canvas') ||
+                            videoTitle.includes('gemini live') ||
+                            videoTitle.includes('building website')) &&
+                        !videoTitle.includes('certification')
+                    ) {
+                        category = 'gemini';
                     } else if (videoTitle.includes('nano banana') && !videoTitle.includes('certification')) {
                         category = 'nano banana';
                     } else if (videoTitle.includes('veo 3') || videoTitle.includes('veo3') && !videoTitle.includes('certification')) {
@@ -1428,7 +1432,7 @@
 
         function filterVideos(videosToFilter) {
             const lowerSearchTerm = currentSearchTerm.toLowerCase();
-            
+
             return videosToFilter.filter(video => {
                 const videoTitleLower = video.title.toLowerCase();
 
@@ -1466,7 +1470,7 @@
                 // This loop will keep fetching pages as long as we find no matches
                 // and the API still has more videos to give us.
                 while (!foundMatchingVideos && !allVideosLoaded) {
-                    
+
                     const rawNewVideos = await fetchVideos(currentPage, videosPerPage);
 
                     if (rawNewVideos && rawNewVideos.length > 0) {
@@ -1499,10 +1503,10 @@
 
                     // After the first page, if we have no matches and we're at the end, show message
                     if (allVideosLoaded && !foundMatchingVideos) {
-                         showEndOfContent(currentFilter !== 'all' || currentSearchTerm !== '');
+                        showEndOfContent(currentFilter !== 'all' || currentSearchTerm !== '');
                     }
                 } // End while loop
-            
+
             } catch (error) {
                 console.error("Error in loadMoreVideos flow:", error);
                 allVideosLoaded = true; // Stop trying on error
@@ -1510,10 +1514,10 @@
             } finally {
                 isLoading = false;
                 loadingIndicator.style.display = 'none'; // Always hide indicator after we're done
-                
+
                 // If we finished loading everything, show the appropriate end message
                 if (allVideosLoaded) {
-                     showEndOfContent(currentFilter !== 'all' || currentSearchTerm !== '');
+                    showEndOfContent(currentFilter !== 'all' || currentSearchTerm !== '');
                 }
 
                 // After the loop (or if it never ran), check if we need to load more
@@ -1607,12 +1611,12 @@
                         isSearchActive = true;
                         filterSearchControls.classList.add('search-active');
                     }
-                    
+
                     // --- FIX: Ensure search always applies to "all" categories ---
                     if (currentFilter !== 'all') {
                         currentFilter = 'all'; // Set the filter variable
                         // Visually update the buttons
-                        filterButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === 'all')); 
+                        filterButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === 'all'));
                     }
                     // --- END FIX ---
 
@@ -1860,9 +1864,9 @@
             // Gemini
             '<path fill="currentColor" d="M20.616,10.835C18.955,10.128 17.444,9.109 16.166,7.834C14.386,6.05 13.116,3.822 12.488,1.382C12.432,1.16 12.23,1.003 12,1.003C11.771,1.003 11.569,1.16 11.513,1.382C10.884,3.822 9.613,6.05 7.834,7.834C6.556,9.109 5.045,10.128 3.384,10.835C2.734,11.115 2.066,11.34 1.382,11.513C1.158,11.568 1,11.77 1,12.001C1,12.231 1.158,12.433 1.382,12.488C2.066,12.66 2.732,12.885 3.384,13.165C5.045,13.872 6.556,14.891 7.834,16.166C9.614,17.95 10.885,20.178 11.513,22.619C11.568,22.843 11.77,23.001 12.001,23.001C12.231,23.001 12.433,22.843 12.488,22.619C12.66,21.934 12.885,21.268 13.165,20.616C13.872,18.955 14.891,17.444 16.166,16.166C17.95,14.386 20.178,13.116 22.619,12.488C22.841,12.432 22.998,12.23 22.998,12C22.998,11.771 22.841,11.569 22.619,11.513C21.934,11.341 21.265,11.114 20.616,10.835Z"/>',
             // Video
-            '<svg xmlns="https://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="m489-460 91-55 91 55-24-104 80-69-105-9-42-98-42 98-105 9 80 69-24 104Zm19 260h224q-7 26-24 42t-44 20L228-85q-33 5-59.5-15.5T138-154L85-591q-4-33 16-59t53-30l46-6v80l-36 5 54 437 290-36Zm-148-80q-33 0-56.5-23.5T280-360v-440q0-33 23.5-56.5T360-880h440q33 0 56.5 23.5T880-800v440q0 33-23.5 56.5T800-280H360Zm0-80h440v-440H360v440Zm220-220ZM218-164Z"/></svg>',
+            '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="m489-460 91-55 91 55-24-104 80-69-105-9-42-98-42 98-105 9 80 69-24 104Zm19 260h224q-7 26-24 42t-44 20L228-85q-33 5-59.5-15.5T138-154L85-591q-4-33 16-59t53-30l46-6v80l-36 5 54 437 290-36Zm-148-80q-33 0-56.5-23.5T280-360v-440q0-33 23.5-56.5T360-880h440q33 0 56.5 23.5T880-800v440q0 33-23.5 56.5T800-280H360Zm0-80h440v-440H360v440Zm220-220ZM218-164Z"/></svg>',
             // Other
-            '<svg xmlns="https://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h480q33 0 56.5 23.5T720-720v180l126-126q10-10 22-5t12 19v344q0 14-12 19t-22-5L720-420v180q0 33-23.5 56.5T640-160H160Z"/></svg>'
+            '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h480q33 0 56.5 23.5T720-720v180l126-126q10-10 22-5t12 19v344q0 14-12 19t-22-5L720-420v180q0 33-23.5 56.5T640-160H160Z"/></svg>'
         ];
         const bgColors = [
             'bg-[#34A853]', // Green
@@ -1891,7 +1895,7 @@
             const randomBgColor = bgColors[getRandomInt(0, bgColors.length - 1)];
             iconElement.innerHTML = `
                 <div class="w-full h-full rounded-xl flex items-center justify-center shadow-lg ${randomBgColor}">
-                    <svg class="w-[${iconSize}px] h-[${iconSize}px]" viewBox="0 0 24 24" xmlns="https://www.w3.org/2000/svg">
+                    <svg class="w-[${iconSize}px] h-[${iconSize}px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         ${randomSvgPath}
                     </svg>
                 </div>
@@ -1911,4 +1915,3 @@
 </body>
 
 </html>
-
